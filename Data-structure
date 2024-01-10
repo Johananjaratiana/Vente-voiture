@@ -1,0 +1,4 @@
+{
+  message : string , // Success or Error
+  data : data // success_data or error_data
+}
