@@ -84,11 +84,27 @@
 		</dependency>
 		<!-- Security -->
 		
+		<!-- WEB -->
 		<dependency>
 			<groupId>org.apache.httpcomponents</groupId>
 			<artifactId>httpclient</artifactId>
 			<version>4.5.13</version> <!-- Assurez-vous d'utiliser la version appropriée -->
 		</dependency>
+		<!-- WEB -->
+
+		<!-- Docs -->
+		<dependency>
+			<groupId>org.springdoc</groupId>
+			<artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
+			<version>2.2.0</version>
+		</dependency>
+		<!-- <dependency>
+			<groupId>org.springdoc</groupId>
+			<artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
+			<version>2.3.0</version>
+		</dependency> -->
+		<!-- Docs -->
+
 
 	</dependencies>
 

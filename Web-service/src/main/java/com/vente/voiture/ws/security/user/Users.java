@@ -6,61 +6,63 @@ import java.sql.ResultSet;
 
 import com.vente.voiture.ws.services.DatabaseConnection;
 
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import lombok.Getter;
+import lombok.Setter;
 
+
+@Getter
+@Setter
+@Entity(name="users")
 public class Users {
-    Integer id;
-    Integer idProfile;
-    String nom;
-    String mdp;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
-    public Integer getId() {
-        return id;
-    }
+    @Column(name="mdp")
+    private String Mdp;
 
-    public void setId(Integer id) {
-        this.id = id;
-    }
+    @Column(name="addresse")
+    private String Addresse;
 
-    public Integer getIdProfile() {
-        return idProfile;
-    }
+    @Column(name="telephone")
+    private String Telephone;
 
-    public void setIdProfile(Integer idProfile) {
-        this.idProfile = idProfile;
-    }
+    @Column(name="idprofile")
+    private Integer Idprofile;
 
-    public String getNom() {
-        return nom;
-    }
+    @Column(name="nom")
+    private String Nom;
 
-    public void setNom(String nom) {
-        this.nom = nom;
-    }
+    @Column(name="prenom")
+    private String Prenom;
 
-    public String getMdp() {
-        return mdp;
-    }
+    @Column(name="email")
+    private String Email;
 
-    public void setMdp(String mdp) {
-        this.mdp = mdp;
-    }
+    @Column(name="dtn")
+    private java.sql.Date Dtn;
 
-    public static Users VerifyExistingUsers(String nom, String mdp) {
+    public static Users VerifyExistingUsers(String email, String mdp) {
         Users users = null;
         try {
             try (Connection connection = DatabaseConnection.GetConnection()) {
-                String sql = "SELECT * FROM users WHERE nom = ? AND mdp = ?";
+                String sql = "SELECT * FROM users WHERE email = ? AND mdp = ?";
                 PreparedStatement preparedStatement = connection.prepareStatement(sql);
 
-                preparedStatement.setString(1, nom);
+                preparedStatement.setString(1, email);
                 preparedStatement.setString(2, mdp);
 
                 ResultSet resultSet = preparedStatement.executeQuery();
 
                 if (resultSet.next()) {
                     users = new Users();
-                    users.setId(resultSet.getInt("id"));
-                    users.setIdProfile(resultSet.getInt("idprofile"));
+                    users.setId(resultSet.getLong("id"));
+                    users.setIdprofile(resultSet.getInt("idprofile"));
                     users.setNom(resultSet.getString("nom"));                    
                     users.setMdp(resultSet.getString("mdp"));
                 }
