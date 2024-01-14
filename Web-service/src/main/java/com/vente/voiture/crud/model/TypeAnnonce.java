@@ -22,6 +22,9 @@ public class TypeAnnonce {
     @Column(name="nom")
     private String Nom;
 
+    @Column(name="niveau")
+    private Integer Niveau;
+
     @Column(name="status")
     private Integer Status;
 

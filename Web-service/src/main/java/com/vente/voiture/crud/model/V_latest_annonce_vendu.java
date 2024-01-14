@@ -16,6 +16,9 @@ public class V_latest_annonce_vendu {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(name="km_effectue")
+    private Double KmEffectue;
+
     @Column(name="nom_users")
     private String NomUsers;
 
@@ -40,14 +43,38 @@ public class V_latest_annonce_vendu {
     @Column(name="description")
     private String Description;
 
+    @Column(name="etat_suspension")
+    private Integer EtatSuspension;
+
+    @Column(name="etat_pneu")
+    private Integer EtatPneu;
+
+    @Column(name="etat_electronique")
+    private Integer EtatElectronique;
+
     @Column(name="prenom_users")
     private String PrenomUsers;
 
     @Column(name="commission_obtenue")
     private Double CommissionObtenue;
 
+    @Column(name="etat_siege")
+    private Integer EtatSiege;
+
     @Column(name="consommation")
     private Double Consommation;
+
+    @Column(name="etat_moteur")
+    private Integer EtatMoteur;
+
+    @Column(name="nom_taille")
+    private String NomTaille;
+
+    @Column(name="id_taille")
+    private Integer IdTaille;
+
+    @Column(name="niveau_type_annonce")
+    private Integer NiveauTypeAnnonce;
 
     @Column(name="nb_place")
     private Integer NbPlace;
@@ -63,6 +90,9 @@ public class V_latest_annonce_vendu {
 
     @Column(name="id_users")
     private Integer IdUsers;
+
+    @Column(name="etat_freinage")
+    private Integer EtatFreinage;
 
     @Column(name="nom_type_annonce")
     private String NomTypeAnnonce;
@@ -82,8 +112,14 @@ public class V_latest_annonce_vendu {
     @Column(name="id_transmission")
     private Integer IdTransmission;
 
+    @Column(name="id_usage")
+    private Integer IdUsage;
+
     @Column(name="puissance")
     private Integer Puissance;
+
+    @Column(name="etat_transmission")
+    private Integer EtatTransmission;
 
     @Column(name="nb_vitesse")
     private Integer NbVitesse;
@@ -93,6 +129,15 @@ public class V_latest_annonce_vendu {
 
     @Column(name="commission_type_annonce")
     private Double CommissionTypeAnnonce;
+
+    @Column(name="nom_usage")
+    private String NomUsage;
+
+    @Column(name="etat_carrosserie")
+    private Integer EtatCarrosserie;
+
+    @Column(name="etat_tableau_bord")
+    private Integer EtatTableauBord;
 
     @Column(name="id_type_annonce")
     private Integer IdTypeAnnonce;

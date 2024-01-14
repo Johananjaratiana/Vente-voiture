@@ -19,6 +19,9 @@ public class V_stat_current_year {
     @Column(name="nb_annonce")
     private Long NbAnnonce;
 
+    @Column(name="nb_annonce_vendu")
+    private Long NbAnnonceVendu;
+
     @Column(name="year")
     private Object Year;
 

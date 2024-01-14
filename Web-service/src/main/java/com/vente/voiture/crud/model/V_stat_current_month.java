@@ -22,6 +22,9 @@ public class V_stat_current_month {
     @Column(name="month")
     private Object Month;
 
+    @Column(name="nb_annonce_vendu")
+    private Long NbAnnonceVendu;
+
     @Column(name="year")
     private Object Year;
 
