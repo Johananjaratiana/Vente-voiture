@@ -32,6 +32,7 @@ com/vente/voiture/crud/repository/V_count_annonce_vendu_current_yearRepository.c
 com/vente/voiture/ws/security/user/Users.class
 com/vente/voiture/crud/controller/V_best_userController.class
 com/vente/voiture/crud/service/MarqueService.class
+com/vente/voiture/mongo/MessageController.class
 com/vente/voiture/crud/repository/AnnonceRepository.class
 com/vente/voiture/crud/repository/TypeAnnonceRepository.class
 com/vente/voiture/ws/security/JwtTokenUtil.class
@@ -88,7 +89,10 @@ com/vente/voiture/crud/service/V_annonce_completService.class
 com/vente/voiture/crud/model/V_count_annonce_vendu_current_year.class
 com/vente/voiture/crud/controller/V_annonce_completController.class
 com/vente/voiture/crud/service/V_latest_annonce_venduService.class
+com/vente/voiture/mongo/Message$1.class
 com/vente/voiture/crud/repository/V_user_ordered_by_commissionRepository.class
+com/vente/voiture/mongo/Client.class
+com/vente/voiture/mongo/Message.class
 com/vente/voiture/crud/repository/V_annonce_complet_ordered_by_type_annonceRepository.class
 com/vente/voiture/crud/controller/AnnonceController.class
 com/vente/voiture/crud/repository/V_count_annonce_valide_current_monthRepository.class
@@ -112,6 +116,7 @@ com/vente/voiture/crud/model/Pdp.class
 com/vente/voiture/crud/model/V_count_annonce_vendu_current_month.class
 com/vente/voiture/crud/repository/PdpRepository.class
 com/vente/voiture/crud/controller/V_stat_current_yearController.class
+com/vente/voiture/mongo/Message$2.class
 com/vente/voiture/crud/repository/UsageRepository.class
 com/vente/voiture/crud/service/UsageService.class
 com/vente/voiture/crud/controller/EtatAnnonceController.class
