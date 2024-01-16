@@ -1,10 +1,12 @@
 package com.vente.voiture.crud.controller;
 
 import com.vente.voiture.crud.model.Annonce;
-import java.util.*;
 import com.vente.voiture.crud.service.AnnonceService;
+import com.vente.voiture.ws.structure.Response;
 import org.springframework.beans.factory.annotation.Autowired;
+import com.vente.voiture.ws.security.token.JwtTokenUtil;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.http.HttpHeaders;
 
 @RestController
 @RequestMapping("/api/annonces")
@@ -12,28 +14,65 @@ public class AnnonceController {
     @Autowired
     private AnnonceService annonceService;
 
+    @Autowired
+    private JwtTokenUtil jwtTokenUtil;
+
     @PostMapping
-    public Annonce createAnnonce(@RequestBody Annonce Annonce) {
-        return annonceService.save(Annonce);
+    public Response createAnnonce(@RequestBody Annonce Annonce, @RequestHeader(HttpHeaders.AUTHORIZATION) String authorizationHeader) {
+        Response response = new Response();
+        try{
+            jwtTokenUtil.validateToken(authorizationHeader);
+            response.setDataOnSuccess(annonceService.save(Annonce));
+        }catch(Exception ex){
+            response.setError(ex.getMessage());
+        }
+        return response;
     }
 
     @GetMapping
-    public List<Annonce> getAllAnnonce() {
-        return annonceService.getAllAnnonce();
+    public Response getAllAnnonce() {
+        Response response = new Response();
+        try{
+            response.setDataOnSuccess(annonceService.getAllAnnonce());
+        }catch(Exception ex){
+            response.setError(ex.getMessage());
+        }
+        return response;
     }
 
     @GetMapping("/{id}")
-    public Optional<Annonce> getAnnonceById(@PathVariable Long id) {
-        return annonceService.getAnnonceById(id);
+    public Response getAnnonceById(@PathVariable Long id) {
+        Response response = new Response();
+        try{
+            response.setDataOnSuccess(annonceService.getAnnonceById(id));
+        }catch(Exception ex){
+            response.setError(ex.getMessage());
+        }
+        return response;
     }
 
     @PutMapping("/{id}")
-    public Annonce updateAnnonce(@PathVariable Long id, @RequestBody Annonce AnnonceDetails) {
-        return annonceService.updateAnnonce(id, AnnonceDetails);
+    public Response updateAnnonce(@PathVariable Long id, @RequestBody Annonce AnnonceDetails, @RequestHeader(HttpHeaders.AUTHORIZATION) String authorizationHeader) {
+        Response response = new Response();
+        try{
+            jwtTokenUtil.validateToken(authorizationHeader);
+            response.setDataOnSuccess(annonceService.updateAnnonce(id, AnnonceDetails));
+        }catch(Exception ex){
+            response.setError(ex.getMessage());
+        }
+        return response;
     }
 
     @DeleteMapping("/{id}")
-    public void deleteAnnonce(@PathVariable Long id) {
-        annonceService.deleteAnnonce(id);
+    public Response deleteAnnonce(@PathVariable Long id, @RequestHeader(HttpHeaders.AUTHORIZATION) String authorizationHeader) {
+        Response response = new Response();
+        try{
+            jwtTokenUtil.validateToken(authorizationHeader);
+            annonceService.deleteAnnonce(id);
+            response.setDataOnSuccess("Success");
+        }catch(Exception ex){
+            response.setError(ex.getMessage());
+        }
+        return response;
     }
 }

@@ -37,11 +37,11 @@ public class V_annonce_complet {
     @Column(name="email_users")
     private String EmailUsers;
 
-    @Column(name="couleur")
-    private String Couleur;
-
     @Column(name="description")
     private String Description;
+
+    @Column(name="nom_couleur")
+    private String NomCouleur;
 
     @Column(name="etat_suspension")
     private Integer EtatSuspension;
@@ -54,6 +54,9 @@ public class V_annonce_complet {
 
     @Column(name="prenom_users")
     private String PrenomUsers;
+
+    @Column(name="rgb_couleur")
+    private String RgbCouleur;
 
     @Column(name="etat_siege")
     private Integer EtatSiege;
@@ -129,6 +132,9 @@ public class V_annonce_complet {
 
     @Column(name="nom_usage")
     private String NomUsage;
+
+    @Column(name="id_couleur")
+    private Integer IdCouleur;
 
     @Column(name="etat_carrosserie")
     private Integer EtatCarrosserie;

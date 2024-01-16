@@ -1,7 +1,7 @@
 package com.vente.voiture.crud.controller;
 
-import com.vente.voiture.crud.model.EtatAnnonce;
-import com.vente.voiture.crud.service.EtatAnnonceService;
+import com.vente.voiture.crud.model.Couleur;
+import com.vente.voiture.crud.service.CouleurService;
 import com.vente.voiture.ws.structure.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import com.vente.voiture.ws.security.token.JwtTokenUtil;
@@ -9,20 +9,20 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.http.HttpHeaders;
 
 @RestController
-@RequestMapping("/api/etat_annonces")
-public class EtatAnnonceController {
+@RequestMapping("/api/couleurs")
+public class CouleurController {
     @Autowired
-    private EtatAnnonceService etat_annonceService;
+    private CouleurService couleurService;
 
     @Autowired
     private JwtTokenUtil jwtTokenUtil;
 
     @PostMapping
-    public Response createEtatAnnonce(@RequestBody EtatAnnonce EtatAnnonce, @RequestHeader(HttpHeaders.AUTHORIZATION) String authorizationHeader) {
+    public Response createCouleur(@RequestBody Couleur Couleur, @RequestHeader(HttpHeaders.AUTHORIZATION) String authorizationHeader) {
         Response response = new Response();
         try{
             jwtTokenUtil.validateToken(authorizationHeader);
-            response.setDataOnSuccess(etat_annonceService.save(EtatAnnonce));
+            response.setDataOnSuccess(couleurService.save(Couleur));
         }catch(Exception ex){
             response.setError(ex.getMessage());
         }
@@ -30,10 +30,10 @@ public class EtatAnnonceController {
     }
 
     @GetMapping
-    public Response getAllEtatAnnonce() {
+    public Response getAllCouleur() {
         Response response = new Response();
         try{
-            response.setDataOnSuccess(etat_annonceService.getAllEtatAnnonce());
+            response.setDataOnSuccess(couleurService.getAllCouleur());
         }catch(Exception ex){
             response.setError(ex.getMessage());
         }
@@ -41,10 +41,10 @@ public class EtatAnnonceController {
     }
 
     @GetMapping("/{id}")
-    public Response getEtatAnnonceById(@PathVariable Long id) {
+    public Response getCouleurById(@PathVariable Long id) {
         Response response = new Response();
         try{
-            response.setDataOnSuccess(etat_annonceService.getEtatAnnonceById(id));
+            response.setDataOnSuccess(couleurService.getCouleurById(id));
         }catch(Exception ex){
             response.setError(ex.getMessage());
         }
@@ -52,11 +52,11 @@ public class EtatAnnonceController {
     }
 
     @PutMapping("/{id}")
-    public Response updateEtatAnnonce(@PathVariable Long id, @RequestBody EtatAnnonce EtatAnnonceDetails, @RequestHeader(HttpHeaders.AUTHORIZATION) String authorizationHeader) {
+    public Response updateCouleur(@PathVariable Long id, @RequestBody Couleur CouleurDetails, @RequestHeader(HttpHeaders.AUTHORIZATION) String authorizationHeader) {
         Response response = new Response();
         try{
             jwtTokenUtil.validateToken(authorizationHeader);
-            response.setDataOnSuccess(etat_annonceService.updateEtatAnnonce(id, EtatAnnonceDetails));
+            response.setDataOnSuccess(couleurService.updateCouleur(id, CouleurDetails));
         }catch(Exception ex){
             response.setError(ex.getMessage());
         }
@@ -64,11 +64,11 @@ public class EtatAnnonceController {
     }
 
     @DeleteMapping("/{id}")
-    public Response deleteEtatAnnonce(@PathVariable Long id, @RequestHeader(HttpHeaders.AUTHORIZATION) String authorizationHeader) {
+    public Response deleteCouleur(@PathVariable Long id, @RequestHeader(HttpHeaders.AUTHORIZATION) String authorizationHeader) {
         Response response = new Response();
         try{
             jwtTokenUtil.validateToken(authorizationHeader);
-            etat_annonceService.deleteEtatAnnonce(id);
+            couleurService.deleteCouleur(id);
             response.setDataOnSuccess("Success");
         }catch(Exception ex){
             response.setError(ex.getMessage());

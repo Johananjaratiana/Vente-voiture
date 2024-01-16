@@ -1,10 +1,12 @@
 package com.vente.voiture.crud.controller;
 
 import com.vente.voiture.crud.model.Pdp;
-import java.util.*;
 import com.vente.voiture.crud.service.PdpService;
+import com.vente.voiture.ws.structure.Response;
 import org.springframework.beans.factory.annotation.Autowired;
+import com.vente.voiture.ws.security.token.JwtTokenUtil;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.http.HttpHeaders;
 
 @RestController
 @RequestMapping("/api/pdps")
@@ -12,28 +14,65 @@ public class PdpController {
     @Autowired
     private PdpService pdpService;
 
+    @Autowired
+    private JwtTokenUtil jwtTokenUtil;
+
     @PostMapping
-    public Pdp createPdp(@RequestBody Pdp Pdp) {
-        return pdpService.save(Pdp);
+    public Response createPdp(@RequestBody Pdp Pdp, @RequestHeader(HttpHeaders.AUTHORIZATION) String authorizationHeader) {
+        Response response = new Response();
+        try{
+            jwtTokenUtil.validateToken(authorizationHeader);
+            response.setDataOnSuccess(pdpService.save(Pdp));
+        }catch(Exception ex){
+            response.setError(ex.getMessage());
+        }
+        return response;
     }
 
     @GetMapping
-    public List<Pdp> getAllPdp() {
-        return pdpService.getAllPdp();
+    public Response getAllPdp() {
+        Response response = new Response();
+        try{
+            response.setDataOnSuccess(pdpService.getAllPdp());
+        }catch(Exception ex){
+            response.setError(ex.getMessage());
+        }
+        return response;
     }
 
     @GetMapping("/{id}")
-    public Optional<Pdp> getPdpById(@PathVariable Long id) {
-        return pdpService.getPdpById(id);
+    public Response getPdpById(@PathVariable Long id) {
+        Response response = new Response();
+        try{
+            response.setDataOnSuccess(pdpService.getPdpById(id));
+        }catch(Exception ex){
+            response.setError(ex.getMessage());
+        }
+        return response;
     }
 
     @PutMapping("/{id}")
-    public Pdp updatePdp(@PathVariable Long id, @RequestBody Pdp PdpDetails) {
-        return pdpService.updatePdp(id, PdpDetails);
+    public Response updatePdp(@PathVariable Long id, @RequestBody Pdp PdpDetails, @RequestHeader(HttpHeaders.AUTHORIZATION) String authorizationHeader) {
+        Response response = new Response();
+        try{
+            jwtTokenUtil.validateToken(authorizationHeader);
+            response.setDataOnSuccess(pdpService.updatePdp(id, PdpDetails));
+        }catch(Exception ex){
+            response.setError(ex.getMessage());
+        }
+        return response;
     }
 
     @DeleteMapping("/{id}")
-    public void deletePdp(@PathVariable Long id) {
-        pdpService.deletePdp(id);
+    public Response deletePdp(@PathVariable Long id, @RequestHeader(HttpHeaders.AUTHORIZATION) String authorizationHeader) {
+        Response response = new Response();
+        try{
+            jwtTokenUtil.validateToken(authorizationHeader);
+            pdpService.deletePdp(id);
+            response.setDataOnSuccess("Success");
+        }catch(Exception ex){
+            response.setError(ex.getMessage());
+        }
+        return response;
     }
 }

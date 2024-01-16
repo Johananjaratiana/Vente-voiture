@@ -4,7 +4,6 @@ import java.util.Optional;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,7 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.http.HttpHeaders;
 
-import com.vente.voiture.ws.security.JwtTokenUtil;
+import com.vente.voiture.ws.security.token.JwtTokenUtil;
 import com.vente.voiture.ws.security.token.Token;
 import com.vente.voiture.ws.structure.Response;
 
@@ -54,57 +53,94 @@ public class UsersController {
         return response;
     }
 
-    @GetMapping("/verify-token")
-    public ResponseEntity<?> verifyToken(@RequestHeader(HttpHeaders.AUTHORIZATION) String authorizationHeader) {
+    @GetMapping("/get-users")
+    public Response GetUsers(@RequestHeader(HttpHeaders.AUTHORIZATION) String authorizationHeader) {
+        Response response = new Response();
         try {
-            if (authorizationHeader != null && authorizationHeader.startsWith("Bearer ")) {
-                String token = authorizationHeader.substring(7); // Extract the token excluding "Bearer "
-                String profile = jwtTokenUtil.validateToken(token);
-                if(profile == null)profile = "false";
-                return ResponseEntity.ok(profile);
-            } else {
-                return ResponseEntity.status(401).body("Invalid or missing Bearer token");
-            }
+            Users users = jwtTokenUtil.validateTokenReturningUsers(usersService, authorizationHeader);
+            response.setDataOnSuccess(users);
         } catch (Exception ex) {
             ex.printStackTrace();
-            return ResponseEntity.status(401).body("Error " + ex.getMessage());
+            response.setError(ex.getMessage());
         }
+        return response;
     }
 
     @GetMapping("/deconnection/{userId}")
-    public ResponseEntity<?> deconnection(@PathVariable Integer userId) {
+    public Response deconnection(@PathVariable Integer userId) {
+        Response response = new Response();
         try {
             Token.invalidateToken(userId);
-            return ResponseEntity.ok(true);
+            response.setDataOnSuccess(true);
         } catch (Exception ex) {
             ex.printStackTrace();
-            return ResponseEntity.status(401).body("Error " + ex.getMessage());
+            response.setError(ex.getMessage());
         }
+        return response;
     }
 
-        @PostMapping
+    @PostMapping
     public Users createUsers(@RequestBody Users Users) {
         return usersService.save(Users);
     }
 
+    // @PostMapping
+    // public Response createUsers(@RequestBody Users Users, @RequestHeader(HttpHeaders.AUTHORIZATION) String authorizationHeader) {
+    //     Response response = new Response();
+    //     try{
+    //         jwtTokenUtil.validateToken(authorizationHeader);
+    //         response.setDataOnSuccess(usersService.save(Users));
+    //     }catch(Exception ex){
+    //         response.setError(ex.getMessage());
+    //     }
+    //     return response;
+    // }
+
     @GetMapping
-    public List<Users> getAllUsers() {
-        return usersService.getAllUsers();
+    public Response getAllUsers() {
+        Response response = new Response();
+        try{
+            response.setDataOnSuccess(usersService.getAllUsers());
+        }catch(Exception ex){
+            response.setError(ex.getMessage());
+        }
+        return response;
     }
 
     @GetMapping("/{id}")
-    public Optional<Users> getUsersById(@PathVariable Long id) {
-        return usersService.getUsersById(id);
+    public Response getUsersById(@PathVariable Long id) {
+        Response response = new Response();
+        try{
+            response.setDataOnSuccess(usersService.getUsersById(id));
+        }catch(Exception ex){
+            response.setError(ex.getMessage());
+        }
+        return response;
     }
 
     @PutMapping("/{id}")
-    public Users updateUsers(@PathVariable Long id, @RequestBody Users UsersDetails) {
-        return usersService.updateUsers(id, UsersDetails);
+    public Response updateUsers(@PathVariable Long id, @RequestBody Users UsersDetails, @RequestHeader(HttpHeaders.AUTHORIZATION) String authorizationHeader) {
+        Response response = new Response();
+        try{
+            jwtTokenUtil.validateToken(authorizationHeader);
+            response.setDataOnSuccess(usersService.updateUsers(id, UsersDetails));
+        }catch(Exception ex){
+            response.setError(ex.getMessage());
+        }
+        return response;
     }
 
     @DeleteMapping("/{id}")
-    public void deleteUsers(@PathVariable Long id) {
-        usersService.deleteUsers(id);
+    public Response deleteUsers(@PathVariable Long id, @RequestHeader(HttpHeaders.AUTHORIZATION) String authorizationHeader) {
+        Response response = new Response();
+        try{
+            jwtTokenUtil.validateToken(authorizationHeader);
+            usersService.deleteUsers(id);
+            response.setDataOnSuccess("Success");
+        }catch(Exception ex){
+            response.setError(ex.getMessage());
+        }
+        return response;
     }
     
 }

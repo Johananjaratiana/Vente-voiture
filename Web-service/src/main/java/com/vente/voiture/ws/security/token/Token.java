@@ -11,8 +11,6 @@ public class Token {
     String token;
     Boolean isWorking;
 
-    
-
     public Token(String token, Boolean isWorking) {
         this.token = token;
         this.isWorking = isWorking;
@@ -33,9 +31,12 @@ public class Token {
 
     public static boolean isTokenValid(String token) throws Exception {
         try (Connection connection = DatabaseConnection.GetConnection()) {
-            String query = "SELECT COUNT(*) FROM token WHERE token = ? AND dtexp >= CURDATE() AND isvalidate = 1";
+            String query = "SELECT COUNT(*) FROM token WHERE token = ? AND dtexp >= CURRENT_DATE AND isvalidate::boolean = true";
             PreparedStatement preparedStatement = connection.prepareStatement(query);
             preparedStatement.setString(1, token);
+            // System.out.println("------------------------------------");
+            // System.out.println(preparedStatement.toString());
+            // System.out.println("------------------------------------");
             ResultSet resultSet = preparedStatement.executeQuery();
             resultSet.next();
             return resultSet.getInt(1) > 0;

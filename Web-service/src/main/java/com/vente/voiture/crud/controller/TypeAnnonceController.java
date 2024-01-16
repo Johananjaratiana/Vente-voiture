@@ -1,10 +1,12 @@
 package com.vente.voiture.crud.controller;
 
 import com.vente.voiture.crud.model.TypeAnnonce;
-import java.util.*;
 import com.vente.voiture.crud.service.TypeAnnonceService;
+import com.vente.voiture.ws.structure.Response;
 import org.springframework.beans.factory.annotation.Autowired;
+import com.vente.voiture.ws.security.token.JwtTokenUtil;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.http.HttpHeaders;
 
 @RestController
 @RequestMapping("/api/type_annonces")
@@ -12,28 +14,65 @@ public class TypeAnnonceController {
     @Autowired
     private TypeAnnonceService type_annonceService;
 
+    @Autowired
+    private JwtTokenUtil jwtTokenUtil;
+
     @PostMapping
-    public TypeAnnonce createTypeAnnonce(@RequestBody TypeAnnonce TypeAnnonce) {
-        return type_annonceService.save(TypeAnnonce);
+    public Response createTypeAnnonce(@RequestBody TypeAnnonce TypeAnnonce, @RequestHeader(HttpHeaders.AUTHORIZATION) String authorizationHeader) {
+        Response response = new Response();
+        try{
+            jwtTokenUtil.validateToken(authorizationHeader);
+            response.setDataOnSuccess(type_annonceService.save(TypeAnnonce));
+        }catch(Exception ex){
+            response.setError(ex.getMessage());
+        }
+        return response;
     }
 
     @GetMapping
-    public List<TypeAnnonce> getAllTypeAnnonce() {
-        return type_annonceService.getAllTypeAnnonce();
+    public Response getAllTypeAnnonce() {
+        Response response = new Response();
+        try{
+            response.setDataOnSuccess(type_annonceService.getAllTypeAnnonce());
+        }catch(Exception ex){
+            response.setError(ex.getMessage());
+        }
+        return response;
     }
 
     @GetMapping("/{id}")
-    public Optional<TypeAnnonce> getTypeAnnonceById(@PathVariable Long id) {
-        return type_annonceService.getTypeAnnonceById(id);
+    public Response getTypeAnnonceById(@PathVariable Long id) {
+        Response response = new Response();
+        try{
+            response.setDataOnSuccess(type_annonceService.getTypeAnnonceById(id));
+        }catch(Exception ex){
+            response.setError(ex.getMessage());
+        }
+        return response;
     }
 
     @PutMapping("/{id}")
-    public TypeAnnonce updateTypeAnnonce(@PathVariable Long id, @RequestBody TypeAnnonce TypeAnnonceDetails) {
-        return type_annonceService.updateTypeAnnonce(id, TypeAnnonceDetails);
+    public Response updateTypeAnnonce(@PathVariable Long id, @RequestBody TypeAnnonce TypeAnnonceDetails, @RequestHeader(HttpHeaders.AUTHORIZATION) String authorizationHeader) {
+        Response response = new Response();
+        try{
+            jwtTokenUtil.validateToken(authorizationHeader);
+            response.setDataOnSuccess(type_annonceService.updateTypeAnnonce(id, TypeAnnonceDetails));
+        }catch(Exception ex){
+            response.setError(ex.getMessage());
+        }
+        return response;
     }
 
     @DeleteMapping("/{id}")
-    public void deleteTypeAnnonce(@PathVariable Long id) {
-        type_annonceService.deleteTypeAnnonce(id);
+    public Response deleteTypeAnnonce(@PathVariable Long id, @RequestHeader(HttpHeaders.AUTHORIZATION) String authorizationHeader) {
+        Response response = new Response();
+        try{
+            jwtTokenUtil.validateToken(authorizationHeader);
+            type_annonceService.deleteTypeAnnonce(id);
+            response.setDataOnSuccess("Success");
+        }catch(Exception ex){
+            response.setError(ex.getMessage());
+        }
+        return response;
     }
 }

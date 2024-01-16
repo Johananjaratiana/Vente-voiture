@@ -1,10 +1,12 @@
 package com.vente.voiture.crud.controller;
 
 import com.vente.voiture.crud.model.Modele;
-import java.util.*;
 import com.vente.voiture.crud.service.ModeleService;
+import com.vente.voiture.ws.structure.Response;
 import org.springframework.beans.factory.annotation.Autowired;
+import com.vente.voiture.ws.security.token.JwtTokenUtil;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.http.HttpHeaders;
 
 @RestController
 @RequestMapping("/api/modeles")
@@ -12,28 +14,65 @@ public class ModeleController {
     @Autowired
     private ModeleService modeleService;
 
+    @Autowired
+    private JwtTokenUtil jwtTokenUtil;
+
     @PostMapping
-    public Modele createModele(@RequestBody Modele Modele) {
-        return modeleService.save(Modele);
+    public Response createModele(@RequestBody Modele Modele, @RequestHeader(HttpHeaders.AUTHORIZATION) String authorizationHeader) {
+        Response response = new Response();
+        try{
+            jwtTokenUtil.validateToken(authorizationHeader);
+            response.setDataOnSuccess(modeleService.save(Modele));
+        }catch(Exception ex){
+            response.setError(ex.getMessage());
+        }
+        return response;
     }
 
     @GetMapping
-    public List<Modele> getAllModele() {
-        return modeleService.getAllModele();
+    public Response getAllModele() {
+        Response response = new Response();
+        try{
+            response.setDataOnSuccess(modeleService.getAllModele());
+        }catch(Exception ex){
+            response.setError(ex.getMessage());
+        }
+        return response;
     }
 
     @GetMapping("/{id}")
-    public Optional<Modele> getModeleById(@PathVariable Long id) {
-        return modeleService.getModeleById(id);
+    public Response getModeleById(@PathVariable Long id) {
+        Response response = new Response();
+        try{
+            response.setDataOnSuccess(modeleService.getModeleById(id));
+        }catch(Exception ex){
+            response.setError(ex.getMessage());
+        }
+        return response;
     }
 
     @PutMapping("/{id}")
-    public Modele updateModele(@PathVariable Long id, @RequestBody Modele ModeleDetails) {
-        return modeleService.updateModele(id, ModeleDetails);
+    public Response updateModele(@PathVariable Long id, @RequestBody Modele ModeleDetails, @RequestHeader(HttpHeaders.AUTHORIZATION) String authorizationHeader) {
+        Response response = new Response();
+        try{
+            jwtTokenUtil.validateToken(authorizationHeader);
+            response.setDataOnSuccess(modeleService.updateModele(id, ModeleDetails));
+        }catch(Exception ex){
+            response.setError(ex.getMessage());
+        }
+        return response;
     }
 
     @DeleteMapping("/{id}")
-    public void deleteModele(@PathVariable Long id) {
-        modeleService.deleteModele(id);
+    public Response deleteModele(@PathVariable Long id, @RequestHeader(HttpHeaders.AUTHORIZATION) String authorizationHeader) {
+        Response response = new Response();
+        try{
+            jwtTokenUtil.validateToken(authorizationHeader);
+            modeleService.deleteModele(id);
+            response.setDataOnSuccess("Success");
+        }catch(Exception ex){
+            response.setError(ex.getMessage());
+        }
+        return response;
     }
 }

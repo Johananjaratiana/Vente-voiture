@@ -10,11 +10,14 @@ import jakarta.persistence.Id;
 
 @Getter
 @Setter
-@Entity(name="energie")
-public class Energie {
+@Entity(name="couleur")
+public class Couleur {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @Column(name="rgb")
+    private String Rgb;
 
     @Column(name="nom")
     private String Nom;

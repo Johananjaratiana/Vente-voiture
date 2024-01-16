@@ -1,10 +1,12 @@
 package com.vente.voiture.crud.controller;
 
 import com.vente.voiture.crud.model.Marque;
-import java.util.*;
 import com.vente.voiture.crud.service.MarqueService;
+import com.vente.voiture.ws.structure.Response;
 import org.springframework.beans.factory.annotation.Autowired;
+import com.vente.voiture.ws.security.token.JwtTokenUtil;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.http.HttpHeaders;
 
 @RestController
 @RequestMapping("/api/marques")
@@ -12,28 +14,65 @@ public class MarqueController {
     @Autowired
     private MarqueService marqueService;
 
+    @Autowired
+    private JwtTokenUtil jwtTokenUtil;
+
     @PostMapping
-    public Marque createMarque(@RequestBody Marque Marque) {
-        return marqueService.save(Marque);
+    public Response createMarque(@RequestBody Marque Marque, @RequestHeader(HttpHeaders.AUTHORIZATION) String authorizationHeader) {
+        Response response = new Response();
+        try{
+            jwtTokenUtil.validateToken(authorizationHeader);
+            response.setDataOnSuccess(marqueService.save(Marque));
+        }catch(Exception ex){
+            response.setError(ex.getMessage());
+        }
+        return response;
     }
 
     @GetMapping
-    public List<Marque> getAllMarque() {
-        return marqueService.getAllMarque();
+    public Response getAllMarque() {
+        Response response = new Response();
+        try{
+            response.setDataOnSuccess(marqueService.getAllMarque());
+        }catch(Exception ex){
+            response.setError(ex.getMessage());
+        }
+        return response;
     }
 
     @GetMapping("/{id}")
-    public Optional<Marque> getMarqueById(@PathVariable Long id) {
-        return marqueService.getMarqueById(id);
+    public Response getMarqueById(@PathVariable Long id) {
+        Response response = new Response();
+        try{
+            response.setDataOnSuccess(marqueService.getMarqueById(id));
+        }catch(Exception ex){
+            response.setError(ex.getMessage());
+        }
+        return response;
     }
 
     @PutMapping("/{id}")
-    public Marque updateMarque(@PathVariable Long id, @RequestBody Marque MarqueDetails) {
-        return marqueService.updateMarque(id, MarqueDetails);
+    public Response updateMarque(@PathVariable Long id, @RequestBody Marque MarqueDetails, @RequestHeader(HttpHeaders.AUTHORIZATION) String authorizationHeader) {
+        Response response = new Response();
+        try{
+            jwtTokenUtil.validateToken(authorizationHeader);
+            response.setDataOnSuccess(marqueService.updateMarque(id, MarqueDetails));
+        }catch(Exception ex){
+            response.setError(ex.getMessage());
+        }
+        return response;
     }
 
     @DeleteMapping("/{id}")
-    public void deleteMarque(@PathVariable Long id) {
-        marqueService.deleteMarque(id);
+    public Response deleteMarque(@PathVariable Long id, @RequestHeader(HttpHeaders.AUTHORIZATION) String authorizationHeader) {
+        Response response = new Response();
+        try{
+            jwtTokenUtil.validateToken(authorizationHeader);
+            marqueService.deleteMarque(id);
+            response.setDataOnSuccess("Success");
+        }catch(Exception ex){
+            response.setError(ex.getMessage());
+        }
+        return response;
     }
 }

@@ -34,9 +34,6 @@ public class Annonce {
     @Column(name="date_annonce")
     private java.sql.Date DateAnnonce;
 
-    @Column(name="couleur")
-    private String Couleur;
-
     @Column(name="description")
     private String Description;
 
@@ -66,6 +63,9 @@ public class Annonce {
 
     @Column(name="nb_vitesse")
     private Integer NbVitesse;
+
+    @Column(name="id_couleur")
+    private Integer IdCouleur;
 
     @Column(name="id_taille")
     private Integer IdTaille;
