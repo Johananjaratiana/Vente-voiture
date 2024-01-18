@@ -424,6 +424,32 @@ CREATE VIEW "public".v_stat_annonce_vendu_par_marque AS  SELECT a.id_marque,
   WHERE (a.status = 20)
   GROUP BY a.id_marque, m.nom;
 
+CREATE VIEW "public".v_stat_by_month AS  SELECT (EXTRACT(month FROM a.date_annonce))::integer AS id,
+    ( SELECT v_count_annonce_current_month.nb_annonce
+           FROM v_count_annonce_current_month) AS nb_annonce,
+    ( SELECT v_count_annonce_vendu_current_month.nb_annonce_vendu
+           FROM v_count_annonce_vendu_current_month) AS nb_annonce_vendu,
+    COALESCE(sum(a.prix_vente), (0)::double precision) AS prix_mois_actuelle,
+    COALESCE(sum((a.prix_vente * ta.commission)), (0)::double precision) AS commission_mois_actuelle,
+    EXTRACT(month FROM CURRENT_DATE) AS month,
+    EXTRACT(year FROM CURRENT_DATE) AS year
+   FROM (annonce a
+     JOIN type_annonce ta ON ((ta.id = a.id_type_annonce)))
+  WHERE ((a.status = 20) AND (EXTRACT(year FROM a.date_annonce) = EXTRACT(year FROM CURRENT_DATE)))
+  GROUP BY (EXTRACT(month FROM a.date_annonce));
+
+CREATE VIEW "public".v_stat_by_year AS  SELECT EXTRACT(year FROM a.date_annonce) AS id,
+    ( SELECT v_count_annonce_current_year.nb_annonce
+           FROM v_count_annonce_current_year) AS nb_annonce,
+    ( SELECT v_count_annonce_vendu_current_year.nb_annonce_vendu
+           FROM v_count_annonce_vendu_current_year) AS nb_annonce_vendu,
+    COALESCE(sum(a.prix_vente), (0)::double precision) AS prix_mois_actuelle,
+    COALESCE(sum((a.prix_vente * ta.commission)), (0)::double precision) AS commission_mois_actuelle
+   FROM (annonce a
+     JOIN type_annonce ta ON ((ta.id = a.id_type_annonce)))
+  WHERE (a.status = 20)
+  GROUP BY (EXTRACT(year FROM a.date_annonce));
+
 CREATE VIEW "public".v_stat_current_month AS  SELECT '-1'::integer AS id,
     ( SELECT v_count_annonce_current_month.nb_annonce
            FROM v_count_annonce_current_month) AS nb_annonce,
