@@ -76,4 +76,15 @@ public class PhotoAnnonceController {
         }
         return response;
     }
+
+    @GetMapping("/annonces/{IdAnnonce}")
+    public Response getPhotoAnnoncesByUserId(@PathVariable Integer IdAnnonce) {
+        Response response = new Response();
+        try{
+            response.setDataOnSuccess(photo_annonceService.getPhotoAnnoncesByIdAnnonce(IdAnnonce));
+        }catch(Exception ex){
+            response.setError(ex.getMessage());
+        }
+        return response;
+    }
 }
