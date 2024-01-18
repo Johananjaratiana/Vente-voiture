@@ -6,24 +6,26 @@ import com.mongodb.MongoException;
 import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
+import com.vente.voiture.ws.security.user.Users;
+
 import java.util.function.Consumer;
 import org.bson.Document;
 import org.bson.conversions.Bson;
 
 public class Message {
 
-    public static List<Document> GetMessageByTokenAndUser()
+    public static List<Document> GetMessageByTokenAndUser(Users users, Integer id_other_user)
     {
         List<Document> result = new ArrayList<Document>();
 
-        try (MongoClient client = Client.GetMongoClient()) {
+        try (MongoClient client = ClientConnection.GetMongoClient()) {
                 MongoDatabase database = client.getDatabase("message_vente");
                 MongoCollection<Document> collection = database.getCollection("messages");
                 Document query = new Document();
                 query.append("identifiant", new Document()
                         .append("$all", Arrays.asList(
-                                7.0,
-                                2.0
+                                users.getId(),
+                                id_other_user
                             )
                         )
                 );
@@ -41,18 +43,13 @@ public class Message {
         return result;
     }
 
-    public static List<Document> GetNotSeenMessage(Integer user_id)
+    public static List<Document> GetNotSeenMessage(Users users)
     {
         List<Document> result = new ArrayList<Document>();
 
-
-        try (MongoClient client = Client.GetMongoClient()) {
-            
+        try (MongoClient client = ClientConnection.GetMongoClient()) {
             MongoDatabase database = client.getDatabase("message_vente");
             MongoCollection<Document> collection = database.getCollection("messages");
-            
-            // Created with Studio 3T, the IDE for MongoDB - https://studio3t.com/
-            
             Consumer<Document> processBlock = new Consumer<Document>() {
                 @Override
                 public void accept(Document document) {
@@ -60,13 +57,12 @@ public class Message {
                     System.out.println(document);
                 }
             };
-            
             List<? extends Bson> pipeline = Arrays.asList(
                     new Document()
                             .append("$match", new Document()
                                     .append("identifiant", new Document()
                                             .append("$elemMatch", new Document()
-                                                    .append("$eq", 2.0)
+                                                    .append("$eq", users.getId())
                                             )
                                     )
                             ), 
@@ -77,9 +73,7 @@ public class Message {
                                     .append("messages.status", 0.0)
                             )
             );
-            
             collection.aggregate(pipeline).forEach(processBlock);
-            
         } catch (MongoException e) {
             e.printStackTrace();
         }
