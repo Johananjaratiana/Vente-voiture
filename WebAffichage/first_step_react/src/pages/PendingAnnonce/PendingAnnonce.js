@@ -1,8 +1,32 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import "./pendingAnnonce.css";
+import Pagination from '../../components/Tools/Pagination';
+import axios from 'axios';
 
 function PendingAnnonce() {
+    const [annonces, setAnnonce] = useState([]);
+    const [current, setCurrent] = useState(1);
+    const [perPage, setPerPage] = useState(10);
   
+    useEffect(() => {
+      const fetchPosts = async () => {
+        const response = await axios.get('https://jsonplaceholder.typicode.com/posts'); // API test
+        setAnnonce(response.data);
+      }
+  
+      fetchPosts();
+    }, []);
+
+     // Get current page
+    const lastIndex = current * perPage;
+    const firstIndex = lastIndex - perPage;
+    const currentAnnonce = annonces.slice(firstIndex, lastIndex);
+
+    console.log(current);
+
+    // Change page
+    const paginate = (pageNumber) => setCurrent(pageNumber);
+
     return (
     <>
         <div className="container pending-annonces mx-auto mt-4">
@@ -23,106 +47,25 @@ function PendingAnnonce() {
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td>1</td>
-                                <td>10/01/2024</td>
-                                <td>Toyota Hilux</td>
-                                <td>Un très belle voiture pour vous et votre famille, c'est un Toyota Hilux de troisième
-                                    génération plus belle !</td>
-                                <td>To MAMIARILAZA</td>
-                                <td className="prix">30 000 000 AR</td>
-                                <td><a className="detail-link" href="">Voir plus</a></td>
-                            </tr>
-                            <tr>
-                                <td>2</td>
-                                <td>15/01/2024</td>
-                                <td>Ford Mustang</td>
-                                <td>Une voiture sportive élégante avec une puissance exceptionnelle.</td>
-                                <td>John Doe</td>
-                                <td className="prix">50 000 000 AR</td>
-                                <td><a className="detail-link" href="">Voir plus</a></td>
-                            </tr>
-                            <tr>
-                                <td>3</td>
-                                <td>20/01/2024</td>
-                                <td>Honda Civic</td>
-                                <td>Une voiture compacte et économique, idéale pour la conduite en ville.</td>
-                                <td>Jane Smith</td>
-                                <td className="prix">25 000 000 AR</td>
-                                <td><a className="detail-link" href="">Voir plus</a></td>
-                            </tr>
-                            <tr>
-                                <td>4</td>
-                                <td>25/01/2024</td>
-                                <td>Mercedes-Benz S-Class</td>
-                                <td>Le summum du luxe et de la sophistication.</td>
-                                <td>Michael Johnson</td>
-                                <td className="prix">100 000 000 AR</td>
-                                <td><a className="detail-link" href="">Voir plus</a></td>
-                            </tr>
-                            <tr>
-                                <td>5</td>
-                                <td>01/02/2024</td>
-                                <td>Chevrolet Tahoe</td>
-                                <td>Un SUV spacieux et polyvalent, parfait pour les familles nombreuses.</td>
-                                <td>Lisa Williams</td>
-                                <td className="prix">40 000 000 AR</td>
-                                <td><a className="detail-link" href="">Voir plus</a></td>
-                            </tr>
-                            <tr>
-                                <td>2</td>
-                                <td>15/01/2024</td>
-                                <td>Ford Mustang</td>
-                                <td>Une voiture sportive élégante avec une puissance exceptionnelle.</td>
-                                <td>John Doe</td>
-                                <td className="prix">50 000 000 AR</td>
-                                <td><a className="detail-link" href="">Voir plus</a></td>
-                            </tr>
-                            <tr>
-                                <td>3</td>
-                                <td>20/01/2024</td>
-                                <td>Honda Civic</td>
-                                <td>Une voiture compacte et économique, idéale pour la conduite en ville.</td>
-                                <td>Jane Smith</td>
-                                <td className="prix">25 000 000 AR</td>
-                                <td><a className="detail-link" href="">Voir plus</a></td>
-                            </tr>
-                            <tr>
-                                <td>4</td>
-                                <td>25/01/2024</td>
-                                <td>Mercedes-Benz S-Class</td>
-                                <td>Le summum du luxe et de la sophistication.</td>
-                                <td>Michael Johnson</td>
-                                <td className="prix">100 000 000 AR</td>
-                                <td><a className="detail-link" href="">Voir plus</a></td>
-                            </tr>
-                            <tr>
-                                <td>5</td>
-                                <td>01/02/2024</td>
-                                <td>Chevrolet Tahoe</td>
-                                <td>Un SUV spacieux et polyvalent, parfait pour les familles nombreuses.</td>
-                                <td>Lisa Williams</td>
-                                <td className="prix">40 000 000 AR</td>
-                                <td><a className="detail-link" href="">Voir plus</a></td>
-                            </tr>
+                            {currentAnnonce.map((annonce) => (
+                                <tr key={annonce.id}>
+                                    <td> {annonce.id} </td>
+                                    <td> 10/01/2024 </td>
+                                    <td> {annonce.title} </td>
+                                    <td> {annonce.body} </td>
+                                    <td> {annonce.title} </td>
+                                    <td> 50 000 000 AR </td>
+                                    <td><a className="detail-link" href="">Voir plus</a></td>
+                                </tr>
+                            ))}
                         </tbody>
                     </table>
 
-                    <div className="pagination">
-                        <ul className="pagination">
-                            <li className="page-item disabled">
-                                <a className="page-link" href="#" tabindex="-1" aria-disabled="true">Previous</a>
-                            </li>
-                            <li className="page-item"><a className="page-link" href="#">1</a></li>
-                            <li className="page-item active" aria-current="page">
-                                <a className="page-link" href="#">2</a>
-                            </li>
-                            <li className="page-item"><a className="page-link" href="#">3</a></li>
-                            <li className="page-item">
-                                <a className="page-link" href="#">Next</a>
-                            </li>
-                        </ul>
-                    </div>
+                    <Pagination 
+                        perPage={perPage}
+                        total={annonces.length}
+                        paginate={paginate}
+                    />
                 </div>
             </div>
         </div>
