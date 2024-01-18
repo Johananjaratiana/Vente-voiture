@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.http.HttpHeaders;
 
 @RestController
+@CrossOrigin(origins = "*", allowedHeaers = "*")
 @RequestMapping("/api/energies")
 public class EnergieController {
     @Autowired

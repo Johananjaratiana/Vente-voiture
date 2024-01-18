@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
+@CrossOrigin(origins = "*", allowedHeaers = "*")
 @RequestMapping("/api/v_best_users")
 public class V_best_userController {
     @Autowired

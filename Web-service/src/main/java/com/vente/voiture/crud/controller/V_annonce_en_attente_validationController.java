@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
+@CrossOrigin(origins = "*", allowedHeaers = "*")
 @RequestMapping("/api/v_annonce_en_attente_validations")
 public class V_annonce_en_attente_validationController {
     @Autowired

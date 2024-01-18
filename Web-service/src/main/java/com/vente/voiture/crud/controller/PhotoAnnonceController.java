@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.http.HttpHeaders;
 
 @RestController
+@CrossOrigin(origins = "*", allowedHeaers = "*")
 @RequestMapping("/api/photo_annonces")
 public class PhotoAnnonceController {
     @Autowired

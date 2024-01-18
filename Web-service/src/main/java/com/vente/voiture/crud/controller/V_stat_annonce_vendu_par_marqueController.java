@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
+@CrossOrigin(origins = "*", allowedHeaers = "*")
 @RequestMapping("/api/v_stat_annonce_vendu_par_marques")
 public class V_stat_annonce_vendu_par_marqueController {
     @Autowired
