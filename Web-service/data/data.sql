@@ -510,6 +510,22 @@ CREATE VIEW "public".v_user_ordered_by_commission AS  SELECT u.id,
      LEFT JOIN v_users_commission uc ON ((uc.id_users = u.id)))
   ORDER BY uc.commission DESC;
 
+CREATE VIEW "public".v_user_complet AS  SELECT u.id,
+    u.idprofile,
+    u.nom,
+    u.mdp,
+    u.prenom,
+    u.dtn,
+    u.addresse,
+    u.email,
+    u.telephone,
+    pu.nom AS nom_pofil_utilisateur,
+    pdp.image
+   FROM ((users u
+     LEFT JOIN pdp ON ((pdp.id_users = u.id)))
+     JOIN profil_utilisateur pu ON ((pu.id = u.idprofile)));
+
+
 CREATE VIEW "public".v_users_commission AS  SELECT a.id_users,
     sum((a.prix_vente * ta.commission)) AS commission
    FROM (annonce a

@@ -28,6 +28,9 @@ public class V_annonce_complet_ordered_by_type_annonce {
     @Column(name="id_marque")
     private Integer IdMarque;
 
+    @Column(name="numero")
+    private String Numero;
+
     @Column(name="id_type_moteur")
     private Integer IdTypeMoteur;
 

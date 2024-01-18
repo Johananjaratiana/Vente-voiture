@@ -41,9 +41,4 @@ public class PhotoAnnonceService {
     }
     // Add your service methods here
 
-    // Find by users id
-    public List<PhotoAnnonce> getPhotoAnnoncesByIdAnnonce(Integer IdAnnonce) {
-        return photo_annonceRepository.findByIdAnnonce(IdAnnonce);
-    }
-
 }
