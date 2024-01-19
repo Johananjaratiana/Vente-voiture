@@ -27,6 +27,7 @@ com/vente/voiture/crud/repository/V_stat_current_monthRepository.class
 com/vente/voiture/crud/service/ModeleService.class
 com/vente/voiture/crud/service/V_annonce_complet_current_monthService.class
 com/vente/voiture/crud/model/Taille.class
+com/vente/voiture/mongo/ReceivedMessage.class
 com/vente/voiture/crud/model/ProfilUtilisateur.class
 com/vente/voiture/crud/controller/ModeleController.class
 com/vente/voiture/crud/repository/TypeMoteurRepository.class

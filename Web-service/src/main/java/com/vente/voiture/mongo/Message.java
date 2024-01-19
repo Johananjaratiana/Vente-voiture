@@ -79,4 +79,9 @@ public class Message {
         }
         return result;
     }
+
+    public static String SaveMessageByTokenAndUser(Users users, ReceivedMessage receivedMessage){
+        
+        return "OK";
+    }
 }
