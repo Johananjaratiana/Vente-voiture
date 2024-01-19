@@ -1,8 +1,11 @@
 package com.vente.voiture.mongo;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RequestHeader;
@@ -14,6 +17,7 @@ import com.vente.voiture.ws.security.user.UsersService;
 import com.vente.voiture.ws.structure.Response;
 
 @RestController
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 @RequestMapping("/api/messages")
 public class MessageController {
 
@@ -41,6 +45,18 @@ public class MessageController {
         try{
             Users users = jwtTokenUtil.validateTokenReturningUsers(usersService, authorizationHeader);
             response.setDataOnSuccess(Message.GetMessageByTokenAndUser(users, id_other_user));
+        }catch(Exception ex){
+            response.setError(ex.getMessage());
+        }
+        return response;
+    }
+
+    @PostMapping
+    public Response SaveMessageByTokenAndUser(@RequestHeader(HttpHeaders.AUTHORIZATION) String authorizationHeader, @RequestBody ReceivedMessage receivedMessage) {
+        Response response = new Response();
+        try{
+            Users users = jwtTokenUtil.validateTokenReturningUsers(usersService, authorizationHeader);
+            response.setDataOnSuccess(Message.SaveMessageByTokenAndUser(users, receivedMessage));
         }catch(Exception ex){
             response.setError(ex.getMessage());
         }
