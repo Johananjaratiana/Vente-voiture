@@ -76,22 +76,22 @@ public class UsersController {
         return response;
     }
 
-    @PostMapping
-    public Users createUsers(@RequestBody Users Users) {
-        return usersService.save(Users);
-    }
-
     // @PostMapping
-    // public Response createUsers(@RequestBody Users Users, @RequestHeader(HttpHeaders.AUTHORIZATION) String authorizationHeader) {
-    //     Response response = new Response();
-    //     try{
-    //         jwtTokenUtil.validateToken(authorizationHeader);
-    //         response.setDataOnSuccess(usersService.save(Users));
-    //     }catch(Exception ex){
-    //         response.setError(ex.getMessage());
-    //     }
-    //     return response;
+    // public Users createUsers(@RequestBody Users Users) {
+    //     return usersService.save(Users);
     // }
+
+    @PostMapping
+    public Response createUsers(@RequestBody Users Users, @RequestHeader(HttpHeaders.AUTHORIZATION) String authorizationHeader) {
+        Response response = new Response();
+        try{
+            jwtTokenUtil.validateToken(authorizationHeader);
+            response.setDataOnSuccess(usersService.save(Users));
+        }catch(Exception ex){
+            response.setError(ex.getMessage());
+        }
+        return response;
+    }
 
     @GetMapping
     public Response getAllUsers() {
