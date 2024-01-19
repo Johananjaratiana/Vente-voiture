@@ -18,6 +18,7 @@ import com.vente.voiture.ws.security.token.Token;
 import com.vente.voiture.ws.structure.Response;
 
 @RestController
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 @RequestMapping("/api/users")
 public class UsersController {
 
