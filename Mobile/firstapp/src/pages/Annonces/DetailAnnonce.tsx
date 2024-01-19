@@ -5,16 +5,82 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import Header from '../../components/Header/Header';
 import Menu from "../../components/Menu/Menu";
 import './DetailAnnonce.scss';
-
-
 import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 import 'swiper/css/scrollbar';
-// import '@ionic/react/css/ionic-swiper.css';
+import React, { useState, useEffect } from 'react';
 
+interface AnnounceData {
+    id: number;
+    version: string;
+    description: string;
+    status: number;
+    idUsers: number;
+    niveauTypeAnnonce: number;
+    etatTransmission: number;
+    commissionTypeAnnonce: number;
+    etatElectronique: number;
+    idCouleur: number;
+    nbPlace: number;
+    kmEffectue: number;
+    consommation: number;
+    idModele: number;
+    idTypeAnnonce: number;
+    idMarque: number;
+    prixVente: number;
+    nbVitesse: number;
+    numero: string;
+    idTransmission: number;
+    idTypeMoteur: number;
+    puissance: number;
+    dateAnnonce: string;
+    idTaille: number;
+    idUsage: number;
+    idEnergie: number;
+    rgbCouleur: string;
+    etatSuspension: number;
+    nomTypeAnnonce: string;
+    etatMoteur: number;
+    nomCouleur: string;
+    nomEnergie: string;
+    nomTypeMoteur: string;
+    nomUsers: string;
+    etatCarrosserie: number;
+    emailUsers: string;
+    etatPneu: number;
+    nomUsage: string;
+    etatTableauBord: number;
+    telephoneUsers: string;
+    nomTransmission: string;
+    nomModele: string;
+    prenomUsers: string;
+    etatSiege: number;
+    nomMarque: string;
+    etatFreinage: number;
+    nomTaille: string;
+}
 
 const DetailAnnonce: React.FC = () => {
+
+    const [announceData, setAnnounceData] = useState<AnnounceData | null>(null);
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const response = await fetch('http://localhost:8080/api/v_annonce_complets/13');
+                if (!response.ok) {
+                    throw new Error('Failed to fetch data');
+                }
+                const data: AnnounceData = await response.json();
+                setAnnounceData(data);
+            } catch (error) {
+                console.error('Error fetching data:', error);
+            }
+        };
+        fetchData();
+    }, []);
+
     return (
         <>
             <Menu />
@@ -39,7 +105,7 @@ const DetailAnnonce: React.FC = () => {
                     </Swiper>
                     <div className="detail">
                         <div className="title">
-                            KIA Pride SLX
+                            {announceData?.nomMarque} {announceData?.nomModele}
                         </div>
                         <div className="state">
                             EN VENTE
@@ -47,7 +113,7 @@ const DetailAnnonce: React.FC = () => {
                     </div>
                     <div className="actions">
                         <div className="mis-en-vente">
-                            Mis en vente le 12/12/2023
+                            Mis en vente le {announceData?.dateAnnonce}
                         </div>
                         <div className="action">
                             <IonButton expand="full" color="success">
@@ -65,38 +131,38 @@ const DetailAnnonce: React.FC = () => {
                                 <table>
                                     <tr>
                                         <td className="tdlabel">Marque</td>
-                                        <td>KIA</td>
+                                        <td>{announceData?.nomMarque}</td>
                                     </tr>
                                     <tr>
                                         <td className="tdlabel">Modele</td>
-                                        <td>Pride</td>
+                                        <td>{announceData?.nomModele}</td>
                                     </tr>
                                     <tr>
                                         <td className="tdlabel">Version</td>
-                                        <td>2</td>
+                                        <td>{announceData?.version}</td>
                                     </tr>
                                     <tr>
                                         <td className="tdlabel">Couleur</td>
-                                        <td>Gris</td>
+                                        <td>{announceData?.nomCouleur}</td>
                                     </tr>
                                     <tr>
                                         <td className="tdlabel">Nombre de place</td>
-                                        <td>5</td>
+                                        <td>{announceData?.nbPlace}</td>
                                     </tr>
                                     <tr>
                                         <td className="tdlabel">Taille</td>
-                                        <td>Taille</td>
+                                        <td>{announceData?.nomTaille}</td>
                                     </tr><tr>
                                         <td className="tdlabel">Usage</td>
-                                        <td>Familial</td>
+                                        <td>{announceData?.nomUsage}</td>
                                     </tr>
                                     <tr>
                                         <td className="tdlabel">Description</td>
-                                        <td>Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptate unde perferendis, dicta, aut eos voluptatum necessitatibus pariatur tenetur ducimus tempore dolor deleniti architecto laborum cupiditate iure exercitationem soluta deserunt ratione.</td>
+                                        <td>{announceData?.description}</td>
                                     </tr>
                                     <tr>
                                         <td className="tdlabel">Prix de vente</td>
-                                        <td>110 000 000</td>
+                                        <td>{announceData?.prixVente}</td>
                                     </tr>
                                 </table>
                             </div>
@@ -109,27 +175,27 @@ const DetailAnnonce: React.FC = () => {
                                 <table>
                                     <tr>
                                         <td className="tdlabel">Source d' energie</td>
-                                        <td>Gasoil</td>
+                                        <td>{announceData?.nomEnergie}</td>
                                     </tr>
                                     <tr>
                                         <td className="tdlabel">Consommation</td>
-                                        <td>6</td>
+                                        <td>{announceData?.consommation}</td>
                                     </tr>
                                     <tr>
                                         <td className="tdlabel">Transmission</td>
-                                        <td>Automatique</td>
+                                        <td>{announceData?.nomTransmission}</td>
                                     </tr>
                                     <tr>
                                         <td className="tdlabel">Nombre de vitesse</td>
-                                        <td>5</td>
+                                        <td>{announceData?.nbVitesse}</td>
                                     </tr>
                                     <tr>
                                         <td className="tdlabel">Type de moteur</td>
-                                        <td>CRDI</td>
+                                        <td>{announceData?.nomTypeMoteur}</td>
                                     </tr>
                                     <tr>
                                         <td className="tdlabel">Puissance</td>
-                                        <td>110 ch</td>
+                                        <td>{announceData?.puissance}</td>
                                     </tr>
                                 </table>
                             </div>
@@ -142,43 +208,43 @@ const DetailAnnonce: React.FC = () => {
                                 <table>
                                     <tr>
                                         <td className="tdlabel">Carosserie</td>
-                                        <td>10</td>
+                                        <td>{announceData?.etatCarrosserie}</td>
                                     </tr>
                                     <tr>
                                         <td className="tdlabel">Siege</td>
-                                        <td>10</td>
+                                        <td>{announceData?.etatSiege}</td>
                                     </tr>
                                     <tr>
                                         <td className="tdlabel">Tableau</td>
-                                        <td>10</td>
+                                        <td>{announceData?.etatTableauBord}</td>
                                     </tr>
                                     <tr>
                                         <td className="tdlabel">Moteur</td>
-                                        <td>10</td>
+                                        <td>{announceData?.etatMoteur}</td>
                                     </tr>
                                     <tr>
                                         <td className="tdlabel">Freinage</td>
-                                        <td>10</td>
+                                        <td>{announceData?.etatFreinage}</td>
                                     </tr>
                                     <tr>
                                         <td className="tdlabel">Transmission</td>
-                                        <td>10</td>
+                                        <td>{announceData?.etatTransmission}</td>
                                     </tr>
                                     <tr>
                                         <td className="tdlabel">Pneu</td>
-                                        <td>10</td>
+                                        <td>{announceData?.etatPneu}</td>
                                     </tr>
                                     <tr>
                                         <td className="tdlabel">Electronique</td>
-                                        <td>10</td>
+                                        <td>{announceData?.etatElectronique}</td>
                                     </tr>
                                     <tr>
                                         <td className="tdlabel">Suspension</td>
-                                        <td>10</td>
+                                        <td>{announceData?.etatSuspension}</td>
                                     </tr>
                                     <tr>
                                         <td className="tdlabel">Kilometrage effectue</td>
-                                        <td>74 000 km</td>
+                                        <td>{announceData?.kmEffectue}</td>
                                     </tr>
                                 </table>
                             </div>
