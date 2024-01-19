@@ -4,6 +4,7 @@ import com.vente.voiture.crud.model.V_user_ordered_by_commission;
 import java.util.*;
 import com.vente.voiture.crud.service.V_user_ordered_by_commissionService;
 import org.springframework.beans.factory.annotation.Autowired;
+import com.vente.voiture.ws.structure.Response;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -22,4 +23,17 @@ public class V_user_ordered_by_commissionController {
     public Optional<V_user_ordered_by_commission> getV_user_ordered_by_commissionById(@PathVariable Long id) {
         return v_user_ordered_by_commissionService.getV_user_ordered_by_commissionById(id);
     }
+
+
+    @GetMapping("idprofile/{idprofile}")
+    public Response getV_user_ordered_by_commissionByIdprofile(@PathVariable Integer idprofile) {
+        Response response = new Response();
+        try{
+            response.setDataOnSuccess(v_user_ordered_by_commissionService.getV_user_ordered_by_commissionByIdprofile(idprofile));
+        }catch(Exception ex){
+            response.setError(ex.getMessage());
+        }
+        return response;
+    }
+
 }

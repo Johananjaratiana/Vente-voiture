@@ -20,6 +20,7 @@ public class V_stat_by_yearService {
     public Optional<V_stat_by_year> getV_stat_by_yearById(Long id) {
         return v_stat_by_yearRepository.findById(id);
     }
+
     // Add your service methods here
 
 }

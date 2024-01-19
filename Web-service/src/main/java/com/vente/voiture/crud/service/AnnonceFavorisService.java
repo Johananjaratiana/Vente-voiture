@@ -39,6 +39,15 @@ public class AnnonceFavorisService {
     public void deleteAnnonceFavoris(Long id) {
         annonce_favorisRepository.deleteById(id);
     }
+
+    public List<AnnonceFavoris> getAnnonceFavorisByIdAnnonce(Integer IdAnnonce) {
+        return annonce_favorisRepository.findByIdAnnonce(IdAnnonce);
+    }
+
+    public List<AnnonceFavoris> getAnnonceFavorisByIdUsers(Integer IdUsers) {
+        return annonce_favorisRepository.findByIdUsers(IdUsers);
+    }
+
     // Add your service methods here
 
 }

@@ -20,6 +20,47 @@ public class V_annonce_completService {
     public Optional<V_annonce_complet> getV_annonce_completById(Long id) {
         return v_annonce_completRepository.findById(id);
     }
+
+    public List<V_annonce_complet> getV_annonce_completByIdModele(Integer IdModele) {
+        return v_annonce_completRepository.findByIdModele(IdModele);
+    }
+
+    public List<V_annonce_complet> getV_annonce_completByIdMarque(Integer IdMarque) {
+        return v_annonce_completRepository.findByIdMarque(IdMarque);
+    }
+
+    public List<V_annonce_complet> getV_annonce_completByIdTypeMoteur(Integer IdTypeMoteur) {
+        return v_annonce_completRepository.findByIdTypeMoteur(IdTypeMoteur);
+    }
+
+    public List<V_annonce_complet> getV_annonce_completByIdTaille(Integer IdTaille) {
+        return v_annonce_completRepository.findByIdTaille(IdTaille);
+    }
+
+    public List<V_annonce_complet> getV_annonce_completByIdUsers(Integer IdUsers) {
+        return v_annonce_completRepository.findByIdUsers(IdUsers);
+    }
+
+    public List<V_annonce_complet> getV_annonce_completByIdEnergie(Integer IdEnergie) {
+        return v_annonce_completRepository.findByIdEnergie(IdEnergie);
+    }
+
+    public List<V_annonce_complet> getV_annonce_completByIdTransmission(Integer IdTransmission) {
+        return v_annonce_completRepository.findByIdTransmission(IdTransmission);
+    }
+
+    public List<V_annonce_complet> getV_annonce_completByIdUsage(Integer IdUsage) {
+        return v_annonce_completRepository.findByIdUsage(IdUsage);
+    }
+
+    public List<V_annonce_complet> getV_annonce_completByIdCouleur(Integer IdCouleur) {
+        return v_annonce_completRepository.findByIdCouleur(IdCouleur);
+    }
+
+    public List<V_annonce_complet> getV_annonce_completByIdTypeAnnonce(Integer IdTypeAnnonce) {
+        return v_annonce_completRepository.findByIdTypeAnnonce(IdTypeAnnonce);
+    }
+
     // Add your service methods here
 
 }

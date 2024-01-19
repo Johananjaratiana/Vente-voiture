@@ -39,6 +39,7 @@ public class ProfilUtilisateurService {
     public void deleteProfilUtilisateur(Long id) {
         profil_utilisateurRepository.deleteById(id);
     }
+
     // Add your service methods here
 
 }

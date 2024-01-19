@@ -4,6 +4,7 @@ import com.vente.voiture.crud.model.V_annonce_en_attente_validation;
 import java.util.*;
 import com.vente.voiture.crud.service.V_annonce_en_attente_validationService;
 import org.springframework.beans.factory.annotation.Autowired;
+import com.vente.voiture.ws.structure.Response;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -22,4 +23,6 @@ public class V_annonce_en_attente_validationController {
     public Optional<V_annonce_en_attente_validation> getV_annonce_en_attente_validationById(@PathVariable Long id) {
         return v_annonce_en_attente_validationService.getV_annonce_en_attente_validationById(id);
     }
+
+
 }

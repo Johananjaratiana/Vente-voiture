@@ -76,4 +76,17 @@ public class EtatAnnonceController {
         }
         return response;
     }
+
+
+    @GetMapping("annonce/{id_annonce}")
+    public Response getEtatAnnonceByIdAnnonce(@PathVariable Integer id_annonce) {
+        Response response = new Response();
+        try{
+            response.setDataOnSuccess(etat_annonceService.getEtatAnnonceByIdAnnonce(id_annonce));
+        }catch(Exception ex){
+            response.setError(ex.getMessage());
+        }
+        return response;
+    }
+
 }

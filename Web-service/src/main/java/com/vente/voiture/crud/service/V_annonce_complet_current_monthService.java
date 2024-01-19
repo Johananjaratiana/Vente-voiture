@@ -20,6 +20,47 @@ public class V_annonce_complet_current_monthService {
     public Optional<V_annonce_complet_current_month> getV_annonce_complet_current_monthById(Long id) {
         return v_annonce_complet_current_monthRepository.findById(id);
     }
+
+    public List<V_annonce_complet_current_month> getV_annonce_complet_current_monthByIdModele(Integer IdModele) {
+        return v_annonce_complet_current_monthRepository.findByIdModele(IdModele);
+    }
+
+    public List<V_annonce_complet_current_month> getV_annonce_complet_current_monthByIdMarque(Integer IdMarque) {
+        return v_annonce_complet_current_monthRepository.findByIdMarque(IdMarque);
+    }
+
+    public List<V_annonce_complet_current_month> getV_annonce_complet_current_monthByIdTypeMoteur(Integer IdTypeMoteur) {
+        return v_annonce_complet_current_monthRepository.findByIdTypeMoteur(IdTypeMoteur);
+    }
+
+    public List<V_annonce_complet_current_month> getV_annonce_complet_current_monthByIdTaille(Integer IdTaille) {
+        return v_annonce_complet_current_monthRepository.findByIdTaille(IdTaille);
+    }
+
+    public List<V_annonce_complet_current_month> getV_annonce_complet_current_monthByIdUsers(Integer IdUsers) {
+        return v_annonce_complet_current_monthRepository.findByIdUsers(IdUsers);
+    }
+
+    public List<V_annonce_complet_current_month> getV_annonce_complet_current_monthByIdEnergie(Integer IdEnergie) {
+        return v_annonce_complet_current_monthRepository.findByIdEnergie(IdEnergie);
+    }
+
+    public List<V_annonce_complet_current_month> getV_annonce_complet_current_monthByIdTransmission(Integer IdTransmission) {
+        return v_annonce_complet_current_monthRepository.findByIdTransmission(IdTransmission);
+    }
+
+    public List<V_annonce_complet_current_month> getV_annonce_complet_current_monthByIdUsage(Integer IdUsage) {
+        return v_annonce_complet_current_monthRepository.findByIdUsage(IdUsage);
+    }
+
+    public List<V_annonce_complet_current_month> getV_annonce_complet_current_monthByIdCouleur(Integer IdCouleur) {
+        return v_annonce_complet_current_monthRepository.findByIdCouleur(IdCouleur);
+    }
+
+    public List<V_annonce_complet_current_month> getV_annonce_complet_current_monthByIdTypeAnnonce(Integer IdTypeAnnonce) {
+        return v_annonce_complet_current_monthRepository.findByIdTypeAnnonce(IdTypeAnnonce);
+    }
+
     // Add your service methods here
 
 }

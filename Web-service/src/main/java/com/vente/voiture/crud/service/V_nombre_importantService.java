@@ -20,6 +20,11 @@ public class V_nombre_importantService {
     public Optional<V_nombre_important> getV_nombre_importantById(Long id) {
         return v_nombre_importantRepository.findById(id);
     }
+
+    public List<V_nombre_important> getV_nombre_importantByNbAnnonceValide(Integer NbAnnonceValide) {
+        return v_nombre_importantRepository.findByNbAnnonceValide(NbAnnonceValide);
+    }
+
     // Add your service methods here
 
 }

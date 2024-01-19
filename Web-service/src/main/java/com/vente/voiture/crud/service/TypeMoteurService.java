@@ -39,6 +39,7 @@ public class TypeMoteurService {
     public void deleteTypeMoteur(Long id) {
         type_moteurRepository.deleteById(id);
     }
+
     // Add your service methods here
 
 }

@@ -39,6 +39,11 @@ public class PhotoAnnonceService {
     public void deletePhotoAnnonce(Long id) {
         photo_annonceRepository.deleteById(id);
     }
+
+    public List<PhotoAnnonce> getPhotoAnnonceByIdAnnonce(Integer IdAnnonce) {
+        return photo_annonceRepository.findByIdAnnonce(IdAnnonce);
+    }
+
     // Add your service methods here
 
 }

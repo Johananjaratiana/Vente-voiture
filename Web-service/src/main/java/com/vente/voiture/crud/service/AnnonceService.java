@@ -39,6 +39,47 @@ public class AnnonceService {
     public void deleteAnnonce(Long id) {
         annonceRepository.deleteById(id);
     }
+
+    public List<Annonce> getAnnonceByIdModele(Integer IdModele) {
+        return annonceRepository.findByIdModele(IdModele);
+    }
+
+    public List<Annonce> getAnnonceByIdMarque(Integer IdMarque) {
+        return annonceRepository.findByIdMarque(IdMarque);
+    }
+
+    public List<Annonce> getAnnonceByIdTypeMoteur(Integer IdTypeMoteur) {
+        return annonceRepository.findByIdTypeMoteur(IdTypeMoteur);
+    }
+
+    public List<Annonce> getAnnonceByIdUsers(Integer IdUsers) {
+        return annonceRepository.findByIdUsers(IdUsers);
+    }
+
+    public List<Annonce> getAnnonceByIdEnergie(Integer IdEnergie) {
+        return annonceRepository.findByIdEnergie(IdEnergie);
+    }
+
+    public List<Annonce> getAnnonceByIdTransmission(Integer IdTransmission) {
+        return annonceRepository.findByIdTransmission(IdTransmission);
+    }
+
+    public List<Annonce> getAnnonceByIdUsage(Integer IdUsage) {
+        return annonceRepository.findByIdUsage(IdUsage);
+    }
+
+    public List<Annonce> getAnnonceByIdCouleur(Integer IdCouleur) {
+        return annonceRepository.findByIdCouleur(IdCouleur);
+    }
+
+    public List<Annonce> getAnnonceByIdTaille(Integer IdTaille) {
+        return annonceRepository.findByIdTaille(IdTaille);
+    }
+
+    public List<Annonce> getAnnonceByIdTypeAnnonce(Integer IdTypeAnnonce) {
+        return annonceRepository.findByIdTypeAnnonce(IdTypeAnnonce);
+    }
+
     // Add your service methods here
 
 }

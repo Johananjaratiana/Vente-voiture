@@ -20,6 +20,11 @@ public class V_user_completService {
     public Optional<V_user_complet> getV_user_completById(Long id) {
         return v_user_completRepository.findById(id);
     }
+
+    public List<V_user_complet> getV_user_completByIdprofile(Integer Idprofile) {
+        return v_user_completRepository.findByIdprofile(Idprofile);
+    }
+
     // Add your service methods here
 
 }

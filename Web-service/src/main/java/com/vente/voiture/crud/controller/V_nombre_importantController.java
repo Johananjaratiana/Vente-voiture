@@ -4,6 +4,7 @@ import com.vente.voiture.crud.model.V_nombre_important;
 import java.util.*;
 import com.vente.voiture.crud.service.V_nombre_importantService;
 import org.springframework.beans.factory.annotation.Autowired;
+import com.vente.voiture.ws.structure.Response;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -22,4 +23,17 @@ public class V_nombre_importantController {
     public Optional<V_nombre_important> getV_nombre_importantById(@PathVariable Long id) {
         return v_nombre_importantService.getV_nombre_importantById(id);
     }
+
+
+    @GetMapping("nb_annonce_valide/{nb_annonce_valide}")
+    public Response getV_nombre_importantByNbAnnonceValide(@PathVariable Integer nb_annonce_valide) {
+        Response response = new Response();
+        try{
+            response.setDataOnSuccess(v_nombre_importantService.getV_nombre_importantByNbAnnonceValide(nb_annonce_valide));
+        }catch(Exception ex){
+            response.setError(ex.getMessage());
+        }
+        return response;
+    }
+
 }

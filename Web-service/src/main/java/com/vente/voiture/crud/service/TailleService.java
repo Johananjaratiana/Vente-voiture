@@ -39,6 +39,7 @@ public class TailleService {
     public void deleteTaille(Long id) {
         tailleRepository.deleteById(id);
     }
+
     // Add your service methods here
 
 }

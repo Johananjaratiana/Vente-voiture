@@ -20,6 +20,7 @@ public class V_annonce_en_attente_validationService {
     public Optional<V_annonce_en_attente_validation> getV_annonce_en_attente_validationById(Long id) {
         return v_annonce_en_attente_validationRepository.findById(id);
     }
+
     // Add your service methods here
 
 }

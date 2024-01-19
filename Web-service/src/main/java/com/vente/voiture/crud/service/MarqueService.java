@@ -39,6 +39,7 @@ public class MarqueService {
     public void deleteMarque(Long id) {
         marqueRepository.deleteById(id);
     }
+
     // Add your service methods here
 
 }

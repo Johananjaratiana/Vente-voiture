@@ -30,7 +30,6 @@
 /home/johan/Documents/Rojo/Vente-vehicules/Vente-voiture/Web-service/src/main/java/com/vente/voiture/crud/model/V_count_annonce_valide_current_month.java
 /home/johan/Documents/Rojo/Vente-vehicules/Vente-voiture/Web-service/src/main/java/com/vente/voiture/crud/model/V_annonce_en_attente_validation.java
 /home/johan/Documents/Rojo/Vente-vehicules/Vente-voiture/Web-service/src/main/java/com/vente/voiture/crud/controller/ProfilUtilisateurController.java
-/home/johan/Documents/Rojo/Vente-vehicules/Vente-voiture/Web-service/src/main/java/com/vente/voiture/crud/repository/V_user_annonceRepository.java
 /home/johan/Documents/Rojo/Vente-vehicules/Vente-voiture/Web-service/src/main/java/com/vente/voiture/ws/security/user/UsersRepository.java
 /home/johan/Documents/Rojo/Vente-vehicules/Vente-voiture/Web-service/src/main/java/com/vente/voiture/crud/controller/CouleurController.java
 /home/johan/Documents/Rojo/Vente-vehicules/Vente-voiture/Web-service/src/main/java/com/vente/voiture/crud/model/V_latest_annonce_vendu.java
@@ -51,7 +50,6 @@
 /home/johan/Documents/Rojo/Vente-vehicules/Vente-voiture/Web-service/src/main/java/com/vente/voiture/crud/model/V_stat_annonce_vendu_par_marque.java
 /home/johan/Documents/Rojo/Vente-vehicules/Vente-voiture/Web-service/src/main/java/com/vente/voiture/crud/controller/V_stat_by_monthController.java
 /home/johan/Documents/Rojo/Vente-vehicules/Vente-voiture/Web-service/src/main/java/com/vente/voiture/crud/controller/V_annonce_complet_ordered_by_type_annonceController.java
-/home/johan/Documents/Rojo/Vente-vehicules/Vente-voiture/Web-service/src/main/java/com/vente/voiture/crud/service/V_user_annonceService.java
 /home/johan/Documents/Rojo/Vente-vehicules/Vente-voiture/Web-service/src/main/java/com/vente/voiture/crud/service/ProfilUtilisateurService.java
 /home/johan/Documents/Rojo/Vente-vehicules/Vente-voiture/Web-service/src/main/java/com/vente/voiture/crud/repository/EtatAnnonceRepository.java
 /home/johan/Documents/Rojo/Vente-vehicules/Vente-voiture/Web-service/src/main/java/com/vente/voiture/crud/model/ProfilUtilisateur.java
@@ -91,7 +89,6 @@
 /home/johan/Documents/Rojo/Vente-vehicules/Vente-voiture/Web-service/src/main/java/com/vente/voiture/ws/structure/Response.java
 /home/johan/Documents/Rojo/Vente-vehicules/Vente-voiture/Web-service/src/main/java/com/vente/voiture/crud/model/TypeMoteur.java
 /home/johan/Documents/Rojo/Vente-vehicules/Vente-voiture/Web-service/src/main/java/com/vente/voiture/crud/controller/V_user_ordered_by_commissionController.java
-/home/johan/Documents/Rojo/Vente-vehicules/Vente-voiture/Web-service/src/main/java/com/vente/voiture/crud/controller/V_user_annonceController.java
 /home/johan/Documents/Rojo/Vente-vehicules/Vente-voiture/Web-service/src/main/java/com/vente/voiture/crud/controller/V_count_annonce_vendu_current_yearController.java
 /home/johan/Documents/Rojo/Vente-vehicules/Vente-voiture/Web-service/src/main/java/com/vente/voiture/crud/model/AnnonceFavoris.java
 /home/johan/Documents/Rojo/Vente-vehicules/Vente-voiture/Web-service/src/main/java/com/vente/voiture/crud/controller/V_best_userController.java
@@ -113,7 +110,6 @@
 /home/johan/Documents/Rojo/Vente-vehicules/Vente-voiture/Web-service/src/main/java/com/vente/voiture/crud/service/TransmissionService.java
 /home/johan/Documents/Rojo/Vente-vehicules/Vente-voiture/Web-service/src/main/java/com/vente/voiture/crud/controller/V_stat_current_monthController.java
 /home/johan/Documents/Rojo/Vente-vehicules/Vente-voiture/Web-service/src/main/java/com/vente/voiture/crud/repository/UsageRepository.java
-/home/johan/Documents/Rojo/Vente-vehicules/Vente-voiture/Web-service/src/main/java/com/vente/voiture/crud/model/V_user_annonce.java
 /home/johan/Documents/Rojo/Vente-vehicules/Vente-voiture/Web-service/src/main/java/com/vente/voiture/crud/model/Modele.java
 /home/johan/Documents/Rojo/Vente-vehicules/Vente-voiture/Web-service/src/main/java/com/vente/voiture/crud/repository/V_annonce_en_attente_validationRepository.java
 /home/johan/Documents/Rojo/Vente-vehicules/Vente-voiture/Web-service/src/main/java/com/vente/voiture/crud/service/EnergieService.java

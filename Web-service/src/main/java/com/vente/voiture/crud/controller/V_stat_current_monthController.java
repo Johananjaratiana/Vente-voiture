@@ -4,6 +4,7 @@ import com.vente.voiture.crud.model.V_stat_current_month;
 import java.util.*;
 import com.vente.voiture.crud.service.V_stat_current_monthService;
 import org.springframework.beans.factory.annotation.Autowired;
+import com.vente.voiture.ws.structure.Response;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -22,4 +23,6 @@ public class V_stat_current_monthController {
     public Optional<V_stat_current_month> getV_stat_current_monthById(@PathVariable Long id) {
         return v_stat_current_monthService.getV_stat_current_monthById(id);
     }
+
+
 }

@@ -39,6 +39,7 @@ public class EnergieService {
     public void deleteEnergie(Long id) {
         energieRepository.deleteById(id);
     }
+
     // Add your service methods here
 
 }

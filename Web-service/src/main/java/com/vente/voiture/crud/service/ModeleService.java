@@ -39,6 +39,7 @@ public class ModeleService {
     public void deleteModele(Long id) {
         modeleRepository.deleteById(id);
     }
+
     // Add your service methods here
 
 }

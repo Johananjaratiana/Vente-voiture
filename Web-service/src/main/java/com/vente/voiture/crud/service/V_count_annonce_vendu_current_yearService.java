@@ -20,6 +20,7 @@ public class V_count_annonce_vendu_current_yearService {
     public Optional<V_count_annonce_vendu_current_year> getV_count_annonce_vendu_current_yearById(Long id) {
         return v_count_annonce_vendu_current_yearRepository.findById(id);
     }
+
     // Add your service methods here
 
 }

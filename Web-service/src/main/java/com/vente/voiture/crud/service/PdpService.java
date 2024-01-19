@@ -39,6 +39,11 @@ public class PdpService {
     public void deletePdp(Long id) {
         pdpRepository.deleteById(id);
     }
+
+    public List<Pdp> getPdpByIdUsers(Integer IdUsers) {
+        return pdpRepository.findByIdUsers(IdUsers);
+    }
+
     // Add your service methods here
 
 }

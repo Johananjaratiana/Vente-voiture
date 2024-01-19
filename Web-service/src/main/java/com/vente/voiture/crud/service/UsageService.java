@@ -39,6 +39,7 @@ public class UsageService {
     public void deleteUsage(Long id) {
         usageRepository.deleteById(id);
     }
+
     // Add your service methods here
 
 }

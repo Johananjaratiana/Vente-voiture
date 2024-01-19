@@ -76,4 +76,17 @@ public class PdpController {
         }
         return response;
     }
+
+
+    @GetMapping("users/{id_users}")
+    public Response getPdpByIdUsers(@PathVariable Integer id_users) {
+        Response response = new Response();
+        try{
+            response.setDataOnSuccess(pdpService.getPdpByIdUsers(id_users));
+        }catch(Exception ex){
+            response.setError(ex.getMessage());
+        }
+        return response;
+    }
+
 }

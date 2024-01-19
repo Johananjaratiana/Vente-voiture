@@ -20,6 +20,11 @@ public class V_best_userService {
     public Optional<V_best_user> getV_best_userById(Long id) {
         return v_best_userRepository.findById(id);
     }
+
+    public List<V_best_user> getV_best_userByIdprofile(Integer Idprofile) {
+        return v_best_userRepository.findByIdprofile(Idprofile);
+    }
+
     // Add your service methods here
 
 }

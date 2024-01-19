@@ -39,6 +39,7 @@ public class CouleurService {
     public void deleteCouleur(Long id) {
         couleurRepository.deleteById(id);
     }
+
     // Add your service methods here
 
 }

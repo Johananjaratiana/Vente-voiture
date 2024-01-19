@@ -142,6 +142,7 @@ CREATE  TABLE "public".annonce (
 	id_taille            integer  NOT NULL  ,
 	km_effectue          double precision  NOT NULL  ,
 	id_couleur           integer  NOT NULL  ,
+	numero               varchar  NOT NULL  ,
 	CONSTRAINT pk_annonce PRIMARY KEY ( id ),
 	CONSTRAINT fk_annonce_couleur FOREIGN KEY ( id_couleur ) REFERENCES "public".couleur( id ) ON DELETE CASCADE ON UPDATE CASCADE ,
 	CONSTRAINT fk_annonce_energie FOREIGN KEY ( id_energie ) REFERENCES "public".energie( id ) ON DELETE CASCADE ON UPDATE CASCADE ,
@@ -187,6 +188,7 @@ CREATE  TABLE "public".pdp (
 	id_users             integer  NOT NULL  ,
 	image                varchar  NOT NULL  ,
 	CONSTRAINT pk_pdp PRIMARY KEY ( id ),
+	CONSTRAINT unq_pdp UNIQUE ( id_users ) ,
 	CONSTRAINT fk_pdp_users FOREIGN KEY ( id_users ) REFERENCES "public".users( id ) ON DELETE CASCADE ON UPDATE CASCADE 
  );
 
@@ -229,6 +231,7 @@ CREATE VIEW "public".v_annonce_complet AS  SELECT a.id,
     a.id_taille,
     a.km_effectue,
     a.id_couleur,
+    a.numero,
     ma.nom AS nom_marque,
     mo.nom AS nom_modele,
     tm.nom AS nom_type_moteur,
@@ -267,6 +270,56 @@ CREATE VIEW "public".v_annonce_complet AS  SELECT a.id,
      LEFT JOIN etat_annonce ea ON ((a.id = ea.id_annonce)))
      JOIN couleur c ON ((c.id = a.id_couleur)));
 
+CREATE VIEW "public".v_annonce_complet_current_month AS  SELECT vac.id,
+    vac.id_marque,
+    vac.id_modele,
+    vac.version,
+    vac.nb_place,
+    vac.description,
+    vac.prix_vente,
+    vac.consommation,
+    vac.nb_vitesse,
+    vac.id_type_moteur,
+    vac.puissance,
+    vac.id_type_annonce,
+    vac.date_annonce,
+    vac.status,
+    vac.id_users,
+    vac.id_energie,
+    vac.id_transmission,
+    vac.id_usage,
+    vac.id_taille,
+    vac.km_effectue,
+    vac.id_couleur,
+    vac.numero,
+    vac.nom_marque,
+    vac.nom_modele,
+    vac.nom_type_moteur,
+    vac.nom_type_annonce,
+    vac.commission_type_annonce,
+    vac.niveau_type_annonce,
+    vac.nom_users,
+    vac.prenom_users,
+    vac.email_users,
+    vac.telephone_users,
+    vac.nom_energie,
+    vac.nom_transmission,
+    vac.nom_usage,
+    vac.nom_taille,
+    vac.etat_carrosserie,
+    vac.etat_siege,
+    vac.etat_tableau_bord,
+    vac.etat_moteur,
+    vac.etat_freinage,
+    vac.etat_transmission,
+    vac.etat_pneu,
+    vac.etat_electronique,
+    vac.etat_suspension,
+    vac.nom_couleur,
+    vac.rgb_couleur
+   FROM v_annonce_complet vac
+  WHERE ((vac.status = 20) AND (EXTRACT(month FROM vac.date_annonce) = EXTRACT(month FROM CURRENT_DATE)));
+
 CREATE VIEW "public".v_annonce_complet_ordered_by_type_annonce AS  SELECT v_annonce_complet.id,
     v_annonce_complet.id_marque,
     v_annonce_complet.id_modele,
@@ -288,6 +341,7 @@ CREATE VIEW "public".v_annonce_complet_ordered_by_type_annonce AS  SELECT v_anno
     v_annonce_complet.id_taille,
     v_annonce_complet.km_effectue,
     v_annonce_complet.id_couleur,
+    v_annonce_complet.numero,
     v_annonce_complet.nom_marque,
     v_annonce_complet.nom_modele,
     v_annonce_complet.nom_type_moteur,
@@ -386,6 +440,7 @@ CREATE VIEW "public".v_latest_annonce_vendu AS  SELECT v_annonce_complet.id,
     v_annonce_complet.id_taille,
     v_annonce_complet.km_effectue,
     v_annonce_complet.id_couleur,
+    v_annonce_complet.numero,
     v_annonce_complet.nom_marque,
     v_annonce_complet.nom_modele,
     v_annonce_complet.nom_type_moteur,
@@ -416,7 +471,30 @@ CREATE VIEW "public".v_latest_annonce_vendu AS  SELECT v_annonce_complet.id,
   WHERE (v_annonce_complet.status = 20)
   ORDER BY v_annonce_complet.date_annonce DESC;
 
-CREATE VIEW "public".v_stat_annonce_vendu_par_marque AS  SELECT a.id_marque,
+CREATE VIEW "public".v_nombre_important AS  SELECT '-1'::integer AS id,
+    ( SELECT count(*) AS count
+           FROM users) AS nb_users,
+    ( SELECT count(*) AS count
+           FROM annonce) AS nb_annonces,
+    ( SELECT count(*) AS count
+           FROM annonce
+          WHERE (annonce.status = 0)) AS nb_annonce_en_attente,
+    ( SELECT count(*) AS count
+           FROM annonce
+          WHERE (annonce.status = '-10'::integer)) AS nb_annonce_rejete,
+    ( SELECT count(*) AS count
+           FROM annonce
+          WHERE (annonce.status = 10)) AS nb_annonce_valide,
+    ( SELECT count(*) AS count
+           FROM annonce
+          WHERE (annonce.status = 20)) AS nb_annonce_vendu,
+    ( SELECT sum((annonce.prix_vente * ta.commission)) AS sum
+           FROM (annonce
+             JOIN type_annonce ta ON ((ta.id = annonce.id_type_annonce)))
+          WHERE (annonce.status = 20)) AS total_commission;
+
+CREATE VIEW "public".v_stat_annonce_vendu_par_marque AS  SELECT a.id_marque AS id,
+    a.id_marque,
     m.nom AS nom_marque,
     count(a.id) AS nb_annonce_vendu
    FROM (annonce a
@@ -475,41 +553,6 @@ CREATE VIEW "public".v_stat_current_year AS  SELECT '-1'::integer AS id,
      JOIN type_annonce ta ON ((ta.id = a.id_type_annonce)))
   WHERE ((a.status = 20) AND (EXTRACT(year FROM a.date_annonce) = EXTRACT(year FROM CURRENT_DATE)));
 
-CREATE VIEW "public".v_user_annonce AS  SELECT a.id_users AS id,
-    ma.nom AS nom_marque,
-    mo.nom AS nom_modele,
-    tm.nom AS nom_type_moteur,
-    ta.nom AS nom_type_annonce,
-    ta.commission AS commission_type_annonce,
-    u.nom AS nom_users,
-    u.prenom AS prenom_users,
-    u.email AS email_users,
-    u.telephone AS telephone_users,
-    e.nom AS nom_energie,
-    t.nom AS nom_transmission
-   FROM (((((((annonce a
-     JOIN marque ma ON ((ma.id = a.id_marque)))
-     JOIN modele mo ON ((mo.id = a.id_modele)))
-     JOIN type_moteur tm ON ((tm.id = a.id_type_moteur)))
-     JOIN type_annonce ta ON ((ta.id = a.id_type_annonce)))
-     JOIN users u ON ((u.id = a.id_users)))
-     JOIN energie e ON ((e.id = a.id_energie)))
-     JOIN transmission t ON ((t.id = a.id_transmission)));
-
-CREATE VIEW "public".v_user_ordered_by_commission AS  SELECT u.id,
-    u.idprofile,
-    u.nom,
-    u.mdp,
-    u.prenom,
-    u.dtn,
-    u.addresse,
-    u.email,
-    u.telephone,
-    uc.commission
-   FROM (users u
-     LEFT JOIN v_users_commission uc ON ((uc.id_users = u.id)))
-  ORDER BY uc.commission DESC;
-
 CREATE VIEW "public".v_user_complet AS  SELECT u.id,
     u.idprofile,
     u.nom,
@@ -525,6 +568,19 @@ CREATE VIEW "public".v_user_complet AS  SELECT u.id,
      LEFT JOIN pdp ON ((pdp.id_users = u.id)))
      JOIN profil_utilisateur pu ON ((pu.id = u.idprofile)));
 
+CREATE VIEW "public".v_user_ordered_by_commission AS  SELECT u.id,
+    u.idprofile,
+    u.nom,
+    u.mdp,
+    u.prenom,
+    u.dtn,
+    u.addresse,
+    u.email,
+    u.telephone,
+    uc.commission
+   FROM (users u
+     LEFT JOIN v_users_commission uc ON ((uc.id_users = u.id)))
+  ORDER BY uc.commission DESC;
 
 CREATE VIEW "public".v_users_commission AS  SELECT a.id_users,
     sum((a.prix_vente * ta.commission)) AS commission
@@ -599,9 +655,9 @@ INSERT INTO "public"."usage"( id, nom, status ) VALUES ( 2, 'Transport de marcha
 INSERT INTO "public"."usage"( id, nom, status ) VALUES ( 3, 'Loisir et tourisme', 0);
 INSERT INTO "public".users( id, idprofile, nom, mdp, prenom, dtn, addresse, email, telephone ) VALUES ( 9, 3, 'ANDRIANAIVOSOA', 'johan', 'Johan Anjaratiana', '2003-08-26', 'III AB 50 Andrononobe', 'johan@gmail.com', '+261 89 692 62');
 INSERT INTO "public".users( id, idprofile, nom, mdp, prenom, dtn, addresse, email, telephone ) VALUES ( 13, 4, 'MAMIARILAZA', 'to', 'To', '2007-01-12', 'TD 001 Tsididy', 'to@gmail.com', '+261 34 14 517 43');
-INSERT INTO "public".annonce( id, id_marque, id_modele, "version", nb_place, description, prix_vente, consommation, nb_vitesse, id_type_moteur, puissance, id_type_annonce, date_annonce, status, id_users, id_energie, id_transmission, id_usage, id_taille, km_effectue, id_couleur ) VALUES ( 5, 1, 2, '1.0', 18, 'No desc', 200000.0, 8.0, 5, 2, 1500, 1, '2024-01-14', 20, 9, 2, 2, 1, 3, 100.0, 3);
-INSERT INTO "public".annonce( id, id_marque, id_modele, "version", nb_place, description, prix_vente, consommation, nb_vitesse, id_type_moteur, puissance, id_type_annonce, date_annonce, status, id_users, id_energie, id_transmission, id_usage, id_taille, km_effectue, id_couleur ) VALUES ( 6, 2, 3, '1.0', 18, 'No desc', 250000.0, 5.0, 4, 2, 1500, 3, '2024-10-04', 20, 13, 2, 2, 1, 3, 100.0, 1);
-INSERT INTO "public".annonce( id, id_marque, id_modele, "version", nb_place, description, prix_vente, consommation, nb_vitesse, id_type_moteur, puissance, id_type_annonce, date_annonce, status, id_users, id_energie, id_transmission, id_usage, id_taille, km_effectue, id_couleur ) VALUES ( 4, 1, 1, '1.0', 18, 'No desc', 150000.0, 10.0, 5, 2, 1500, 2, '2024-01-12', 20, 9, 2, 2, 1, 3, 100.0, 2);
+INSERT INTO "public".annonce( id, id_marque, id_modele, "version", nb_place, description, prix_vente, consommation, nb_vitesse, id_type_moteur, puissance, id_type_annonce, date_annonce, status, id_users, id_energie, id_transmission, id_usage, id_taille, km_effectue, id_couleur, numero ) VALUES ( 5, 1, 2, '1.0', 18, 'No desc', 200000.0, 8.0, 5, 2, 1500, 1, '2024-01-14', 20, 9, 2, 2, 1, 3, 100.0, 3, '1234 TAB');
+INSERT INTO "public".annonce( id, id_marque, id_modele, "version", nb_place, description, prix_vente, consommation, nb_vitesse, id_type_moteur, puissance, id_type_annonce, date_annonce, status, id_users, id_energie, id_transmission, id_usage, id_taille, km_effectue, id_couleur, numero ) VALUES ( 6, 2, 3, '1.0', 18, 'No desc', 250000.0, 5.0, 4, 2, 1500, 3, '2024-10-04', 20, 13, 2, 2, 1, 3, 100.0, 1, '1234 TAB');
+INSERT INTO "public".annonce( id, id_marque, id_modele, "version", nb_place, description, prix_vente, consommation, nb_vitesse, id_type_moteur, puissance, id_type_annonce, date_annonce, status, id_users, id_energie, id_transmission, id_usage, id_taille, km_effectue, id_couleur, numero ) VALUES ( 4, 1, 1, '1.0', 18, 'No desc', 150000.0, 10.0, 5, 2, 1500, 2, '2024-01-12', 20, 9, 2, 2, 1, 3, 100.0, 2, '1234 TAB');
 INSERT INTO "public".token( id, idusers, token, dtexp, isvalidate ) VALUES ( 4, 9, 'eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI5IiwiaWF0IjoxNzA1MDU1OTk5LCJleHAiOjE3MDUwNTk1OTl9.Qy389nxZ_Ur9x2J83m8G-5fZh6pTeCFgham5XQbvQHw7_-FCuBlrAD54kTZayAZwQdqWyXzXMnVABtKtMzKjTg', '2024-01-12', true);
 INSERT INTO "public".token( id, idusers, token, dtexp, isvalidate ) VALUES ( 5, 9, 'eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI5IiwiaWF0IjoxNzA1MDU2MTc4LCJleHAiOjE3MDUwNTk3Nzh9.Q-srh8WjdA9_kYae54lVm0gfbeh2bRtg-TUFgJQZlapQ9fVGAIvEE8eY8JzwyBoFMXVesDZPHvSIQLXMdxKmGA', '2024-01-12', true);
 INSERT INTO "public".token( id, idusers, token, dtexp, isvalidate ) VALUES ( 6, 9, 'eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI5IiwiaWF0IjoxNzA1MjI2NjQ5LCJleHAiOjE3MDUyMzAyNDl9.cWXATlKTE6Ay0lCpu5ZEXQu2YX--aGGqDML_R89iexv26_9S2UH-xKE3qe4_OAdLerUD7KnRQkboZpXZ9M0CXQ', '2024-01-14', true);

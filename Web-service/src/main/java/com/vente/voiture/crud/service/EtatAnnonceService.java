@@ -39,6 +39,11 @@ public class EtatAnnonceService {
     public void deleteEtatAnnonce(Long id) {
         etat_annonceRepository.deleteById(id);
     }
+
+    public List<EtatAnnonce> getEtatAnnonceByIdAnnonce(Integer IdAnnonce) {
+        return etat_annonceRepository.findByIdAnnonce(IdAnnonce);
+    }
+
     // Add your service methods here
 
 }

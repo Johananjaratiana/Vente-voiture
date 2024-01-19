@@ -20,6 +20,11 @@ public class V_user_ordered_by_commissionService {
     public Optional<V_user_ordered_by_commission> getV_user_ordered_by_commissionById(Long id) {
         return v_user_ordered_by_commissionRepository.findById(id);
     }
+
+    public List<V_user_ordered_by_commission> getV_user_ordered_by_commissionByIdprofile(Integer Idprofile) {
+        return v_user_ordered_by_commissionRepository.findByIdprofile(Idprofile);
+    }
+
     // Add your service methods here
 
 }

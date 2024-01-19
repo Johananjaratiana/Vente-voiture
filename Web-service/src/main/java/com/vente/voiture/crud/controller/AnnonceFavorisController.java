@@ -76,4 +76,28 @@ public class AnnonceFavorisController {
         }
         return response;
     }
+
+
+    @GetMapping("annonce/{id_annonce}")
+    public Response getAnnonceFavorisByIdAnnonce(@PathVariable Integer id_annonce) {
+        Response response = new Response();
+        try{
+            response.setDataOnSuccess(annonce_favorisService.getAnnonceFavorisByIdAnnonce(id_annonce));
+        }catch(Exception ex){
+            response.setError(ex.getMessage());
+        }
+        return response;
+    }
+
+    @GetMapping("users/{id_users}")
+    public Response getAnnonceFavorisByIdUsers(@PathVariable Integer id_users) {
+        Response response = new Response();
+        try{
+            response.setDataOnSuccess(annonce_favorisService.getAnnonceFavorisByIdUsers(id_users));
+        }catch(Exception ex){
+            response.setError(ex.getMessage());
+        }
+        return response;
+    }
+
 }

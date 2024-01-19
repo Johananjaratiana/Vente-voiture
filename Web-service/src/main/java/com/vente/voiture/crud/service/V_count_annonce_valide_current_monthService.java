@@ -20,6 +20,11 @@ public class V_count_annonce_valide_current_monthService {
     public Optional<V_count_annonce_valide_current_month> getV_count_annonce_valide_current_monthById(Long id) {
         return v_count_annonce_valide_current_monthRepository.findById(id);
     }
+
+    public List<V_count_annonce_valide_current_month> getV_count_annonce_valide_current_monthByNbAnnonceValide(Integer NbAnnonceValide) {
+        return v_count_annonce_valide_current_monthRepository.findByNbAnnonceValide(NbAnnonceValide);
+    }
+
     // Add your service methods here
 
 }

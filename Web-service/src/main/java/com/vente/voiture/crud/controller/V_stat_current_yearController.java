@@ -4,6 +4,7 @@ import com.vente.voiture.crud.model.V_stat_current_year;
 import java.util.*;
 import com.vente.voiture.crud.service.V_stat_current_yearService;
 import org.springframework.beans.factory.annotation.Autowired;
+import com.vente.voiture.ws.structure.Response;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -22,4 +23,6 @@ public class V_stat_current_yearController {
     public Optional<V_stat_current_year> getV_stat_current_yearById(@PathVariable Long id) {
         return v_stat_current_yearService.getV_stat_current_yearById(id);
     }
+
+
 }

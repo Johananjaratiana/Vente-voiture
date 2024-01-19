@@ -20,6 +20,7 @@ public class V_count_annonce_vendu_current_monthService {
     public Optional<V_count_annonce_vendu_current_month> getV_count_annonce_vendu_current_monthById(Long id) {
         return v_count_annonce_vendu_current_monthRepository.findById(id);
     }
+
     // Add your service methods here
 
 }

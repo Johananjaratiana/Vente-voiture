@@ -20,6 +20,11 @@ public class V_count_annonce_valide_current_yearService {
     public Optional<V_count_annonce_valide_current_year> getV_count_annonce_valide_current_yearById(Long id) {
         return v_count_annonce_valide_current_yearRepository.findById(id);
     }
+
+    public List<V_count_annonce_valide_current_year> getV_count_annonce_valide_current_yearByNbAnnonceValide(Integer NbAnnonceValide) {
+        return v_count_annonce_valide_current_yearRepository.findByNbAnnonceValide(NbAnnonceValide);
+    }
+
     // Add your service methods here
 
 }

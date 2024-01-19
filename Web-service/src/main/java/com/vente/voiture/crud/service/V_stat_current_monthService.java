@@ -20,6 +20,7 @@ public class V_stat_current_monthService {
     public Optional<V_stat_current_month> getV_stat_current_monthById(Long id) {
         return v_stat_current_monthRepository.findById(id);
     }
+
     // Add your service methods here
 
 }

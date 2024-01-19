@@ -39,6 +39,7 @@ public class TransmissionService {
     public void deleteTransmission(Long id) {
         transmissionRepository.deleteById(id);
     }
+
     // Add your service methods here
 
 }

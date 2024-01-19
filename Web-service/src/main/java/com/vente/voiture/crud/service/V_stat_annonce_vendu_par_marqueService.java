@@ -20,6 +20,11 @@ public class V_stat_annonce_vendu_par_marqueService {
     public Optional<V_stat_annonce_vendu_par_marque> getV_stat_annonce_vendu_par_marqueById(Long id) {
         return v_stat_annonce_vendu_par_marqueRepository.findById(id);
     }
+
+    public List<V_stat_annonce_vendu_par_marque> getV_stat_annonce_vendu_par_marqueByIdMarque(Integer IdMarque) {
+        return v_stat_annonce_vendu_par_marqueRepository.findByIdMarque(IdMarque);
+    }
+
     // Add your service methods here
 
 }

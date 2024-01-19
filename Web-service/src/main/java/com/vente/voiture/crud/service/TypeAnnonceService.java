@@ -39,6 +39,7 @@ public class TypeAnnonceService {
     public void deleteTypeAnnonce(Long id) {
         type_annonceRepository.deleteById(id);
     }
+
     // Add your service methods here
 
 }
