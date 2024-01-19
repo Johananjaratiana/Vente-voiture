@@ -83,10 +83,9 @@ public class UsersController {
     // }
 
     @PostMapping
-    public Response createUsers(@RequestBody Users Users, @RequestHeader(HttpHeaders.AUTHORIZATION) String authorizationHeader) {
+    public Response createUsers(@RequestBody Users Users) {
         Response response = new Response();
         try{
-            jwtTokenUtil.validateToken(authorizationHeader);
             response.setDataOnSuccess(usersService.save(Users));
         }catch(Exception ex){
             response.setError(ex.getMessage());
