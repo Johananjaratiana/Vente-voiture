@@ -19,38 +19,24 @@ import org.bson.types.ObjectId;
 
 public class Message {
 
-    public static List<Document> GetMessageByTokenAndUser(Users users, Integer id_other_user)
+    public static Document GetMessageByTokenAndUser(Users users, Integer id_other_user)throws Exception
     {
-        List<Document> result = new ArrayList<Document>();
-
+        if(users.getId().intValue() == id_other_user.intValue())return null;
         try (MongoClient client = ClientConnection.GetMongoClient()) {
                 MongoDatabase database = client.getDatabase("message_vente");
                 MongoCollection<Document> collection = database.getCollection("messages");
-                Document query = new Document();
-                query.append("identifiant", new Document()
-                        .append("$all", Arrays.asList(
-                                users.getId(),
-                                id_other_user
-                            )
-                        )
-                );
-                Consumer<Document> processBlock = new Consumer<Document>() {
-                    @Override
-                    public void accept(Document document) {
-                        result.add(document);
-                        System.out.println(document);
-                    }
-                };
-                collection.find(query).forEach(processBlock);
+                Document result = GetOrCreateDocumentByTokenAndUser(collection, users.getId().intValue(), id_other_user, false);
+                return result;
         } catch (MongoException e) {
             e.printStackTrace();
+            throw new Exception(e.getMessage());
         }
-        return result;
     }
 
-    public static List<Document> GetNotSeenMessage(Users users)
+    public static Document GetNotSeenMessage(Users users)
     {
-        List<Document> result = new ArrayList<Document>();
+        Document result = new Document();
+        List<Object> not_seen_message = new ArrayList<>();
 
         try (MongoClient client = ClientConnection.GetMongoClient()) {
             MongoDatabase database = client.getDatabase("message_vente");
@@ -58,7 +44,7 @@ public class Message {
             Consumer<Document> processBlock = new Consumer<Document>() {
                 @Override
                 public void accept(Document document) {
-                        result.add(document);
+                    not_seen_message.add(document.get("sms"));
                     System.out.println(document);
                 }
             };
@@ -79,6 +65,8 @@ public class Message {
                             )
             );
             collection.aggregate(pipeline).forEach(processBlock);
+
+            result.append("not-seen-message", not_seen_message);
         } catch (MongoException e) {
             e.printStackTrace();
         }
@@ -90,14 +78,14 @@ public class Message {
             MongoDatabase database = client.getDatabase("message_vente");
             MongoCollection<Document> collection = database.getCollection("messages");
 
-            Document messageDoc = receivedMessage.BuildDocument(users);
+            Document new_sms = receivedMessage.BuildDocument(users);
 
             // Assuming you have the _id of the document you want to update
-            ObjectId docId = GetOrCreateDocIdByTokenAndUser(collection, users.getId().intValue(), receivedMessage.getId_other_user()); 
+            Document document = GetOrCreateDocumentByTokenAndUser(collection, users.getId().intValue(), receivedMessage.getId_other_user(), true); 
 
             // Use $push to add the new message to the sms array
-            Bson filter = Filters.eq("_id", docId);
-            Bson update = Updates.push("sms", messageDoc);
+            Bson filter = Filters.eq("_id", document.getObjectId("_id"));
+            Bson update = Updates.push("sms", new_sms);
 
             UpdateResult result = collection.updateOne(filter, update);
 
@@ -112,20 +100,25 @@ public class Message {
         }
     } 
     
-    public static ObjectId GetOrCreateDocIdByTokenAndUser(MongoCollection<Document> collection, Integer users_id, Integer other_user_id) {
+    public static Document GetOrCreateDocumentByTokenAndUser(MongoCollection<Document> collection, Integer users_id, Integer other_user_id, Boolean canCreate) {
         List<Integer> identifiant = Arrays.asList(users_id, other_user_id);
         Bson filter = Filters.all("identifiant", identifiant);
         FindIterable<Document> documents = collection.find(filter);
 
         Document document;
+
         if (!documents.iterator().hasNext()) {
-            // Create a new document
-            document = new Document("identifiant", identifiant).append("sms", new ArrayList<>());
-            collection.insertOne(document);
+            if(canCreate == true){
+                document = new Document("identifiant", identifiant).append("sms", new ArrayList<>());
+                collection.insertOne(document);
+            }
+            else{
+                document = new Document();
+            }
         } else {
             document = documents.first();
         }
 
-        return document.getObjectId("_id");
+        return document;
     }
 }
