@@ -52,7 +52,7 @@ const AjoutAnnonce: React.FC = () => {
     const [description, setDescription] = useState('Lorem ipsum dolor, sit amet consectetur adipisicing elit. Deleniti ut quam, doloribus in nobis voluptates autem commodi ratione corrupti harum, non modi? Pariatur nobis similique, sint sapiente enim nemo minima.');
     const [prixVente, setPrixVente] = useState(50000000);
     const [consommation, setConsommation] = useState('4.8');
-    const [nombreVitesse, setNombreVitesse] = useState(5);  
+    const [nombreVitesse, setNombreVitesse] = useState(5);
     const [puissance, setPuissance] = useState(120);
     const [carosserie, setCarosserie] = useState(10);
     const [siege, setSiege] = useState(10);
@@ -222,7 +222,6 @@ const AjoutAnnonce: React.FC = () => {
             idTypeAnnonce: typeAnnonce,
             idTypeMoteur: typeMoteur,
         };
-        // console.log(formData);
         try {
             const token = await store.get('token');
             const response = await fetch('http://localhost:8080/api/annonces', {
@@ -234,14 +233,41 @@ const AjoutAnnonce: React.FC = () => {
                 body: JSON.stringify(formData),
             });
             const data = await response.json();
-            console.log(data);
-            // const message = data['message'];
-            // if (message == 'error') {
-            //     setShowAlert(true);
-            // }
-            // else {
-            //     history.push('/annonce/detail')
-            // }
+            const message = data['message'];
+            if (message == 'error') {
+                setShowAlert(true);
+            }
+            else {
+                const idAnnonce = data['data']['id'];
+                const formData2 = {
+                    transmission: etatTransmission,
+                    idAnnonce: idAnnonce,
+                    siege: siege,
+                    electronique: electronique,
+                    tableauBord: tableauBord,
+                    suspension: suspension,
+                    moteur: moteur,
+                    freinage: freinage,
+                    pneu: pneu,
+                    carrosserie: carosserie
+                };
+                const response2 = await fetch('http://localhost:8080/api/etat_annonces', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`
+                    },
+                    body: JSON.stringify(formData2),
+                });
+                const data2 = await response2.json();
+                const message2 = data2['message'];
+                if (message2 == 'error') {
+                    setShowAlert(true);
+                }
+                else {
+                    history.push('/annonce/detail?id='+idAnnonce);
+                }
+            }
         } catch (error) {
             console.error('Error:', error);
         }

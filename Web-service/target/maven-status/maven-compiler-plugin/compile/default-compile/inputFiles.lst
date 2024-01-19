@@ -16,6 +16,7 @@ D:\Projects\Visual Studio Code\Vente-voiture\Web-service\src\main\java\com\vente
 D:\Projects\Visual Studio Code\Vente-voiture\Web-service\src\main\java\com\vente\voiture\crud\model\V_stat_current_month.java
 D:\Projects\Visual Studio Code\Vente-voiture\Web-service\src\main\java\com\vente\voiture\VoitureApplication.java
 D:\Projects\Visual Studio Code\Vente-voiture\Web-service\src\main\java\com\vente\voiture\crud\model\V_count_annonce_valide_current_year.java
+D:\Projects\Visual Studio Code\Vente-voiture\Web-service\src\main\java\com\vente\voiture\mongo\JsonParser.java
 D:\Projects\Visual Studio Code\Vente-voiture\Web-service\src\main\java\com\vente\voiture\crud\model\Annonce.java
 D:\Projects\Visual Studio Code\Vente-voiture\Web-service\src\main\java\com\vente\voiture\crud\controller\TypeMoteurController.java
 D:\Projects\Visual Studio Code\Vente-voiture\Web-service\src\main\java\com\vente\voiture\crud\controller\UsageController.java
@@ -126,6 +127,7 @@ D:\Projects\Visual Studio Code\Vente-voiture\Web-service\src\main\java\com\vente
 D:\Projects\Visual Studio Code\Vente-voiture\Web-service\src\main\java\com\vente\voiture\crud\model\TypeAnnonce.java
 D:\Projects\Visual Studio Code\Vente-voiture\Web-service\src\main\java\com\vente\voiture\crud\repository\TailleRepository.java
 D:\Projects\Visual Studio Code\Vente-voiture\Web-service\src\main\java\com\vente\voiture\crud\service\V_count_annonce_valide_current_yearService.java
+D:\Projects\Visual Studio Code\Vente-voiture\Web-service\src\main\java\com\vente\voiture\mongo\Message_2.java
 D:\Projects\Visual Studio Code\Vente-voiture\Web-service\src\main\java\com\vente\voiture\crud\service\V_annonce_en_attente_validationService.java
 D:\Projects\Visual Studio Code\Vente-voiture\Web-service\src\main\java\com\vente\voiture\crud\controller\AnnonceFavorisController.java
 D:\Projects\Visual Studio Code\Vente-voiture\Web-service\src\main\java\com\vente\voiture\crud\controller\V_stat_by_monthController.java
