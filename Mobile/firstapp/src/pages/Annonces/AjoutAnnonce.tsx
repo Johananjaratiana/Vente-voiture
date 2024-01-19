@@ -209,6 +209,7 @@ const AjoutAnnonce: React.FC = () => {
             numero: numero,
             idTransmission: transmission,
             puissance: puissance,
+            dateAnnonce: new Date().toISOString(),
             consommation: consommation,
             nbVitesse: nombreVitesse,
             idModele: modele,
@@ -221,6 +222,7 @@ const AjoutAnnonce: React.FC = () => {
             idTypeAnnonce: typeAnnonce,
             idTypeMoteur: typeMoteur,
         };
+        // console.log(formData);
         try {
             const token = await store.get('token');
             const response = await fetch('http://localhost:8080/api/annonces', {
