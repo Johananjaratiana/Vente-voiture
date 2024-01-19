@@ -1,0 +1,34 @@
+#menu-content {
+  --background: url("../../assets/images/bg.png") no-repeat center center fixed;
+  background-size: cover;
+}
+
+#menu-page {
+  background-color: rgba(255, 255, 255, 0.9);
+  width: 100%;
+  height: 100%;
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
+#menu-page ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+#menu-page li {
+    display: flex; 
+    align-items: center;
+    padding: 10px;
+    border-bottom: 1px solid black;
+    padding-top: 30px;
+}
+
+#menu-page ion-icon {
+    margin-right: 10px;
+}
+
+#menu-page a {
+  color: black;
+  text-decoration: none;
+}

@@ -1,0 +1,42 @@
+ion-content.login {
+  --background: url("../../assets/images/bg.png") no-repeat center center fixed;
+  background-size: cover;
+}
+
+#login-page {
+  background-color: rgba(255, 255, 255, 0.9);  
+  width: 90%;
+  height: fit-content;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+#login-title h1 {
+  text-align: center;
+}
+
+#login-form-container {
+  padding-left: 20px;
+  padding-right: 20px;
+}
+
+ion-input.login {
+  border-bottom: 1px solid black;
+  margin-bottom: 10px;
+}
+
+#login-form-submit-button {
+  margin-left: 50%;
+  transform: translateX(-50%);
+  margin-top: 30px;
+}
+
+#login-no-account {
+  margin-top: 30px;
+}
+
+#login-no-account p {
+  text-align: center;
+}

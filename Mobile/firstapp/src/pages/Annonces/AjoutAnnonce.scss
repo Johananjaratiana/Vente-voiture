@@ -1,0 +1,36 @@
+ion-content.ajout-annonce {
+  --background: #f0f0f0;
+}
+
+ion-button.pagination-button {
+  --border-radius: 5px;
+  --background: black;
+  --color: white;
+  --font-weigt: bolder;
+}
+
+.ajout-annonce-page {
+  position: relative;
+  background-color: white;
+  padding: 15px;
+}
+
+ion-input.ajout-annonce {
+  border-bottom: 1px solid black;
+  margin-bottom: 10px;
+}
+
+ion-select.ajout-annonce {
+  border-bottom: 1px solid black;
+  margin-bottom: 10px;
+}
+
+ion-textarea.ajout-annonce {
+  border-bottom: 1px solid black;
+  margin-bottom: 10px;
+}
+
+#ajout-annonce-button {
+  margin-top: 30px;
+  text-align: center;
+}

@@ -1,0 +1,27 @@
+ion-content.annonces {
+    --background: #f0f0f0;
+    background-size: cover;
+}
+
+#radios {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  width: fit-content;
+  height: fit-content;
+  margin: auto;
+}
+
+#radios ion-radio {
+  margin-bottom: 8px;
+}
+
+.pagination-text {
+  text-align: center;
+  width: 100%;
+}
+
+#s {
+    margin-bottom: 5px;
+}

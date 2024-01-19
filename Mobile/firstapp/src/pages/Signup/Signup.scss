@@ -1,0 +1,52 @@
+ion-content.signup {
+  --background: url("../../assets/images/bg.png") no-repeat center center fixed;
+  background-size: cover;
+}
+
+#signup-page {
+  background-color: rgba(255, 255, 255, 0.9);
+  margin: 20px;
+  height: 95vh;
+  min-height: 780px;
+  position: relative;
+}
+
+#signup-title {
+  position: absolute;
+  top: 0;
+  width: 100%;
+}
+
+#signup-title h1 {
+  text-align: center;
+}
+
+#signup-form-container {
+  position: absolute;
+  width: 100%;
+  margin: auto;
+  padding-left: 25px;
+  padding-right: 25px;
+  top: 10%;
+}
+
+ion-input.signup {
+  border-bottom: 1px solid black;
+  margin-bottom: 10px;
+}
+
+#signup-form-submit-button {
+  margin-left: 50%;
+  transform: translateX(-50%);
+  margin-top: 30px;
+}
+
+#signup-with-account {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+}
+
+#signup-with-account p {
+  text-align: center;
+}
