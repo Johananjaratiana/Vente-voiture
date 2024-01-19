@@ -43,11 +43,13 @@ com\vente\voiture\crud\controller\PdpController.class
 com\vente\voiture\crud\model\V_best_user.class
 com\vente\voiture\crud\model\V_count_annonce_vendu_current_month.class
 com\vente\voiture\crud\controller\V_user_completController.class
+com\vente\voiture\function\annonce\DataCreator.class
 com\vente\voiture\mongo\Message.class
 com\vente\voiture\crud\repository\V_stat_by_yearRepository.class
 com\vente\voiture\crud\service\TransmissionService.class
 com\vente\voiture\crud\repository\V_stat_current_yearRepository.class
 com\vente\voiture\crud\service\V_count_annonce_valide_current_monthService.class
+com\vente\voiture\function\annonce\DataCreationController.class
 com\vente\voiture\ws\security\user\UsersRepository.class
 com\vente\voiture\crud\controller\V_user_ordered_by_commissionController.class
 com\vente\voiture\crud\model\V_annonce_complet_ordered_by_type_annonce.class
@@ -58,7 +60,6 @@ com\vente\voiture\crud\model\V_stat_current_year.class
 com\vente\voiture\crud\model\ProfilUtilisateur.class
 com\vente\voiture\crud\repository\V_annonce_en_attente_validationRepository.class
 com\vente\voiture\crud\controller\AnnonceFavorisController.class
-com\vente\voiture\mongo\Message$2.class
 com\vente\voiture\crud\repository\V_nombre_importantRepository.class
 com\vente\voiture\crud\controller\TailleController.class
 com\vente\voiture\crud\service\V_latest_annonce_venduService.class

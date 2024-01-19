@@ -80,6 +80,7 @@ D:\Projects\Visual Studio Code\Vente-voiture\Web-service\src\main\java\com\vente
 D:\Projects\Visual Studio Code\Vente-voiture\Web-service\src\main\java\com\vente\voiture\crud\model\V_count_annonce_valide_current_month.java
 D:\Projects\Visual Studio Code\Vente-voiture\Web-service\src\main\java\com\vente\voiture\crud\model\TypeMoteur.java
 D:\Projects\Visual Studio Code\Vente-voiture\Web-service\src\main\java\com\vente\voiture\crud\repository\V_count_annonce_vendu_current_monthRepository.java
+D:\Projects\Visual Studio Code\Vente-voiture\Web-service\src\main\java\com\vente\voiture\function\annonce\DataCreationController.java
 D:\Projects\Visual Studio Code\Vente-voiture\Web-service\src\main\java\com\vente\voiture\crud\service\UsageService.java
 D:\Projects\Visual Studio Code\Vente-voiture\Web-service\src\main\java\com\vente\voiture\ws\security\token\Token.java
 D:\Projects\Visual Studio Code\Vente-voiture\Web-service\src\main\java\com\vente\voiture\crud\controller\V_best_userController.java
@@ -98,6 +99,7 @@ D:\Projects\Visual Studio Code\Vente-voiture\Web-service\src\main\java\com\vente
 D:\Projects\Visual Studio Code\Vente-voiture\Web-service\src\main\java\com\vente\voiture\crud\controller\V_count_annonce_valide_current_yearController.java
 D:\Projects\Visual Studio Code\Vente-voiture\Web-service\src\main\java\com\vente\voiture\crud\controller\V_user_ordered_by_commissionController.java
 D:\Projects\Visual Studio Code\Vente-voiture\Web-service\src\main\java\com\vente\voiture\crud\service\TypeMoteurService.java
+D:\Projects\Visual Studio Code\Vente-voiture\Web-service\src\main\java\com\vente\voiture\function\annonce\DataCreator.java
 D:\Projects\Visual Studio Code\Vente-voiture\Web-service\src\main\java\com\vente\voiture\crud\controller\PhotoAnnonceController.java
 D:\Projects\Visual Studio Code\Vente-voiture\Web-service\src\main\java\com\vente\voiture\crud\model\V_count_annonce_vendu_current_month.java
 D:\Projects\Visual Studio Code\Vente-voiture\Web-service\src\main\java\com\vente\voiture\crud\service\V_stat_current_yearService.java
