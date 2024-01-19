@@ -1,20 +1,24 @@
-import { IonButton, IonContent, IonIcon, IonInput, IonPage } from "@ionic/react";
+import { IonButton, IonContent, IonIcon, IonInput, IonPage, IonAlert } from "@ionic/react";
 import { calendar, call, camera, location, lockClosed, mail, person } from 'ionicons/icons';
 import './Signup.scss';
 import { CameraResultType, Camera } from "@capacitor/camera";
 import { useState } from "react";
+import { useHistory } from "react-router";
 
 
 const Signup: React.FC = () => {
 
     const [nom, setNom] = useState('Rakotoarison');
     const [prenom, setPrenom] = useState('Tiavina Gael');
-    const [dateNaissance, setDateNaissance] = useState(new Date('2003-08-08').toISOString().substring(0,10));
+    const [dateNaissance, setDateNaissance] = useState(new Date('2003-08-08').toISOString().substring(0, 10));
     const [adresse, setAdresse] = useState('Lot H 121 TER A Alasora');
     const [email, setEmail] = useState('kelydoda724@gmail.com');
     const [telephone, setTelephone] = useState('+261326470822');
     const [motDePasse, setMotDePasse] = useState('gael');
     const [confirmMotDePasse, setConfirmMotDePasse] = useState('gael');
+    const [showAlertSuccess, setShowAlertSuccess] = useState(false);
+    const [showAlertError, setShowAlertError] = useState(false);
+    const history = useHistory();
 
     const handleNomChange = (e: any) => {
         setNom(e.detail.value);
@@ -61,6 +65,19 @@ const Signup: React.FC = () => {
         }
     };
 
+    const handleAlertSuccessClose = () => {
+        setShowAlertSuccess(false);
+    };
+
+    const handleAlertErrorClose = () => {
+        setShowAlertError(false);
+    };
+
+    const handleAlertButtonClick = () => {
+        history.push('/login');
+      };
+    
+
     const handleSubmit = async () => {
         const formData = {
             idprofile: 4,
@@ -84,11 +101,12 @@ const Signup: React.FC = () => {
             const data = await response.json();
             console.log(data);
             const message = data['message'];
-            if (message == 'error') {
-            
+            console.log(message);
+            if (message == 'success') {
+                setShowAlertSuccess(true);
             }
             else {
-
+                setShowAlertError(true);
             }
         } catch (error) {
             console.error('Error:', error);
@@ -98,6 +116,27 @@ const Signup: React.FC = () => {
     return (
         <IonPage>
             <IonContent fullscreen className="signup">
+                {/*  */}
+                <IonAlert
+                    isOpen={showAlertSuccess}
+                    onDidDismiss={handleAlertSuccessClose}
+                    header={'Success'}
+                    message={'Your account was created successfully'}
+                    buttons={[
+                        {
+                            text: 'Go to Login',
+                            handler: handleAlertButtonClick, // Handle the click event here
+                        }
+                    ]}
+                />
+                <IonAlert
+                    isOpen={showAlertError}
+                    onDidDismiss={handleAlertErrorClose}
+                    header={'Error'}
+                    message={'There was a problem creating your account'}
+                    buttons={['Try Again']}
+                />
+                {/*  */}
                 <div id="signup-page">
                     <div id="signup-title">
                         <h1>Creer un compte</h1>

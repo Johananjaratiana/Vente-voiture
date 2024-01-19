@@ -9,6 +9,13 @@ ion-button.pagination-button {
   --font-weigt: bolder;
 }
 
+ion-button.active-button {
+  --border-radius: 5px;
+  --background: red;
+  --color: white;
+  --font-weigt: bolder;
+}
+
 .ajout-annonce-page {
   position: relative;
   background-color: white;

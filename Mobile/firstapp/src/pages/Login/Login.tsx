@@ -10,8 +10,8 @@ await store.create();
 
 const Login: React.FC = () => {
 
-    const [email, setEmail] = useState('to@gmail.com');
-    const [password, setPassword] = useState('to');
+    const [email, setEmail] = useState('kelydoda724@gmail.com');
+    const [password, setPassword] = useState('gael');
     const [showAlert, setShowAlert] = useState(false);
     const history = useHistory();
 

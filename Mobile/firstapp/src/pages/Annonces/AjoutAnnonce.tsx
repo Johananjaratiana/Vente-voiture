@@ -32,15 +32,17 @@ const AjoutAnnonce: React.FC = () => {
                 <IonHeader id="pagination" className="ion-no-border ion-no-padding">
                     <IonToolbar>
                         <IonRow>
-                            <IonCol size="4" className="ion-text-center">
-                                <IonButton className="pagination-button" onClick={() => handleButtonClick(1)}>1</IonButton>
-                            </IonCol>
-                            <IonCol size="4" className="ion-text-center">
-                                <IonButton className="pagination-button" onClick={() => handleButtonClick(2)}>2</IonButton>
-                            </IonCol>
-                            <IonCol size="4" className="ion-text-center">
-                                <IonButton className="pagination-button" onClick={() => handleButtonClick(3)}>3</IonButton>
-                            </IonCol>
+                            {[1, 2, 3].map((buttonNumber) => (
+                                <IonCol key={buttonNumber} size="4" className="ion-text-center">
+                                    <IonButton
+                                        className={`pagination-button ${activeButton === buttonNumber ? 'active-button' : ''
+                                            }`}
+                                        onClick={() => handleButtonClick(buttonNumber)}
+                                    >
+                                        {buttonNumber}
+                                    </IonButton>
+                                </IonCol>
+                            ))}
                         </IonRow>
                     </IonToolbar>
                 </IonHeader>
