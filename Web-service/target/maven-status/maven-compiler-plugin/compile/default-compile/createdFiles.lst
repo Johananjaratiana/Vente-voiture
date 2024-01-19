@@ -87,6 +87,7 @@ com/vente/voiture/crud/controller/V_annonce_complet_current_monthController.clas
 com/vente/voiture/crud/controller/V_nombre_importantController.class
 com/vente/voiture/crud/service/V_count_annonce_valide_current_monthService.class
 com/vente/voiture/crud/controller/V_user_ordered_by_commissionController.class
+com/vente/voiture/function/statistique/StatByYear.class
 com/vente/voiture/crud/controller/EnergieController.class
 com/vente/voiture/crud/model/Marque.class
 com/vente/voiture/crud/controller/V_annonce_en_attente_validationController.class
@@ -116,6 +117,7 @@ com/vente/voiture/crud/service/PhotoAnnonceService.class
 com/vente/voiture/crud/model/V_annonce_complet_current_month.class
 com/vente/voiture/crud/controller/TailleController.class
 com/vente/voiture/crud/model/TypeMoteur.class
+com/vente/voiture/function/statistique/StatistiqueController.class
 com/vente/voiture/crud/repository/PhotoAnnonceRepository.class
 com/vente/voiture/crud/repository/V_annonce_en_attente_validationRepository.class
 com/vente/voiture/crud/service/PdpService.class

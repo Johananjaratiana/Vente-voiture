@@ -85,6 +85,7 @@
 /home/johan/Documents/Rojo/Vente-vehicules/Vente-voiture/Web-service/src/main/java/com/vente/voiture/crud/service/CouleurService.java
 /home/johan/Documents/Rojo/Vente-vehicules/Vente-voiture/Web-service/src/main/java/com/vente/voiture/crud/service/AnnonceFavorisService.java
 /home/johan/Documents/Rojo/Vente-vehicules/Vente-voiture/Web-service/src/main/java/com/vente/voiture/crud/service/V_stat_current_yearService.java
+/home/johan/Documents/Rojo/Vente-vehicules/Vente-voiture/Web-service/src/main/java/com/vente/voiture/function/statistique/StatistiqueController.java
 /home/johan/Documents/Rojo/Vente-vehicules/Vente-voiture/Web-service/src/main/java/com/vente/voiture/crud/model/Couleur.java
 /home/johan/Documents/Rojo/Vente-vehicules/Vente-voiture/Web-service/src/main/java/com/vente/voiture/ws/structure/Response.java
 /home/johan/Documents/Rojo/Vente-vehicules/Vente-voiture/Web-service/src/main/java/com/vente/voiture/crud/model/TypeMoteur.java
@@ -140,6 +141,7 @@
 /home/johan/Documents/Rojo/Vente-vehicules/Vente-voiture/Web-service/src/main/java/com/vente/voiture/crud/controller/V_stat_annonce_vendu_par_marqueController.java
 /home/johan/Documents/Rojo/Vente-vehicules/Vente-voiture/Web-service/src/main/java/com/vente/voiture/crud/repository/V_best_userRepository.java
 /home/johan/Documents/Rojo/Vente-vehicules/Vente-voiture/Web-service/src/main/java/com/vente/voiture/crud/controller/V_user_completController.java
+/home/johan/Documents/Rojo/Vente-vehicules/Vente-voiture/Web-service/src/main/java/com/vente/voiture/function/statistique/StatByYear.java
 /home/johan/Documents/Rojo/Vente-vehicules/Vente-voiture/Web-service/src/main/java/com/vente/voiture/ws/security/user/Users.java
 /home/johan/Documents/Rojo/Vente-vehicules/Vente-voiture/Web-service/src/main/java/com/vente/voiture/crud/service/V_annonce_complet_current_monthService.java
 /home/johan/Documents/Rojo/Vente-vehicules/Vente-voiture/Web-service/src/main/java/com/vente/voiture/crud/model/V_stat_current_month.java
