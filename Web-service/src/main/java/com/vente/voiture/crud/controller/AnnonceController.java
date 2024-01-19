@@ -5,6 +5,9 @@ import com.vente.voiture.crud.service.AnnonceService;
 import com.vente.voiture.ws.structure.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import com.vente.voiture.ws.security.token.JwtTokenUtil;
+import com.vente.voiture.ws.security.user.Users;
+import com.vente.voiture.ws.security.user.UsersService;
+
 import org.springframework.web.bind.annotation.*;
 import org.springframework.http.HttpHeaders;
 
@@ -12,6 +15,9 @@ import org.springframework.http.HttpHeaders;
 @CrossOrigin(origins = "*", allowedHeaders = "*")
 @RequestMapping("/api/annonces")
 public class AnnonceController {
+    @Autowired
+    private UsersService userService;
+
     @Autowired
     private AnnonceService annonceService;
 
@@ -22,7 +28,8 @@ public class AnnonceController {
     public Response createAnnonce(@RequestBody Annonce Annonce, @RequestHeader(HttpHeaders.AUTHORIZATION) String authorizationHeader) {
         Response response = new Response();
         try{
-            jwtTokenUtil.validateToken(authorizationHeader);
+            Users users = jwtTokenUtil.validateTokenReturningUsers(userService, authorizationHeader);
+            Annonce.setIdUsers(users.getId().intValue());
             response.setDataOnSuccess(annonceService.save(Annonce));
         }catch(Exception ex){
             response.setError(ex.getMessage());

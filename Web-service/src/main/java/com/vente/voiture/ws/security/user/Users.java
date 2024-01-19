@@ -72,4 +72,29 @@ public class Users {
         }
         return users;
     }
+
+    public static Users GetUserById(Long id, Connection connection){
+        Users users = null;
+        try {
+            String sql = "SELECT * FROM users WHERE id = ?";
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+
+            preparedStatement.setLong(1, id);
+
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            if (resultSet.next()) {
+                users = new Users();
+                users.setId(resultSet.getLong("id"));
+                users.setNom(resultSet.getString("nom"));                    
+                users.setPrenom(resultSet.getString("prenom"));
+                users.setEmail(resultSet.getString("email"));
+                users.setTelephone(resultSet.getString("telephone"));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return users;
+    }
+
 }
