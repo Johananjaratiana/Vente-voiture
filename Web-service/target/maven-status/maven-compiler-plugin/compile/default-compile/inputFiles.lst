@@ -50,6 +50,7 @@
 /home/johan/Documents/Rojo/Vente-vehicules/Vente-voiture/Web-service/src/main/java/com/vente/voiture/crud/service/V_annonce_complet_ordered_by_type_annonceService.java
 /home/johan/Documents/Rojo/Vente-vehicules/Vente-voiture/Web-service/src/main/java/com/vente/voiture/crud/service/V_count_annonce_valide_current_yearService.java
 /home/johan/Documents/Rojo/Vente-vehicules/Vente-voiture/Web-service/src/main/java/com/vente/voiture/crud/model/V_stat_annonce_vendu_par_marque.java
+/home/johan/Documents/Rojo/Vente-vehicules/Vente-voiture/Web-service/src/main/java/com/vente/voiture/function/statistique/DashBoard.java
 /home/johan/Documents/Rojo/Vente-vehicules/Vente-voiture/Web-service/src/main/java/com/vente/voiture/crud/controller/V_stat_by_monthController.java
 /home/johan/Documents/Rojo/Vente-vehicules/Vente-voiture/Web-service/src/main/java/com/vente/voiture/crud/controller/V_annonce_complet_ordered_by_type_annonceController.java
 /home/johan/Documents/Rojo/Vente-vehicules/Vente-voiture/Web-service/src/main/java/com/vente/voiture/crud/service/ProfilUtilisateurService.java

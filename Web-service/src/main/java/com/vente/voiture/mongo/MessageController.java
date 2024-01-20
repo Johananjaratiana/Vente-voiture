@@ -51,6 +51,18 @@ public class MessageController {
         return response;
     }
 
+    @GetMapping("/view/{id_other_user}")
+    public Response SetViewMessage(@RequestHeader(HttpHeaders.AUTHORIZATION) String authorizationHeader, @PathVariable Integer id_other_user) {
+        Response response = new Response();
+        try{
+            Users users = jwtTokenUtil.validateTokenReturningUsers(usersService, authorizationHeader);
+            response.setDataOnSuccess(Message.SetViewMessage(users, id_other_user));
+        }catch(Exception ex){
+            response.setError(ex.getMessage());
+        }
+        return response;
+    }
+
     @PostMapping
     public Response SaveMessageByTokenAndUser(@RequestHeader(HttpHeaders.AUTHORIZATION) String authorizationHeader, @RequestBody ReceivedMessage receivedMessage) {
         Response response = new Response();

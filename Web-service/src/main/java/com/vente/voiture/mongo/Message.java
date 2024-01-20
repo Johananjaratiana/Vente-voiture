@@ -8,6 +8,7 @@ import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 import com.mongodb.client.model.Filters;
+import com.mongodb.client.model.UpdateOptions;
 import com.mongodb.client.model.Updates;
 import com.mongodb.client.result.UpdateResult;
 import com.vente.voiture.ws.security.user.Users;
@@ -74,4 +75,30 @@ public class Message {
             return "Failed to send message";
         }
     }
+
+    public static Document SetViewMessage(Users users, Integer id_other_user)throws Exception{
+        try (MongoClient client = ClientConnection.GetMongoClient()){
+            MongoDatabase database = client.getDatabase("message_vente");
+            MongoCollection<Document> collection = database.getCollection("messages");
+            
+            Bson filter = Filters.elemMatch("sms", Filters.eq("receiver_id", users.getId().intValue()));           
+            Bson updates = Updates.combine(
+                Updates.set("sms.$[elem].status", 10)
+            );
+            List<Bson> arrayFilters = Arrays.asList(Filters.eq("elem.receiver_id", users.getId().intValue()));
+            UpdateOptions options = new UpdateOptions().arrayFilters(arrayFilters);
+            
+            UpdateResult result = collection.updateMany(filter, updates, options);
+            if (result.getModifiedCount() > 0) {
+                Document fromMongo = Message_2.GetOrCreateDocumentByTokenAndUser(collection, users.getId().intValue(), id_other_user, false); 
+                return fromMongo;
+            } else {
+                throw new Exception("Erreur de vue de message.");
+            }
+        }catch(MongoException me){
+            me.printStackTrace();
+            throw new Exception(me);
+        }
+    }
+    
 }
