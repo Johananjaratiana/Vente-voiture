@@ -50,3 +50,10 @@ ion-input.signup {
 #signup-with-account p {
   text-align: center;
 }
+
+ion-img.showimage {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%); 
+}

@@ -1,10 +1,9 @@
-import { IonButton, IonContent, IonIcon, IonInput, IonPage, IonAlert } from "@ionic/react";
+import { IonButton, IonContent, IonIcon, IonInput, IonPage, IonAlert, IonImg } from "@ionic/react";
 import { calendar, call, camera, location, lockClosed, mail, person } from 'ionicons/icons';
 import './Signup.scss';
 import { CameraResultType, Camera } from "@capacitor/camera";
-import { useState } from "react";
+import { useState , useEffect} from "react";
 import { useHistory } from "react-router";
-
 
 const Signup: React.FC = () => {
 
@@ -18,6 +17,8 @@ const Signup: React.FC = () => {
     const [confirmMotDePasse, setConfirmMotDePasse] = useState('gael');
     const [showAlertSuccess, setShowAlertSuccess] = useState(false);
     const [showAlertError, setShowAlertError] = useState(false);
+    const [showAlertNoImage, setShowAlertNoImage] = useState(false);
+    const [image, setImage] = useState<string | undefined>(undefined);
     const history = useHistory();
 
     const handleNomChange = (e: any) => {
@@ -52,14 +53,14 @@ const Signup: React.FC = () => {
         setConfirmMotDePasse(e.detail.value);
     };
 
-
     const openCamera = async () => {
         try {
-            const image = await Camera.getPhoto({
-                quality: 90,
+            const capImage = await Camera.getPhoto({
+                quality: 1,
                 allowEditing: false,
                 resultType: CameraResultType.Base64,
             });
+            setImage(capImage.base64String);
         } catch (error) {
             console.error(error);
         }
@@ -73,12 +74,20 @@ const Signup: React.FC = () => {
         setShowAlertError(false);
     };
 
+    const handleAlertNoImageClose = () => {
+        setShowAlertNoImage(false);
+    };
+
     const handleAlertButtonClick = () => {
         history.push('/login');
-      };
-    
+    };
+
 
     const handleSubmit = async () => {
+        if(!image){
+            setShowAlertNoImage(true);
+            return;
+        }
         const formData = {
             idprofile: 4,
             email: email,
@@ -99,11 +108,29 @@ const Signup: React.FC = () => {
                 body: JSON.stringify(formData),
             });
             const data = await response.json();
-            console.log(data);
             const message = data['message'];
-            console.log(message);
             if (message == 'success') {
-                setShowAlertSuccess(true);
+                const id = data['data']['id'];
+                const formData2 = {
+                    idUsers: id,
+                    image: image,
+                };
+                console.log(formData2);
+                const response2 = await fetch('http://localhost:8080/api/pdps', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(formData2),
+                });
+                const data2 = await response2.json();
+                const message2 = data2['message'];
+                if (message2 == 'success') {
+                    setShowAlertSuccess(true);
+                }
+                else {
+                    setShowAlertError(true);
+                }
             }
             else {
                 setShowAlertError(true);
@@ -135,6 +162,13 @@ const Signup: React.FC = () => {
                     header={'Error'}
                     message={'There was a problem creating your account'}
                     buttons={['Try Again']}
+                />
+                <IonAlert
+                    isOpen={showAlertNoImage}
+                    onDidDismiss={handleAlertNoImageClose}
+                    header={'Error'}
+                    message={'You must have a profle image'}
+                    buttons={['I got it']}
                 />
                 {/*  */}
                 <div id="signup-page">
@@ -170,6 +204,9 @@ const Signup: React.FC = () => {
                             <IonIcon icon={camera} slot="start" />
                             Ajouter un photo de profil
                         </IonButton>
+                        {image && (
+                            <IonImg src={`data:image/jpeg;base64,${image}`} className="showimage"></IonImg>
+                        )}
                         <IonButton id="signup-form-submit-button" color="dark" onClick={handleSubmit}>VALIDER</IonButton>
                     </div>
                     <div id="signup-with-account">
