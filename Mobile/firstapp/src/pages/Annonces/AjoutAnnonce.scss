@@ -41,3 +41,15 @@ ion-textarea.ajout-annonce {
   margin-top: 30px;
   text-align: center;
 }
+
+.showImages {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.showImages img {
+  width: 30%;
+  margin: 5px; /* Add margin between images */
+  object-fit: cover; /* This property ensures that the image maintains its aspect ratio */
+  border: 1px solid #ddd; /* Add a border for better visibility */
+}

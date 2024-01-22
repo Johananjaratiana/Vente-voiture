@@ -1,4 +1,5 @@
 import {
+    IonAlert,
     IonButton,
     IonCol,
     IonContent,
@@ -7,19 +8,20 @@ import {
     IonInput,
     IonPage,
     IonRow,
-    IonToolbar,
     IonSelect,
     IonSelectOption,
     IonTextarea,
-    IonAlert
+    IonToolbar
 } from '@ionic/react';
+import { Storage } from '@ionic/storage';
 import { camera } from 'ionicons/icons';
+import { useEffect, useState } from 'react';
+import { useHistory } from 'react-router';
 import Header from '../../components/Header/Header';
 import Menu from "../../components/Menu/Menu";
 import './AjoutAnnonce.scss';
-import { useState, useEffect } from 'react';
-import { useHistory } from 'react-router';
-import { Storage } from '@ionic/storage';
+import { CameraResultType, Camera } from "@capacitor/camera";
+
 
 const store = new Storage();
 await store.create();
@@ -67,6 +69,7 @@ const AjoutAnnonce: React.FC = () => {
     const [etatTransmission, setEtatTransmission] = useState(10);
     const [numero, setNumero] = useState('1212 TBA');
     const [showAlert, setShowAlert] = useState(false);
+    const [images, setImages] = useState<(string | undefined)[]>([]);
     const history = useHistory();
 
     const handleMarqueChange = (e: any) => {
@@ -198,6 +201,19 @@ const AjoutAnnonce: React.FC = () => {
         setActiveButton(buttonNumber);
     };
 
+    const openCamera = async () => {
+        try {
+            const capImage = await Camera.getPhoto({
+                quality: 1,
+                allowEditing: false,
+                resultType: CameraResultType.Base64,
+            });
+            setImages(prevImages => [...prevImages, capImage.base64String]);
+        } catch (error) {
+            console.error(error);
+        }
+    };
+
     const handleSubmit = async () => {
         const formData = {
             id: 0,
@@ -265,7 +281,7 @@ const AjoutAnnonce: React.FC = () => {
                     setShowAlert(true);
                 }
                 else {
-                    history.push('/annonce/detail?id='+idAnnonce);
+                    history.push('/annonce/detail?id=' + idAnnonce);
                 }
             }
         } catch (error) {
@@ -455,10 +471,17 @@ const AjoutAnnonce: React.FC = () => {
                                 </IonRow>
                                 <IonInput value={kilometrage} onIonChange={handleKilometrageChange} className="ajout-annonce" type="number" labelPlacement="stacked" label="Kilometrage effectue">
                                 </IonInput>
-                                <IonButton expand="full">
+                                <IonButton expand="full" onClick={openCamera}>
                                     <IonIcon icon={camera} slot="start" />
                                     Ajouter des photos
                                 </IonButton>
+                                {
+                                    <div className="showImages">
+                                        {images.map((image, index) => (
+                                            <img key={index} src={`data:image/jpeg;base64,${image}`} alt={`Image ${index}`}/>
+                                        ))}
+                                    </div>
+                                }
                                 <div id="ajout-annonce-button">
                                     <IonButton color="danger" onClick={() => handleButtonClick(2)}>Precedent</IonButton>
                                     <IonButton color="success" onClick={() => handleButtonClick(4)}>Suivant</IonButton>
