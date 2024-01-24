@@ -14,7 +14,7 @@ import {
     IonToolbar
 } from '@ionic/react';
 import { Storage } from '@ionic/storage';
-import { camera } from 'ionicons/icons';
+import { camera, image } from 'ionicons/icons';
 import { useEffect, useState } from 'react';
 import { useHistory } from 'react-router';
 import Header from '../../components/Header/Header';
@@ -36,6 +36,11 @@ interface AjoutAnnonceData {
     typeAnnonce: [];
     typeMoteur: [];
     couleur: [];
+}
+
+interface PhotoAnnonce {
+    idAnnonce : string;
+    image : string | undefined;
 }
 
 const AjoutAnnonce: React.FC = () => {
@@ -186,7 +191,7 @@ const AjoutAnnonce: React.FC = () => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await fetch('http://localhost:8080/api/annnonces_utils');
+                const response = await fetch('http://localhost:8080/api/creation_annnonce/data_utils');
                 const result = await response.json();
                 setData(result.data);
             } catch (error) {
@@ -240,7 +245,7 @@ const AjoutAnnonce: React.FC = () => {
         };
         try {
             const token = await store.get('token');
-            const response = await fetch('http://localhost:8080/api/annonces', {
+            const response = await fetch('http://localhost:8080/api/creation_annnonce/save', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -281,10 +286,14 @@ const AjoutAnnonce: React.FC = () => {
                     setShowAlert(true);
                 }
                 else {
-                    const formData3 = {
-                        idAnnonce: idAnnonce,
-                        images: images[0],
-                    }
+                    let formData3:PhotoAnnonce[] = [];
+                    images.forEach((img) => {
+                        let newPhotoAnnonce: PhotoAnnonce = {
+                            idAnnonce: idAnnonce,
+                            image: img,
+                        };
+                        formData3.push(newPhotoAnnonce);
+                    });
                     const response3 = await fetch('http://localhost:8080/api/photo_annonces', {
                         method: 'POST',
                         headers: {
