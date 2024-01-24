@@ -115,7 +115,6 @@ const Signup: React.FC = () => {
                     idUsers: id,
                     image: image,
                 };
-                console.log(formData2);
                 const response2 = await fetch('http://localhost:8080/api/pdps', {
                     method: 'POST',
                     headers: {

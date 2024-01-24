@@ -1,5 +1,5 @@
 import { IonContent, IonHeader, IonIcon, IonMenu, IonTitle, IonToolbar } from '@ionic/react';
-import { add, list, logOut } from 'ionicons/icons';
+import { add, list, logOut,personCircle } from 'ionicons/icons';
 import './Menu.scss';
 
 
@@ -14,6 +14,12 @@ const Menu: React.FC = () => {
             <IonContent id="menu-content" className="ion-padding">
                 <div id="menu-page">
                     <ul>
+                        <li>
+                            <a href="/profil">
+                                <IonIcon icon={personCircle} />
+                                Mon profil
+                            </a>
+                        </li>
                         <li>
                             <a href="/annonces">
                                 <IonIcon icon={list} />
