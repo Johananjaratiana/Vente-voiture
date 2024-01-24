@@ -1,4 +1,4 @@
-package com.vente.voiture.function.annonce.filtre;
+package com.vente.voiture.function.annonce.search;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -8,77 +8,26 @@ import com.vente.voiture.crud.model.V_annonce_complet;
 import com.vente.voiture.util.SqlParams;
 import com.vente.voiture.ws.security.user.Users;
 import java.util.List;
-import java.util.Arrays;
 import java.util.ArrayList;
-import java.util.Collections;
 
-public class FilterSelection {
-    Double prix_min;
-    Double prix_max;
-    Integer[] marque;
-    Integer[] modele;
-    Integer[] energie;
-    Integer[] transmission;
-    Integer[] taille;
-    Integer[] type_moteur;
-    Integer[] couleur;
-    Integer[] usage;
+public class SearchSelection {
+
+    String marque_modele;
 
     public SqlParams BuildWhereStatement(){
         SqlParams sqlParams = new SqlParams();
         StringBuilder sqlWhere = sqlParams.getSqlWhere();
         ArrayList<Object> params = sqlParams.getParams();
-    
-        if (marque != null && marque.length > 0) {
-            sqlWhere.append(" marque IN (" + String.join(",", Collections.nCopies(marque.length, "?")) + ") ");    
-            params.addAll(Arrays.asList(marque));
+            
+        if (marque_modele != null && marque_modele.length() > 0) {
+            sqlWhere.append(" nom_marque = ? AND nom modele = ? ");    
+            params.add(marque_modele);
+            params.add(marque_modele);
         }
-    
-        if (modele != null && modele.length > 0) {
-            sqlWhere.append(" AND modele IN (" + String.join(",", Collections.nCopies(modele.length, "?")) + ") ");    
-            params.addAll(Arrays.asList(modele));
-        }
-    
-        if (energie != null && energie.length > 0) {
-            sqlWhere.append(" AND energie IN (" + String.join(",", Collections.nCopies(energie.length, "?")) + ") ");    
-            params.addAll(Arrays.asList(energie));
-        }
-    
-        if (transmission != null && transmission.length > 0) {
-            sqlWhere.append(" AND transmission IN (" + String.join(",", Collections.nCopies(transmission.length, "?")) + ") ");    
-            params.addAll(Arrays.asList(transmission));
-        }
-    
-        if (taille != null && taille.length > 0) {
-            sqlWhere.append(" AND taille IN (" + String.join(",", Collections.nCopies(taille.length, "?")) + ") ");    
-            params.addAll(Arrays.asList(taille));
-        }
-    
-        if (type_moteur != null && type_moteur.length > 0) {
-            sqlWhere.append(" AND type_moteur IN (" + String.join(",", Collections.nCopies(type_moteur.length, "?")) + ") ");    
-            params.addAll(Arrays.asList(type_moteur));
-        }
-    
-        if (couleur != null && couleur.length > 0) {
-            sqlWhere.append(" AND couleur IN (" + String.join(",", Collections.nCopies(couleur.length, "?")) + ") ");    
-            params.addAll(Arrays.asList(couleur));
-        }
-    
-        if (usage != null && usage.length > 0) {
-            sqlWhere.append(" AND usage IN (" + String.join(",", Collections.nCopies(usage.length, "?")) + ") ");    
-            params.addAll(Arrays.asList(usage));
-        }
-        
-        if (prix_min != null && prix_max != null) {
-            sqlWhere.append(" AND prix BETWEEN ? AND ? ");    
-            params.add(prix_min);
-            params.add(prix_max);
-        }
-    
+
         if (sqlWhere.length() > 0) {
             sqlWhere.insert(0, " WHERE ");
         }
-
         return sqlParams;
     }
     
