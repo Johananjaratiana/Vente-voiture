@@ -28,13 +28,30 @@ public class Photo_AnnonceController {
     @Autowired
     private ImageService imageService;
 
-    @PostMapping
+    @PostMapping("/many")
+    public Response createPhotoAnnonce(@RequestBody PhotoAnnonce[] photoAnnonces, @RequestHeader(HttpHeaders.AUTHORIZATION) String authorizationHeader) {
+        Response response = new Response();
+        try{
+            jwtTokenUtil.validateToken(authorizationHeader);
+            for (PhotoAnnonce pa : photoAnnonces) {
+                pa.setImage(imageService.upload(pa.getImage()));
+                photo_annonceService.save(pa);
+            }
+            response.setDataOnSuccess("Success");
+        }catch(Exception ex){
+            response.setError(ex.getMessage());
+        }
+        return response;
+    }
+
+    @PostMapping("/one")
     public Response createPhotoAnnonce(@RequestBody PhotoAnnonce photoAnnonce, @RequestHeader(HttpHeaders.AUTHORIZATION) String authorizationHeader) {
         Response response = new Response();
         try{
             jwtTokenUtil.validateToken(authorizationHeader);
             photoAnnonce.setImage(imageService.upload(photoAnnonce.getImage()));
-            response.setDataOnSuccess(photo_annonceService.save(photoAnnonce));
+            PhotoAnnonce pa = photo_annonceService.save(photoAnnonce);
+            response.setDataOnSuccess(pa);
         }catch(Exception ex){
             response.setError(ex.getMessage());
         }
