@@ -147,6 +147,7 @@ CREATE  TABLE "public".annonce_favoris (
 	id                   integer DEFAULT nextval('annonce_favoris_id_seq'::regclass) NOT NULL  ,
 	id_users             integer  NOT NULL  ,
 	id_annonce           integer  NOT NULL  ,
+	status               integer DEFAULT 0 NOT NULL  ,
 	CONSTRAINT pk_annonce_favoris PRIMARY KEY ( id )
  );
 
@@ -261,17 +262,22 @@ CREATE VIEW "public".v_annonce_complet AS  SELECT a.id,
     t.nom AS nom_transmission,
     us.nom AS nom_usage,
     tai.nom AS nom_taille,
-    ea.carrosserie AS etat_carrosserie,
-    ea.siege AS etat_siege,
-    ea.tableau_bord AS etat_tableau_bord,
-    ea.moteur AS etat_moteur,
-    ea.freinage AS etat_freinage,
-    ea.transmission AS etat_transmission,
-    ea.pneu AS etat_pneu,
-    ea.electronique AS etat_electronique,
-    ea.suspension AS etat_suspension,
+    COALESCE(ea.carrosserie, 0) AS etat_carrosserie,
+    COALESCE(ea.siege, 0) AS etat_siege,
+    COALESCE(ea.tableau_bord, 0) AS etat_tableau_bord,
+    COALESCE(ea.moteur, 0) AS etat_moteur,
+    COALESCE(ea.freinage, 0) AS etat_freinage,
+    COALESCE(ea.transmission, 0) AS etat_transmission,
+    COALESCE(ea.pneu, 0) AS etat_pneu,
+    COALESCE(ea.electronique, 0) AS etat_electronique,
+    COALESCE(ea.suspension, 0) AS etat_suspension,
     c.nom AS nom_couleur,
-    c.rgb AS rgb_couleur
+    c.rgb AS rgb_couleur,
+    ( SELECT pa.image
+           FROM photo_annonce pa
+          WHERE (pa.id_annonce = a.id)
+          ORDER BY pa.id
+         LIMIT 1) AS image
    FROM (((((((((((annonce a
      JOIN marque ma ON ((ma.id = a.id_marque)))
      JOIN modele mo ON ((mo.id = a.id_modele)))
