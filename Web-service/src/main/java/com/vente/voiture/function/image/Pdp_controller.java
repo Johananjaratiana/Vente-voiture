@@ -16,11 +16,15 @@ public class Pdp_controller {
     @Autowired
     private PdpService pdpService;
 
+    @Autowired
+    private ImageService imageService;
+
     @PostMapping("/new_user")
-    public Response createPdp(@RequestBody Pdp Pdp) {
+    public Response createPdp(@RequestBody Pdp pdp) {
         Response response = new Response();
         try{
-            response.setDataOnSuccess(pdpService.save(Pdp));
+            pdp.setImage(imageService.upload(pdp.getImage()));
+            response.setDataOnSuccess(pdpService.save(pdp));
         }catch(Exception ex){
             response.setError(ex.getMessage());
         }
