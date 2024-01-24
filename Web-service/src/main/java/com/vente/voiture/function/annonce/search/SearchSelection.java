@@ -48,7 +48,7 @@ public class SearchSelection {
     
             while (resultSet.next()) {
                 temp = new V_annonce_complet();
-                temp.setId(resultSet.getInt("id"));
+                temp.setId(resultSet.getLong("id"));
                 temp.setIdMarque(resultSet.getInt("id_marque"));
                 temp.setIdModele(resultSet.getInt("id_modele"));
                 temp.setVersion(resultSet.getString("version"));
@@ -60,14 +60,14 @@ public class SearchSelection {
                 temp.setIdTypeMoteur(resultSet.getInt("id_type_moteur"));
                 temp.setPuissance(resultSet.getInt("puissance"));
                 temp.setIdTypeAnnonce(resultSet.getInt("id_type_annonce"));
-                temp.setDateAnnonce(resultSet.getTimestamp("date_annonce"));
-                temp.setStatus(resultSet.getString("status"));
+                temp.setDateAnnonce(resultSet.getDate("date_annonce"));
+                temp.setStatus(resultSet.getInt("status"));
                 temp.setIdUsers(resultSet.getInt("id_users"));
                 temp.setIdEnergie(resultSet.getInt("id_energie"));
                 temp.setIdTransmission(resultSet.getInt("id_transmission"));
                 temp.setIdUsage(resultSet.getInt("id_usage"));
                 temp.setIdTaille(resultSet.getInt("id_taille"));
-                temp.setKmEffectue(resultSet.getInt("km_effectue"));
+                temp.setKmEffectue(resultSet.getDouble("km_effectue"));
                 temp.setIdCouleur(resultSet.getInt("id_couleur"));
                 temp.setNumero(resultSet.getString("numero"));
                 temp.setNomMarque(resultSet.getString("nom_marque"));

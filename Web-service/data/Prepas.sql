@@ -114,9 +114,3 @@ INSERT INTO "public".annonce
     3, 100 );
 
 
-
-
-
-
-
-

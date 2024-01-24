@@ -88,6 +88,9 @@ public class V_annonce_complet {
     @Column(name="nom_transmission")
     private String NomTransmission;
 
+    @Column(name="image")
+    private String Image;
+
     @Column(name="nom_energie")
     private String NomEnergie;
 
