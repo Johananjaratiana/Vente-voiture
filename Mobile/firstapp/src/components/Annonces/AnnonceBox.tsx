@@ -4,23 +4,32 @@ import { useHistory } from 'react-router-dom';
 
 
 interface AnnonceBoxProps {
-    id:number;
+    id: number;
     imageUrl: string;
     title: string;
     date: string;
     status: number;
 };
 
-const data = [{ "color": "#f39c12", "text": "EN ATTENTE" }, { "color": "#2ecc71", "text": "EN VENTE" }, { "color": "#e74c3c", "text": "VENDU" },]
-const AnnonceBox: React.FC<AnnonceBoxProps> = ({ id,imageUrl, title, date, status }) => {
+interface StatusData {
+    [key: string]: { color: string; text: string };
+}
+
+const data: StatusData = {
+    "-10": { color: "#e74c3c", text: "REFUSE" },
+    "0": { color: "#f39c12", text: "EN ATTENTE" },
+    "10": { color: "#2ecc71", text: "EN VENTE" },
+    "20": { color: "#3498db", text: "VENDU" },
+};
+const AnnonceBox: React.FC<AnnonceBoxProps> = ({ id, imageUrl, title, date, status }) => {
     const history = useHistory();
 
     const handleClick = () => {
-        history.push('/annonce/detail/'+ id);
+        history.push('/annonce/detail/' + id);
     };
     return (
         <div id="annonces-box" onClick={handleClick}>
-            <div id="annonces-box-status" style={{ backgroundColor: data[status].color }}>{data[status].text}</div>
+            <div id="annonces-box-status" style={{ backgroundColor: data[status.toString()].color }}>{data[status.toString()].text}</div>
             <div id="annonces-box-content">
                 <div id="annonces-box-image">
                     <IonImg src={imageUrl}></IonImg>

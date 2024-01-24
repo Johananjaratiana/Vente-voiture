@@ -31,6 +31,7 @@ com\vente\voiture\crud\service\V_stat_current_monthService.class
 com\vente\voiture\crud\model\Marque.class
 com\vente\voiture\crud\model\TypeAnnonce.class
 com\vente\voiture\crud\controller\V_stat_current_yearController.class
+com\vente\voiture\function\annonce\search\AnnonceSearchController.class
 com\vente\voiture\crud\repository\V_count_annonce_vendu_current_monthRepository.class
 com\vente\voiture\crud\service\CouleurService.class
 com\vente\voiture\crud\repository\V_count_annonce_valide_current_monthRepository.class
@@ -92,6 +93,7 @@ com\vente\voiture\crud\model\V_annonce_en_attente_validation.class
 com\vente\voiture\function\statistique\StatByYear.class
 com\vente\voiture\crud\repository\V_stat_annonce_vendu_par_marqueRepository.class
 com\vente\voiture\crud\model\V_count_annonce_valide_current_year.class
+com\vente\voiture\function\annonce\search\SearchSelection.class
 com\vente\voiture\crud\repository\AnnonceFavorisRepository.class
 com\vente\voiture\crud\repository\V_stat_by_monthRepository.class
 com\vente\voiture\crud\service\MarqueService.class
@@ -146,6 +148,7 @@ com\vente\voiture\crud\service\V_user_ordered_by_commissionService.class
 com\vente\voiture\crud\repository\EnergieRepository.class
 com\vente\voiture\crud\repository\AnnonceRepository.class
 com\vente\voiture\crud\controller\CouleurController.class
+com\vente\voiture\util\SqlParams.class
 com\vente\voiture\crud\repository\V_stat_current_monthRepository.class
 com\vente\voiture\ws\security\user\UsersService.class
 com\vente\voiture\crud\service\V_stat_by_monthService.class

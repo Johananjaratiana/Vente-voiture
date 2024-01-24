@@ -5,7 +5,11 @@ import './Annonces.scss';
 import { chevronBackOutline, chevronForwardOutline } from 'ionicons/icons';
 import AnnonceBox from '../../components/Annonces/AnnonceBox';
 import React, { useEffect, useState } from 'react';
+import { Storage } from '@ionic/storage';
 
+
+const store = new Storage();
+await store.create();
 
 interface Annonce {
     id: number;
@@ -55,15 +59,16 @@ interface Annonce {
     nomUsage: string;
     etatTableauBord: number;
     telephoneUsers: string;
+    image:string;
 }
-
 
 const Annonces: React.FC = () => {
     const [annonces, setAnnonces] = useState<Annonce[]>([]);
     useEffect(() => {
         const fetchAnnonces = async () => {
             try {
-                const response = await fetch('http://localhost:8080/api/v_annonce_complets/users/22');
+                const idUser = await store.get('idUser');
+                const response = await fetch('http://localhost:8080/api/v_annonce_complets/users/'+ idUser);
                 const data = await response.json();
                 setAnnonces(data['data']);
             } catch (error) {
@@ -109,7 +114,7 @@ const Annonces: React.FC = () => {
                 </IonHeader>
                 <IonContent className="annonces" >
                     {annonces.map((annonce) => (
-                        <AnnonceBox key={annonce.id} id={annonce.id} imageUrl="https://image-cdn.beforward.jp/large/201704/752032/BF629619_0e4c71.jpg" date={annonce.dateAnnonce} title={annonce.nomMarque + " "+ annonce.nomModele} status={annonce.status}></AnnonceBox>
+                        <AnnonceBox key={annonce.id} id={annonce.id} imageUrl={annonce.image} date={annonce.dateAnnonce} title={annonce.nomMarque + " "+ annonce.nomModele} status={annonce.status}></AnnonceBox>
                     ))}
                 </IonContent>
                 <IonFooter>

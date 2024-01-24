@@ -10,6 +10,11 @@ import { useEffect, useState } from 'react';
 import Header from "../../components/Header/Header";
 import Menu from "../../components/Menu/Menu";
 import './Profil.scss' ;
+import { Storage } from '@ionic/storage';
+
+
+const store = new Storage();
+await store.create();
 
 interface UserProfile {
     id: number;
@@ -37,10 +42,11 @@ const Profil: React.FC = () => {
     useEffect(() => {
         const fetchUserData = async () => {
             try {
-                const response = await fetch('http://localhost:8080/api/users/22');
+                const idUser = await store.get('idUser');
+                const response = await fetch('http://localhost:8080/api/users/'+idUser);
                 const userData = await response.json();
                 setUserData(userData['data']);
-                const imageResponse = await fetch('http://localhost:8080/api/pdps/users/22');
+                const imageResponse = await fetch('http://localhost:8080/api/pdps/users/'+idUser);
                 const userImagesData = await imageResponse.json();
                 setUserImages(userImagesData['data'][0]);
             } catch (error) {

@@ -11,7 +11,11 @@ import 'swiper/css/pagination';
 import 'swiper/css/scrollbar';
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
+import { Storage } from '@ionic/storage';
 
+
+const store = new Storage();
+await store.create();
 
 interface AnnounceData {
     id: number;
@@ -69,7 +73,16 @@ interface PhotoAnnonce {
     image: string;
 }
 
-const data = [{ "color": "#f39c12", "text": "EN ATTENTE" }, { "color": "#2ecc71", "text": "EN VENTE" }, { "color": "#e74c3c", "text": "VENDU" },];
+interface StatusData {
+    [key: string]: { color: string; text: string };
+}
+
+const data: StatusData = {
+    "-10": { color: "#e74c3c", text: "REFUSE" },
+    "0": { color: "#f39c12", text: "EN ATTENTE" },
+    "10": { color: "#2ecc71", text: "EN VENTE" },
+    "20": { color: "#3498db", text: "VENDU" },
+};
 
 const DetailAnnonce: React.FC = () => {
 
@@ -108,6 +121,28 @@ const DetailAnnonce: React.FC = () => {
         fetchPhotoAnnonces();
     }, [id]);
 
+    const handleButtonClick = async () => {
+        try {
+            setAnnounceData((prevData: AnnounceData | null) => ({ ...prevData!, status: 20 }));
+            const token = await store.get('token');
+            const response = await fetch('http://localhost:8080/api/annnonces/'+announceData?.id, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                },
+                body: JSON.stringify(announceData),
+            });
+            const data = await response.json();
+            const message = data['message'];
+            if (message == 'error') {
+                throw new Error();
+            }
+        }catch (error) {
+            console.error('Error:', error);
+        }
+    };
+
     return (
         <>
             <Menu />
@@ -133,14 +168,14 @@ const DetailAnnonce: React.FC = () => {
                                     <div className="title">
                                         {announceData?.nomMarque} {announceData?.nomModele}
                                     </div>
-                                    <div className="state" style={{ backgroundColor: data[announceData?.status].color }}>{data[announceData?.status].text}</div>
+                                    <div className="state" style={{ backgroundColor: data[announceData.status.toString()].color }}>{data[announceData.status.toString()].text}</div>
                                 </div>
                                 <div className="actions">
                                     <div className="mis-en-vente">
                                         Mis en vente le {announceData?.dateAnnonce}
                                     </div>
                                     <div className="action">
-                                        <IonButton expand="full" color="success">
+                                        <IonButton expand="full" color="success" onClick={handleButtonClick}>
                                             <IonIcon slot="start" icon={checkmarkDoneCircleOutline}></IonIcon>
                                             Marquer comme vendu
                                         </IonButton>
