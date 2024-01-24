@@ -1,4 +1,4 @@
-package com.vente.voiture.function.annonce;
+package com.vente.voiture.function.image;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.vente.voiture.crud.model.PhotoAnnonce;
 import com.vente.voiture.crud.service.PhotoAnnonceService;
-import com.vente.voiture.function.image.ImageService;
 import com.vente.voiture.ws.security.token.JwtTokenUtil;
 import com.vente.voiture.ws.structure.Response;
 

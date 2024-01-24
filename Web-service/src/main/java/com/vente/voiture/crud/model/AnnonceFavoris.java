@@ -22,6 +22,9 @@ public class AnnonceFavoris {
     @Column(name="id_users")
     private Integer IdUsers;
 
+    @Column(name="status")
+    private Integer Status;
+
 
     // Constructors, getters, setters
 
