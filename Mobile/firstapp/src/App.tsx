@@ -49,7 +49,7 @@ const App: React.FC = () => (
         <Route exact path="/annonce/ajout">
           <AjoutAnnonce />
         </Route>
-        <Route exact path="/annonce/detail">
+        <Route exact path="/annonce/detail/:id">
           <DetailAnnonce />
         </Route>
         <Route exact path="/notification">

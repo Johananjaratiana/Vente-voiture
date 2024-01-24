@@ -175,28 +175,28 @@ const Signup: React.FC = () => {
                         <h1>Creer un compte</h1>
                     </div>
                     <div id="signup-form-container">
-                        <IonInput className="signup" type="text" labelPlacement="stacked" label="Nom" value={nom} onIonChange={handleNomChange}>
+                        <IonInput required={true} className="signup" type="text" labelPlacement="stacked" label="Nom" value={nom} onIonChange={handleNomChange}>
                             <IonIcon slot="start" icon={person} aria-hidden="true"></IonIcon>
                         </IonInput>
-                        <IonInput className="signup" type="text" labelPlacement="stacked" label="Prenom" value={prenom} onIonChange={handlePrenomChange}>
+                        <IonInput required={true} className="signup" type="text" labelPlacement="stacked" label="Prenom" value={prenom} onIonChange={handlePrenomChange}>
                             <IonIcon slot="start" icon={person} aria-hidden="true"></IonIcon>
                         </IonInput>
-                        <IonInput className="signup" type="date" labelPlacement="stacked" label="Date de naissance" value={dateNaissance} onIonChange={handleDateNaissanceChange}>
+                        <IonInput required={true} className="signup" type="date" labelPlacement="stacked" label="Date de naissance" value={dateNaissance} onIonChange={handleDateNaissanceChange}>
                             <IonIcon slot="start" icon={calendar} aria-hidden="true"></IonIcon>
                         </IonInput>
-                        <IonInput className="signup" type="text" labelPlacement="stacked" label="Addresse" value={adresse} onIonChange={handleAdresseChange}>
+                        <IonInput required={true} className="signup" type="text" labelPlacement="stacked" label="Addresse" value={adresse} onIonChange={handleAdresseChange}>
                             <IonIcon slot="start" icon={location} aria-hidden="true"></IonIcon>
                         </IonInput>
-                        <IonInput className="signup" type="email" labelPlacement="stacked" label="Email" value={email} onIonChange={handleEmailChange}>
+                        <IonInput required={true} className="signup" type="email" labelPlacement="stacked" label="Email" value={email} onIonChange={handleEmailChange}>
                             <IonIcon slot="start" icon={mail} aria-hidden="true"></IonIcon>
                         </IonInput>
-                        <IonInput className="signup" type="tel" labelPlacement="stacked" label="Telephone" value={telephone} onIonChange={handleTelephoneChange}>
+                        <IonInput required={true} className="signup" type="tel" labelPlacement="stacked" label="Telephone" value={telephone} onIonChange={handleTelephoneChange}>
                             <IonIcon slot="start" icon={call} aria-hidden="true"></IonIcon>
                         </IonInput>
-                        <IonInput className="signup" type="password" labelPlacement="stacked" label="Mot de passe" value={motDePasse} onIonChange={handleMotDePasseChange}>
+                        <IonInput required={true} className="signup" type="password" labelPlacement="stacked" label="Mot de passe" value={motDePasse} onIonChange={handleMotDePasseChange}>
                             <IonIcon slot="start" icon={lockClosed} aria-hidden="true"></IonIcon>
                         </IonInput>
-                        <IonInput className="signup" type="password" labelPlacement="stacked" label="Confirmer le mot de passe" value={confirmMotDePasse} onIonChange={handleConfirmMotDePasseChange}>
+                        <IonInput required={true} className="signup" type="password" labelPlacement="stacked" label="Confirmer le mot de passe" value={confirmMotDePasse} onIonChange={handleConfirmMotDePasseChange}>
                             <IonIcon slot="start" icon={lockClosed} aria-hidden="true"></IonIcon>
                         </IonInput>
                         <IonButton expand="full" onClick={openCamera} >

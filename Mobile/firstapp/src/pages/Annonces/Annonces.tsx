@@ -4,8 +4,75 @@ import Menu from "../../components/Menu/Menu";
 import './Annonces.scss';
 import { chevronBackOutline, chevronForwardOutline } from 'ionicons/icons';
 import AnnonceBox from '../../components/Annonces/AnnonceBox';
+import React, { useEffect, useState } from 'react';
+
+
+interface Annonce {
+    id: number;
+    version: string;
+    description: string;
+    status: number;
+    idUsers: number;
+    commissionTypeAnnonce: number;
+    etatTransmission: number;
+    niveauTypeAnnonce: number;
+    etatElectronique: number;
+    nbPlace: number;
+    kmEffectue: number;
+    idModele: number;
+    idTypeMoteur: number;
+    idMarque: number;
+    idTransmission: number;
+    nbVitesse: number;
+    idTaille: number;
+    idTypeAnnonce: number;
+    numero: string;
+    prixVente: number;
+    idUsage: number;
+    idEnergie: number;
+    puissance: number;
+    consommation: number;
+    idCouleur: number;
+    dateAnnonce: string;
+    etatFreinage: number;
+    nomCouleur: string;
+    etatSuspension: number;
+    nomMarque: string;
+    nomEnergie: string;
+    nomTaille: string;
+    rgbCouleur: string;
+    nomTypeAnnonce: string;
+    nomTypeMoteur: string;
+    nomUsers: string;
+    nomTransmission: string;
+    emailUsers: string;
+    etatPneu: number;
+    prenomUsers: string;
+    etatSiege: number;
+    etatMoteur: number;
+    nomModele: string;
+    etatCarrosserie: number;
+    nomUsage: string;
+    etatTableauBord: number;
+    telephoneUsers: string;
+}
+
 
 const Annonces: React.FC = () => {
+    const [annonces, setAnnonces] = useState<Annonce[]>([]);
+    useEffect(() => {
+        const fetchAnnonces = async () => {
+            try {
+                const response = await fetch('http://localhost:8080/api/v_annonce_complets/users/22');
+                const data = await response.json();
+                setAnnonces(data['data']);
+            } catch (error) {
+                console.error('Error fetching annonces:', error);
+            }
+        };
+
+        fetchAnnonces();
+    }, []);
     return (
         <>
             <Menu />
@@ -41,12 +108,9 @@ const Annonces: React.FC = () => {
                     </IonToolbar>
                 </IonHeader>
                 <IonContent className="annonces" >
-                    <AnnonceBox imageUrl="https://image-cdn.beforward.jp/large/201704/752032/BF629619_0e4c71.jpg" date="12/12/2023" title="KIA Pride SLX" status={0}></AnnonceBox>
-                    <AnnonceBox imageUrl="https://image-cdn.beforward.jp/large/201704/752032/BF629619_0e4c71.jpg" date="12/12/2023" title="KIA Pride SLX" status={1}></AnnonceBox>
-                    <AnnonceBox imageUrl="https://image-cdn.beforward.jp/large/201704/752032/BF629619_0e4c71.jpg" date="12/12/2023" title="KIA Pride SLX" status={2}></AnnonceBox>
-                    <AnnonceBox imageUrl="https://image-cdn.beforward.jp/large/201704/752032/BF629619_0e4c71.jpg" date="12/12/2023" title="KIA Pride SLX" status={0}></AnnonceBox>
-                    <AnnonceBox imageUrl="https://image-cdn.beforward.jp/large/201704/752032/BF629619_0e4c71.jpg" date="12/12/2023" title="KIA Pride SLX" status={1}></AnnonceBox>
-                    <AnnonceBox imageUrl="https://image-cdn.beforward.jp/large/201704/752032/BF629619_0e4c71.jpg" date="12/12/2023" title="KIA Pride SLX" status={2}></AnnonceBox>
+                    {annonces.map((annonce) => (
+                        <AnnonceBox key={annonce.id} id={annonce.id} imageUrl="https://image-cdn.beforward.jp/large/201704/752032/BF629619_0e4c71.jpg" date={annonce.dateAnnonce} title={annonce.nomMarque + " "+ annonce.nomModele} status={annonce.status}></AnnonceBox>
+                    ))}
                 </IonContent>
                 <IonFooter>
                     <IonToolbar>

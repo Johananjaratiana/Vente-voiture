@@ -47,8 +47,10 @@ const Login: React.FC = () => {
                 setShowAlert(true);
             }
             else {
-                const token = data['data']['token'];
+                const token = data['data']['token']['token'];
+                const idUser = data['data']['users']['id'];
                 await store.set('token', token);
+                await store.set('idUser',idUser);
                 history.push('/annonces')
             }
         } catch (error) {

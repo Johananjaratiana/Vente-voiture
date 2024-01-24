@@ -4,6 +4,7 @@ import { useHistory } from 'react-router-dom';
 
 
 interface AnnonceBoxProps {
+    id:number;
     imageUrl: string;
     title: string;
     date: string;
@@ -11,11 +12,11 @@ interface AnnonceBoxProps {
 };
 
 const data = [{ "color": "#f39c12", "text": "EN ATTENTE" }, { "color": "#2ecc71", "text": "EN VENTE" }, { "color": "#e74c3c", "text": "VENDU" },]
-const AnnonceBox: React.FC<AnnonceBoxProps> = ({ imageUrl, title, date, status }) => {
+const AnnonceBox: React.FC<AnnonceBoxProps> = ({ id,imageUrl, title, date, status }) => {
     const history = useHistory();
 
     const handleClick = () => {
-        history.push('/annonce/detail');
+        history.push('/annonce/detail/'+ id);
     };
     return (
         <div id="annonces-box" onClick={handleClick}>

@@ -76,6 +76,7 @@ const AjoutAnnonce: React.FC = () => {
     const [showAlert, setShowAlert] = useState(false);
     const [images, setImages] = useState<(string | undefined)[]>([]);
     const history = useHistory();
+    const [showLoading, setShowLoading] = useState(false);
 
     const handleMarqueChange = (e: any) => {
         setMarque(e.detail.value);
@@ -220,6 +221,7 @@ const AjoutAnnonce: React.FC = () => {
     };
 
     const handleSubmit = async () => {
+        setShowLoading(true);
         const formData = {
             id: 0,
             version: version,
@@ -256,7 +258,7 @@ const AjoutAnnonce: React.FC = () => {
             const data = await response.json();
             const message = data['message'];
             if (message == 'error') {
-                setShowAlert(true);
+                throw new Error();
             }
             else {
                 const idAnnonce = data['data']['id'];
@@ -283,7 +285,7 @@ const AjoutAnnonce: React.FC = () => {
                 const data2 = await response2.json();
                 const message2 = data2['message'];
                 if (message2 == 'error') {
-                    setShowAlert(true);
+                    throw new Error();
                 }
                 else {
                     let formData3:PhotoAnnonce[] = [];
@@ -294,7 +296,7 @@ const AjoutAnnonce: React.FC = () => {
                         };
                         formData3.push(newPhotoAnnonce);
                     });
-                    const response3 = await fetch('http://localhost:8080/api/photo_annonces', {
+                    const response3 = await fetch('http://localhost:8080/api/photo_annonce/many', {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json',
@@ -305,15 +307,19 @@ const AjoutAnnonce: React.FC = () => {
                     const data3 = await response3.json();
                     const message3 = data3['message'];
                     if (message3 == 'error') {
-                        setShowAlert(true);
+                        throw new Error();
                     }
                     else {
-                        history.push('/annonce/detail?id=' + idAnnonce);
+                        history.push('/annonce/detail/' + idAnnonce);
                     }
                 }
             }
         } catch (error) {
+            setShowLoading(false);
+            setShowAlert(true);
             console.error('Error:', error);
+        } finally {
+            setShowLoading(false);
         }
     };
 
@@ -348,6 +354,12 @@ const AjoutAnnonce: React.FC = () => {
                         message={'There was an error creating your annonce'}
                         buttons={['Try Again']}
                     />
+                    <IonAlert
+                        backdropDismiss={false}
+                        isOpen={showLoading}
+                        header={'Loading'}
+                        message={'Please wait while we create your annonce'}
+                    />
                     {/*  */}
                     {activeButton === 1 &&
                         <div className="ajout-annonce-page">
@@ -369,7 +381,7 @@ const AjoutAnnonce: React.FC = () => {
                                         </IonSelectOption>
                                     ))}
                                 </IonSelect>
-                                <IonInput value={version} onIonChange={handleVersionChange} className="ajout-annonce" type="text" labelPlacement="stacked" label="Version">
+                                <IonInput required={true} value={version} onIonChange={handleVersionChange} className="ajout-annonce" type="text" labelPlacement="stacked" label="Version">
                                 </IonInput>
                                 <IonSelect value={couleur} onIonChange={handleCouleurChange} className="ajout-annonce" label="Couleur" labelPlacement="stacked">
                                     {data?.couleur.map((item: any) => (
@@ -378,7 +390,7 @@ const AjoutAnnonce: React.FC = () => {
                                         </IonSelectOption>
                                     ))}
                                 </IonSelect>
-                                <IonInput value={nombrePlaces} onIonChange={handleNombrePlacesChange} className="ajout-annonce" type="number" labelPlacement="stacked" label="Nombre de places">
+                                <IonInput required={true} value={nombrePlaces} onIonChange={handleNombrePlacesChange} className="ajout-annonce" type="number" labelPlacement="stacked" label="Nombre de places">
                                 </IonInput>
                                 <IonSelect value={taille} onIonChange={handleTailleChange} className="ajout-annonce" label="Taille" labelPlacement="stacked">
                                     {data?.taille.map((item: any) => (
@@ -395,9 +407,9 @@ const AjoutAnnonce: React.FC = () => {
                                     ))}
                                 </IonSelect>
                                 <IonTextarea value={description} onIonChange={handleDescriptionChange} className="ajout-annonce" label="Description" labelPlacement="stacked"></IonTextarea>
-                                <IonInput value={numero} onIonChange={handleNumeroChange} className="ajout-annonce" type="text" labelPlacement="stacked" label="Numero">
+                                <IonInput required={true} value={numero} onIonChange={handleNumeroChange} className="ajout-annonce" type="text" labelPlacement="stacked" label="Numero">
                                 </IonInput>
-                                <IonInput value={prixVente} onIonChange={handlePrixVenteChange} className="ajout-annonce" type="number" labelPlacement="stacked" label="Prix de vente">
+                                <IonInput required={true} value={prixVente} onIonChange={handlePrixVenteChange} className="ajout-annonce" type="number" labelPlacement="stacked" label="Prix de vente">
                                 </IonInput>
                                 <div id="ajout-annonce-button">
                                     <IonButton color="success" onClick={() => handleButtonClick(2)}>Suivant</IonButton>
@@ -418,7 +430,7 @@ const AjoutAnnonce: React.FC = () => {
                                         </IonSelectOption>
                                     ))}
                                 </IonSelect>
-                                <IonInput value={consommation} onIonChange={handleConsommationChange} className="ajout-annonce" type="text" labelPlacement="stacked" label="Consommation">
+                                <IonInput required={true} value={consommation} onIonChange={handleConsommationChange} className="ajout-annonce" type="text" labelPlacement="stacked" label="Consommation">
                                 </IonInput>
                                 <IonSelect value={transmission} onIonChange={handleTransmissionChange} className="ajout-annonce" label="Transmission" labelPlacement="stacked">
                                     {data?.transmission.map((item: any) => (
@@ -427,7 +439,7 @@ const AjoutAnnonce: React.FC = () => {
                                         </IonSelectOption>
                                     ))}
                                 </IonSelect>
-                                <IonInput value={nombreVitesse} onIonChange={handleNombreVitesseChange} className="ajout-annonce" type="number" labelPlacement="stacked" label="Nombre de vitesse">
+                                <IonInput required={true} value={nombreVitesse} onIonChange={handleNombreVitesseChange} className="ajout-annonce" type="number" labelPlacement="stacked" label="Nombre de vitesse">
                                 </IonInput>
                                 <IonSelect value={typeMoteur} onIonChange={handleTypeMoteurChange} className="ajout-annonce" label="Type de moteur" labelPlacement="stacked">
                                     {data?.typeMoteur.map((item: any) => (
@@ -436,7 +448,7 @@ const AjoutAnnonce: React.FC = () => {
                                         </IonSelectOption>
                                     ))}
                                 </IonSelect>
-                                <IonInput value={puissance} onIonChange={handlePuissanceChange} className="ajout-annonce" type="number" labelPlacement="stacked" label="Puissance">
+                                <IonInput required={true} value={puissance} onIonChange={handlePuissanceChange} className="ajout-annonce" type="number" labelPlacement="stacked" label="Puissance">
                                 </IonInput>
                                 <div id="ajout-annonce-button">
                                     <IonButton color="danger" onClick={() => handleButtonClick(1)}>Precedent</IonButton>
@@ -453,51 +465,51 @@ const AjoutAnnonce: React.FC = () => {
                             <div className="ajout-annonce-content">
                                 <IonRow>
                                     <IonCol size="6">
-                                        <IonInput value={carosserie} onIonChange={handleCarosserieChange} className="ajout-annonce" type="number" labelPlacement="stacked" label="Carosserie">
+                                        <IonInput required={true} value={carosserie} onIonChange={handleCarosserieChange} className="ajout-annonce" type="number" labelPlacement="stacked" label="Carosserie">
                                         </IonInput>
                                     </IonCol>
                                     <IonCol size="6">
-                                        <IonInput value={siege} onIonChange={handleSiegeChange} className="ajout-annonce" type="number" labelPlacement="stacked" label="Siege">
+                                        <IonInput required={true} value={siege} onIonChange={handleSiegeChange} className="ajout-annonce" type="number" labelPlacement="stacked" label="Siege">
                                         </IonInput>
                                     </IonCol>
                                 </IonRow>
                                 <IonRow>
                                     <IonCol size="6">
-                                        <IonInput value={tableauBord} onIonChange={handleTableauBordChange} className="ajout-annonce" type="number" labelPlacement="stacked" label="Tablea de bord">
+                                        <IonInput required={true} value={tableauBord} onIonChange={handleTableauBordChange} className="ajout-annonce" type="number" labelPlacement="stacked" label="Tablea de bord">
                                         </IonInput>
                                     </IonCol>
                                     <IonCol size="6">
-                                        <IonInput value={moteur} onIonChange={handleMoteurChange} className="ajout-annonce" type="number" labelPlacement="stacked" label="Moteur">
+                                        <IonInput required={true} value={moteur} onIonChange={handleMoteurChange} className="ajout-annonce" type="number" labelPlacement="stacked" label="Moteur">
                                         </IonInput>
                                     </IonCol>
                                 </IonRow>
                                 <IonRow>
                                     <IonCol size="6">
-                                        <IonInput value={freinage} onIonChange={handleFreinageChange} className="ajout-annonce" type="number" labelPlacement="stacked" label="Freinage">
+                                        <IonInput required={true} value={freinage} onIonChange={handleFreinageChange} className="ajout-annonce" type="number" labelPlacement="stacked" label="Freinage">
                                         </IonInput>
                                     </IonCol>
                                     <IonCol size="6">
-                                        <IonInput value={etatTransmission} onIonChange={handleEtatTransmissionChange} className="ajout-annonce" type="number" labelPlacement="stacked" label="Transmission">
+                                        <IonInput required={true} value={etatTransmission} onIonChange={handleEtatTransmissionChange} className="ajout-annonce" type="number" labelPlacement="stacked" label="Transmission">
                                         </IonInput>
                                     </IonCol>
                                 </IonRow>
                                 <IonRow>
                                     <IonCol size="6">
-                                        <IonInput value={pneu} onIonChange={handlePneuChange} className="ajout-annonce" type="number" labelPlacement="stacked" label="Pneu">
+                                        <IonInput required={true} value={pneu} onIonChange={handlePneuChange} className="ajout-annonce" type="number" labelPlacement="stacked" label="Pneu">
                                         </IonInput>
                                     </IonCol>
                                     <IonCol size="6">
-                                        <IonInput value={electronique} onIonChange={handleElectroniqueChange} className="ajout-annonce" type="number" labelPlacement="stacked" label="Electronique">
+                                        <IonInput required={true} value={electronique} onIonChange={handleElectroniqueChange} className="ajout-annonce" type="number" labelPlacement="stacked" label="Electronique">
                                         </IonInput>
                                     </IonCol>
                                 </IonRow>
                                 <IonRow>
                                     <IonCol size="6">
-                                        <IonInput value={suspension} onIonChange={handleSuspensionChange} className="ajout-annonce" type="number" labelPlacement="stacked" label="Suspension">
+                                        <IonInput required={true} value={suspension} onIonChange={handleSuspensionChange} className="ajout-annonce" type="number" labelPlacement="stacked" label="Suspension">
                                         </IonInput>
                                     </IonCol>
                                 </IonRow>
-                                <IonInput value={kilometrage} onIonChange={handleKilometrageChange} className="ajout-annonce" type="number" labelPlacement="stacked" label="Kilometrage effectue">
+                                <IonInput required={true} value={kilometrage} onIonChange={handleKilometrageChange} className="ajout-annonce" type="number" labelPlacement="stacked" label="Kilometrage effectue">
                                 </IonInput>
                                 <IonButton expand="full" onClick={openCamera}>
                                     <IonIcon icon={camera} slot="start" />
