@@ -283,7 +283,7 @@ const AjoutAnnonce: React.FC = () => {
                 else {
                     const formData3 = {
                         idAnnonce: idAnnonce,
-                        images: images,
+                        images: images[0],
                     }
                     const response3 = await fetch('http://localhost:8080/api/photo_annonces', {
                         method: 'POST',
