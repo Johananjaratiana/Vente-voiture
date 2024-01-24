@@ -281,7 +281,26 @@ const AjoutAnnonce: React.FC = () => {
                     setShowAlert(true);
                 }
                 else {
-                    history.push('/annonce/detail?id=' + idAnnonce);
+                    const formData3 = {
+                        idAnnonce: idAnnonce,
+                        images: images,
+                    }
+                    const response3 = await fetch('http://localhost:8080/api/photo_annonces', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Authorization': `Bearer ${token}`
+                        },
+                        body: JSON.stringify(formData3),
+                    });
+                    const data3 = await response3.json();
+                    const message3 = data3['message'];
+                    if (message3 == 'error') {
+                        setShowAlert(true);
+                    }
+                    else {
+                        history.push('/annonce/detail?id=' + idAnnonce);
+                    }
                 }
             }
         } catch (error) {
@@ -478,7 +497,7 @@ const AjoutAnnonce: React.FC = () => {
                                 {
                                     <div className="showImages">
                                         {images.map((image, index) => (
-                                            <img key={index} src={`data:image/jpeg;base64,${image}`} alt={`Image ${index}`}/>
+                                            <img key={index} src={`data:image/jpeg;base64,${image}`} alt={`Image ${index}`} />
                                         ))}
                                     </div>
                                 }
