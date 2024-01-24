@@ -1,5 +1,7 @@
 package com.vente.voiture.ws.security.user;
 
+import java.util.HashMap;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -38,7 +40,10 @@ public class UsersController {
             if (user != null) 
             {
                 String token = jwtTokenUtil.generateToken(Integer.valueOf(user.getId().toString()));
-                response.setDataOnSuccess(new Token(token, true));
+                HashMap<String, Object> result = new HashMap<>();
+                result.put("token", new Token(token, true));
+                result.put("users", user);
+                response.setDataOnSuccess(result);
             }
             else 
             {

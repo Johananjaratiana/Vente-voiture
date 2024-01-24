@@ -1,6 +1,7 @@
 /home/johan/Documents/Rojo/Vente-vehicules/Vente-voiture/Web-service/src/main/java/com/vente/voiture/ws/security/user/ProfilUtilisateur.java
 /home/johan/Documents/Rojo/Vente-vehicules/Vente-voiture/Web-service/src/main/java/com/vente/voiture/crud/repository/TailleRepository.java
 /home/johan/Documents/Rojo/Vente-vehicules/Vente-voiture/Web-service/src/main/java/com/vente/voiture/function/annonce/AnnonceCurrentUserController.java
+/home/johan/Documents/Rojo/Vente-vehicules/Vente-voiture/Web-service/src/main/java/com/vente/voiture/function/annonce/filtre/FilterSelection.java
 /home/johan/Documents/Rojo/Vente-vehicules/Vente-voiture/Web-service/src/main/java/com/vente/voiture/mongo/MessageController.java
 /home/johan/Documents/Rojo/Vente-vehicules/Vente-voiture/Web-service/src/main/java/com/vente/voiture/VoitureApplication.java
 /home/johan/Documents/Rojo/Vente-vehicules/Vente-voiture/Web-service/src/main/java/com/vente/voiture/crud/controller/ModeleController.java
