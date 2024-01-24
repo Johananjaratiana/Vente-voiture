@@ -25,14 +25,14 @@ public class FilterSelection {
         return "";
     }
     
-    public List<V_annonce_complet> GetAnnonceComplet(Long id, Connection connection){
+    public List<V_annonce_complet> GetAnnonceComplet(Users users, Connection connection){
         List<V_annonce_complet> result = new ArrayList<V_annonce_complet>(); 
         V_annonce_complet temp;
         try {
             String sql = "SELECT * FROM v_annonce_complet WHERE id = ?";
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
 
-            preparedStatement.setLong(1, id);
+            // preparedStatement.setLong(1, users.getId());
 
             ResultSet resultSet = preparedStatement.executeQuery();
 
