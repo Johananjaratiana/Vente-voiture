@@ -113,6 +113,26 @@
 		</dependency> -->
 		<!-- MONGO DB -->
 
+		<!-- Google Auth Library and Cloud Storage -->
+		<dependency>
+			<groupId>com.google.auth</groupId>
+			<artifactId>google-auth-library-oauth2-http</artifactId>
+			<version>0.20.0</version>
+		</dependency>
+		<dependency>
+			<groupId>com.google.cloud</groupId>
+			<artifactId>google-cloud-storage</artifactId>
+			<version>1.113.1</version>
+		</dependency>
+		<!-- Google Auth Library and Cloud Storage -->
+
+		<!-- Firebase -->
+		<dependency>
+			<groupId>com.google.firebase</groupId>
+			<artifactId>firebase-admin</artifactId>
+			<version>9.1.1</version>
+		</dependency>
+		<!-- Firebase -->
 
 
 	</dependencies>

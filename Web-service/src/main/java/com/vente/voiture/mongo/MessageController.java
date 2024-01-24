@@ -27,12 +27,15 @@ public class MessageController {
     @Autowired
     private JwtTokenUtil jwtTokenUtil;
 
+    @Autowired
+    private MessageService messageService;
+
     @GetMapping("/not_seen_message")
     public Response GetNotSeenMessage(@RequestHeader(HttpHeaders.AUTHORIZATION) String authorizationHeader) {
         Response response = new Response();
         try{
             Users users = jwtTokenUtil.validateTokenReturningUsers(usersService, authorizationHeader);
-            response.setDataOnSuccess(Message.GetNotSeenMessage(users));
+            response.setDataOnSuccess(messageService.GetNotSeenMessage(users));
         }catch(Exception ex){
             response.setError(ex.getMessage());
         }
@@ -44,7 +47,7 @@ public class MessageController {
         Response response = new Response();
         try{
             Users users = jwtTokenUtil.validateTokenReturningUsers(usersService, authorizationHeader);
-            response.setDataOnSuccess(Message.GetMessageByTokenAndUser(users, id_other_user));
+            response.setDataOnSuccess(messageService.GetMessageByTokenAndUser(users, id_other_user));
         }catch(Exception ex){
             response.setError(ex.getMessage());
         }
@@ -56,7 +59,7 @@ public class MessageController {
         Response response = new Response();
         try{
             Users users = jwtTokenUtil.validateTokenReturningUsers(usersService, authorizationHeader);
-            response.setDataOnSuccess(Message.SetViewMessage(users, id_other_user));
+            response.setDataOnSuccess(messageService.SetViewMessage(users, id_other_user));
         }catch(Exception ex){
             response.setError(ex.getMessage());
         }
@@ -68,7 +71,7 @@ public class MessageController {
         Response response = new Response();
         try{
             Users users = jwtTokenUtil.validateTokenReturningUsers(usersService, authorizationHeader);
-            response.setDataOnSuccess(Message.SaveMessageByTokenAndUser(users, receivedMessage));
+            response.setDataOnSuccess(messageService.SaveMessageByTokenAndUser(users, receivedMessage));
         }catch(Exception ex){
             response.setError(ex.getMessage());
         }
