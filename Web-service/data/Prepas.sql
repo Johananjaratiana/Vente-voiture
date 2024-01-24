@@ -33,10 +33,10 @@ INSERT INTO type_moteur
 
 INSERT INTO type_annonce
 	( id, nom, status, commission) VALUES 
-    ( DEFAULT, 'Annonces Sponsorisées', 0 , 2/100),
-    ( DEFAULT, 'Annonces Premium', 0 , 3/100 ),
-    ( DEFAULT, 'Annonces Featured', 0 , 4/100 ),
-    ( DEFAULT, 'Annonces VIP', 0, 5/100 );
+    ( DEFAULT, 'Annonces Sponsorisées', 0 , 0.02),
+    ( DEFAULT, 'Annonces Premium', 0 , 0.03 ),
+    ( DEFAULT, 'Annonces Featured', 0 , 0.04 ),
+    ( DEFAULT, 'Annonces VIP', 0, 0.05 );
 
 ---------------------------------------------------------------------
 Marque : 

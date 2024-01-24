@@ -17,7 +17,7 @@ public class JsonParser {
         Iterator<Map.Entry<String, Object>> iterator = completedMap.entrySet().iterator();
         while (iterator.hasNext()) {
             Map.Entry<String, Object> entry = iterator.next();
-            if (entry.getValue() != null) {
+            if (entry.getValue() != null && entry.getKey().contains("mdp") == false) {
                 mapWithPrefix.put(added + entry.getKey(), entry.getValue());
             }
         }

@@ -1,9 +1,9 @@
 curl -X 'GET'  'http://localhost:8080/api/messages/not_seen_message' \
     -H 'accept: */*' \
-    -H 'Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIxMyIsImlhdCI6MTcwNTY1NDYzNSwiZXhwIjoxNzA1NzQxMDM1fQ.DOEBSNMtkl6qcTkGJ05EZjtC-XnsSMCQj_YMegN8GT8l-Pp9HAGbr_ohksIv2mJbn27Cm3AEjFRb4MUDDPq5Kw' \
+    -H 'Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI5IiwiaWF0IjoxNzA2MDk1MjMzLCJleHAiOjE3MDYxODE2MzN9.DHiW6tgnZTjzNq6OukNkIO_6cSNu-b781bN1xJdqjrtKyNCz0gZ4vEzsZvriW6w5aU54MWQN1D7qOfVvkrKXwA' \
 
 
 # Johan 
-# -H 'Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI5IiwiaWF0IjoxNzA1NjUxNTgwLCJleHAiOjE3MDU3Mzc5ODB9.Tw_LGtPGebFgatE2_-5bp5klWfZe_RDHFye9HQFaQ-9_8hxmldncCFNe2_bbPKODrcSVaGubNwt0zRFakMLZmA' \
+# -H 'Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI5IiwiaWF0IjoxNzA2MDk1MjMzLCJleHAiOjE3MDYxODE2MzN9.DHiW6tgnZTjzNq6OukNkIO_6cSNu-b781bN1xJdqjrtKyNCz0gZ4vEzsZvriW6w5aU54MWQN1D7qOfVvkrKXwA' \
 # To
-# -H 'Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIxMyIsImlhdCI6MTcwNTY1NDYzNSwiZXhwIjoxNzA1NzQxMDM1fQ.DOEBSNMtkl6qcTkGJ05EZjtC-XnsSMCQj_YMegN8GT8l-Pp9HAGbr_ohksIv2mJbn27Cm3AEjFRb4MUDDPq5Kw' \
+# -H 'Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIxMyIsImlhdCI6MTcwNTc2Mjk4MiwiZXhwIjoxNzA1ODQ5MzgyfQ.pFrGtzFonMdYPqG5ucWWSX6dIW6NtqbqSaMh7d57eLCFqogknpxWYBChRjhyUAKqvoVNib2QGaRRJY2wLxlEKQ' \
