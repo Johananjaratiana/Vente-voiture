@@ -1,5 +1,5 @@
 import { IonAccordion, IonAccordionGroup, IonButton, IonCol, IonContent, IonIcon, IonImg, IonItem, IonLabel, IonPage, IonRow } from '@ionic/react';
-import { checkmarkDoneCircleOutline, createOutline, trashOutline } from 'ionicons/icons';
+import { checkmarkDoneCircleOutline, createOutline, trashOutline , closeCircleOutline} from 'ionicons/icons';
 import { A11y, Navigation, Pagination, Scrollbar } from 'swiper/modules';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import Header from '../../components/Header/Header';
@@ -123,9 +123,17 @@ const DetailAnnonce: React.FC = () => {
 
     const handleButtonClick = async () => {
         try {
-            setAnnounceData((prevData: AnnounceData | null) => ({ ...prevData!, status: 20 }));
+            if (!announceData) {
+                return;
+            }
+            if (announceData.status==10){
+                announceData.status = 20;
+            }
+            else{
+                announceData.status = 10;
+            }
             const token = await store.get('token');
-            const response = await fetch('http://localhost:8080/api/annnonces/'+announceData?.id, {
+            const response = await fetch('http://localhost:8080/api/annonces/' + announceData?.id, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
@@ -138,7 +146,8 @@ const DetailAnnonce: React.FC = () => {
             if (message == 'error') {
                 throw new Error();
             }
-        }catch (error) {
+            setAnnounceData({ ...announceData, status: announceData.status});
+        } catch (error) {
             console.error('Error:', error);
         }
     };
@@ -175,9 +184,13 @@ const DetailAnnonce: React.FC = () => {
                                         Mis en vente le {announceData?.dateAnnonce}
                                     </div>
                                     <div className="action">
-                                        <IonButton expand="full" color="success" onClick={handleButtonClick}>
-                                            <IonIcon slot="start" icon={checkmarkDoneCircleOutline}></IonIcon>
-                                            Marquer comme vendu
+                                        <IonButton
+                                            expand="full"
+                                            color={announceData && announceData.status === 20 ? 'danger' : 'success'}  // Change color based on status
+                                            onClick={handleButtonClick}
+                                        >
+                                            <IonIcon slot="start" icon={announceData && announceData.status === 20 ? closeCircleOutline : checkmarkDoneCircleOutline}></IonIcon>
+                                            {announceData && announceData.status === 20 ? 'Annulation de la vente' : 'Marquer comme vendu'}  {/* Change text based on status */}
                                         </IonButton>
                                     </div>
                                 </div>
