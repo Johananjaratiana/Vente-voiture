@@ -25,28 +25,6 @@ public class V_latest_annonce_venduController {
     }
 
 
-    @GetMapping("modele/{id_modele}")
-    public Response getV_latest_annonce_venduByIdModele(@PathVariable Integer id_modele) {
-        Response response = new Response();
-        try{
-            response.setDataOnSuccess(v_latest_annonce_venduService.getV_latest_annonce_venduByIdModele(id_modele));
-        }catch(Exception ex){
-            response.setError(ex.getMessage());
-        }
-        return response;
-    }
-
-    @GetMapping("marque/{id_marque}")
-    public Response getV_latest_annonce_venduByIdMarque(@PathVariable Integer id_marque) {
-        Response response = new Response();
-        try{
-            response.setDataOnSuccess(v_latest_annonce_venduService.getV_latest_annonce_venduByIdMarque(id_marque));
-        }catch(Exception ex){
-            response.setError(ex.getMessage());
-        }
-        return response;
-    }
-
     @GetMapping("type_moteur/{id_type_moteur}")
     public Response getV_latest_annonce_venduByIdTypeMoteur(@PathVariable Integer id_type_moteur) {
         Response response = new Response();
@@ -63,6 +41,61 @@ public class V_latest_annonce_venduController {
         Response response = new Response();
         try{
             response.setDataOnSuccess(v_latest_annonce_venduService.getV_latest_annonce_venduByIdTaille(id_taille));
+        }catch(Exception ex){
+            response.setError(ex.getMessage());
+        }
+        return response;
+    }
+
+    @GetMapping("transmission/{id_transmission}")
+    public Response getV_latest_annonce_venduByIdTransmission(@PathVariable Integer id_transmission) {
+        Response response = new Response();
+        try{
+            response.setDataOnSuccess(v_latest_annonce_venduService.getV_latest_annonce_venduByIdTransmission(id_transmission));
+        }catch(Exception ex){
+            response.setError(ex.getMessage());
+        }
+        return response;
+    }
+
+    @GetMapping("couleur/{id_couleur}")
+    public Response getV_latest_annonce_venduByIdCouleur(@PathVariable Integer id_couleur) {
+        Response response = new Response();
+        try{
+            response.setDataOnSuccess(v_latest_annonce_venduService.getV_latest_annonce_venduByIdCouleur(id_couleur));
+        }catch(Exception ex){
+            response.setError(ex.getMessage());
+        }
+        return response;
+    }
+
+    @GetMapping("type_annonce/{id_type_annonce}")
+    public Response getV_latest_annonce_venduByIdTypeAnnonce(@PathVariable Integer id_type_annonce) {
+        Response response = new Response();
+        try{
+            response.setDataOnSuccess(v_latest_annonce_venduService.getV_latest_annonce_venduByIdTypeAnnonce(id_type_annonce));
+        }catch(Exception ex){
+            response.setError(ex.getMessage());
+        }
+        return response;
+    }
+
+    @GetMapping("modele/{id_modele}")
+    public Response getV_latest_annonce_venduByIdModele(@PathVariable Integer id_modele) {
+        Response response = new Response();
+        try{
+            response.setDataOnSuccess(v_latest_annonce_venduService.getV_latest_annonce_venduByIdModele(id_modele));
+        }catch(Exception ex){
+            response.setError(ex.getMessage());
+        }
+        return response;
+    }
+
+    @GetMapping("marque/{id_marque}")
+    public Response getV_latest_annonce_venduByIdMarque(@PathVariable Integer id_marque) {
+        Response response = new Response();
+        try{
+            response.setDataOnSuccess(v_latest_annonce_venduService.getV_latest_annonce_venduByIdMarque(id_marque));
         }catch(Exception ex){
             response.setError(ex.getMessage());
         }
@@ -91,44 +124,11 @@ public class V_latest_annonce_venduController {
         return response;
     }
 
-    @GetMapping("transmission/{id_transmission}")
-    public Response getV_latest_annonce_venduByIdTransmission(@PathVariable Integer id_transmission) {
-        Response response = new Response();
-        try{
-            response.setDataOnSuccess(v_latest_annonce_venduService.getV_latest_annonce_venduByIdTransmission(id_transmission));
-        }catch(Exception ex){
-            response.setError(ex.getMessage());
-        }
-        return response;
-    }
-
     @GetMapping("usage/{id_usage}")
     public Response getV_latest_annonce_venduByIdUsage(@PathVariable Integer id_usage) {
         Response response = new Response();
         try{
             response.setDataOnSuccess(v_latest_annonce_venduService.getV_latest_annonce_venduByIdUsage(id_usage));
-        }catch(Exception ex){
-            response.setError(ex.getMessage());
-        }
-        return response;
-    }
-
-    @GetMapping("couleur/{id_couleur}")
-    public Response getV_latest_annonce_venduByIdCouleur(@PathVariable Integer id_couleur) {
-        Response response = new Response();
-        try{
-            response.setDataOnSuccess(v_latest_annonce_venduService.getV_latest_annonce_venduByIdCouleur(id_couleur));
-        }catch(Exception ex){
-            response.setError(ex.getMessage());
-        }
-        return response;
-    }
-
-    @GetMapping("type_annonce/{id_type_annonce}")
-    public Response getV_latest_annonce_venduByIdTypeAnnonce(@PathVariable Integer id_type_annonce) {
-        Response response = new Response();
-        try{
-            response.setDataOnSuccess(v_latest_annonce_venduService.getV_latest_annonce_venduByIdTypeAnnonce(id_type_annonce));
         }catch(Exception ex){
             response.setError(ex.getMessage());
         }

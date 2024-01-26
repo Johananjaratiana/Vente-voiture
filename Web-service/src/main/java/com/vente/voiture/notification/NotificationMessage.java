@@ -11,5 +11,4 @@ public class NotificationMessage {
     private String body;
     private String image;
     private Map<String, String> data;
-    
 }

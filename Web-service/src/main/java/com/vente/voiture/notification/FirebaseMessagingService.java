@@ -37,7 +37,6 @@ public class FirebaseMessagingService {
         }catch(FirebaseMessagingException e){
             e.printStackTrace();
             return "Error";
-
         }
     }
 }

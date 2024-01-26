@@ -18,11 +18,11 @@ public class VoitureApplication {
 	@Bean
 	FirebaseMessaging firebaseMessaging() throws IOException {
 		GoogleCredentials googleCredentials = GoogleCredentials
-				.fromStream(new ClassPathResource("firebase-private-key.json").getInputStream());
+				.fromStream(new ClassPathResource("notification-88f1b-firebase-adminsdk-eedv1-e0b6b9eaed.json").getInputStream());
 		FirebaseOptions firestoreOptions = FirebaseOptions.builder()
 				.setCredentials(googleCredentials)
 				.build();
-		FirebaseApp app = FirebaseApp.initializeApp(firestoreOptions, "cloud-image-vente-voiture");
+		FirebaseApp app = FirebaseApp.initializeApp(firestoreOptions, "notification");
 		return FirebaseMessaging.getInstance(app);
 	}
 

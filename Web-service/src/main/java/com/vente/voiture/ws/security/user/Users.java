@@ -65,6 +65,11 @@ public class Users {
                     users.setIdprofile(resultSet.getInt("idprofile"));
                     users.setNom(resultSet.getString("nom"));                    
                     users.setMdp(resultSet.getString("mdp"));
+                    users.setPrenom(resultSet.getString("prenom"));
+                    users.setDtn(resultSet.getDate("dtn"));
+                    users.setAddresse(resultSet.getString("addresse"));
+                    users.setEmail(resultSet.getString("email"));
+                    users.setTelephone(resultSet.getString("telephone"));
                 }
             }
         } catch (Exception e) {
