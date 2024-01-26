@@ -470,6 +470,7 @@ CREATE VIEW "public".v_latest_annonce_vendu AS  SELECT v_annonce_complet.id,
     v_annonce_complet.etat_suspension,
     v_annonce_complet.nom_couleur,
     v_annonce_complet.rgb_couleur,
+    v_annonce_complet.image,
     (v_annonce_complet.prix_vente * v_annonce_complet.commission_type_annonce) AS commission_obtenue
    FROM v_annonce_complet
   WHERE (v_annonce_complet.status = 20)
@@ -672,3 +673,6 @@ INSERT INTO "public".token( id, idusers, token, dtexp, isvalidate ) VALUES ( 10,
 INSERT INTO "public".token( id, idusers, token, dtexp, isvalidate ) VALUES ( 11, 13, 'eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIxMyIsImlhdCI6MTcwNTY1NDYzNSwiZXhwIjoxNzA1NzQxMDM1fQ.DOEBSNMtkl6qcTkGJ05EZjtC-XnsSMCQj_YMegN8GT8l-Pp9HAGbr_ohksIv2mJbn27Cm3AEjFRb4MUDDPq5Kw', '2024-01-20', true);
 INSERT INTO "public".token( id, idusers, token, dtexp, isvalidate ) VALUES ( 12, 13, 'eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIxMyIsImlhdCI6MTcwNTc2Mjk4MiwiZXhwIjoxNzA1ODQ5MzgyfQ.pFrGtzFonMdYPqG5ucWWSX6dIW6NtqbqSaMh7d57eLCFqogknpxWYBChRjhyUAKqvoVNib2QGaRRJY2wLxlEKQ', '2024-01-21', true);
 INSERT INTO "public".token( id, idusers, token, dtexp, isvalidate ) VALUES ( 13, 9, 'eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI5IiwiaWF0IjoxNzA2MDk1MjMzLCJleHAiOjE3MDYxODE2MzN9.DHiW6tgnZTjzNq6OukNkIO_6cSNu-b781bN1xJdqjrtKyNCz0gZ4vEzsZvriW6w5aU54MWQN1D7qOfVvkrKXwA', '2024-01-25', true);
+INSERT INTO "public".token( id, idusers, token, dtexp, isvalidate ) VALUES ( 14, 9, 'eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI5IiwiaWF0IjoxNzA2Mjk2MjUzLCJleHAiOjE3MDYzODI2NTN9.1-J0G_fWbbvGGdhIMYeNeJdtfwEdCQdHTvs1RDZN4vmSIXki2MmSHUtXRhsMgHOZjAqFgx9_h1uF9-Eu3fkGVQ', '2024-01-27', true);
+INSERT INTO "public".token( id, idusers, token, dtexp, isvalidate ) VALUES ( 15, 9, 'eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI5IiwiaWF0IjoxNzA2Mjk2NDc1LCJleHAiOjE3MDYzODI4NzV9.232upmUaOlmCZv1pYA81yMDDh-lUeGTqg8ecVG2HWJQltCYX6UJMmdrrNnb0JSrUekizurntU1RllqrU20GCaA', '2024-01-27', true);
+INSERT INTO "public".token( id, idusers, token, dtexp, isvalidate ) VALUES ( 16, 9, 'eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI5IiwiaWF0IjoxNzA2Mjk2NTk3LCJleHAiOjE3MDYzODI5OTd9.HfXUgseeblThAqWHox0UWNr1sO90I1EqgBzNr2BjM3rh7rseTnD5d251aAQ72xK6wJcqFOGWhM3CCMFn7H2wHA', '2024-01-27', true);
