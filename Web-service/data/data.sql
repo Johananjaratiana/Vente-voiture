@@ -114,7 +114,8 @@ CREATE  TABLE "public".users (
 	addresse             varchar(100)  NOT NULL  ,
 	email                varchar  NOT NULL  ,
 	telephone            varchar  NOT NULL  ,
-	CONSTRAINT users_pkey PRIMARY KEY ( id )
+	CONSTRAINT users_pkey PRIMARY KEY ( id ),
+	CONSTRAINT fk_users_profil_utilisateur FOREIGN KEY ( idprofile ) REFERENCES "public".profil_utilisateur( id ) ON DELETE CASCADE ON UPDATE CASCADE 
  );
 
 CREATE  TABLE "public".annonce ( 
@@ -140,7 +141,17 @@ CREATE  TABLE "public".annonce (
 	km_effectue          double precision  NOT NULL  ,
 	id_couleur           integer  NOT NULL  ,
 	numero               varchar  NOT NULL  ,
-	CONSTRAINT pk_annonce PRIMARY KEY ( id )
+	CONSTRAINT pk_annonce PRIMARY KEY ( id ),
+	CONSTRAINT fk_annonce_couleur FOREIGN KEY ( id_couleur ) REFERENCES "public".couleur( id ) ON DELETE CASCADE ON UPDATE CASCADE ,
+	CONSTRAINT fk_annonce_energie FOREIGN KEY ( id_energie ) REFERENCES "public".energie( id ) ON DELETE CASCADE ON UPDATE CASCADE ,
+	CONSTRAINT fk_annonce_marque FOREIGN KEY ( id_marque ) REFERENCES "public".marque( id ) ON DELETE CASCADE ON UPDATE CASCADE ,
+	CONSTRAINT fk_annonce_modele FOREIGN KEY ( id_modele ) REFERENCES "public".modele( id ) ON DELETE CASCADE ON UPDATE CASCADE ,
+	CONSTRAINT fk_annonce_taille FOREIGN KEY ( id_taille ) REFERENCES "public".taille( id ) ON DELETE CASCADE ON UPDATE CASCADE ,
+	CONSTRAINT fk_annonce_transmission FOREIGN KEY ( id_transmission ) REFERENCES "public".transmission( id ) ON DELETE CASCADE ON UPDATE CASCADE ,
+	CONSTRAINT fk_annonce_type_annonce FOREIGN KEY ( id_type_annonce ) REFERENCES "public".type_annonce( id ) ON DELETE CASCADE ON UPDATE CASCADE ,
+	CONSTRAINT fk_annonce_type_moteur FOREIGN KEY ( id_type_moteur ) REFERENCES "public".type_moteur( id ) ON DELETE CASCADE ON UPDATE CASCADE ,
+	CONSTRAINT fk_annonce_usage FOREIGN KEY ( id_usage ) REFERENCES "public"."usage"( id ) ON DELETE CASCADE ON UPDATE CASCADE ,
+	CONSTRAINT fk_annonce_users FOREIGN KEY ( id_users ) REFERENCES "public".users( id ) ON DELETE CASCADE ON UPDATE CASCADE 
  );
 
 CREATE  TABLE "public".annonce_favoris ( 
@@ -148,7 +159,9 @@ CREATE  TABLE "public".annonce_favoris (
 	id_users             integer  NOT NULL  ,
 	id_annonce           integer  NOT NULL  ,
 	status               integer DEFAULT 0 NOT NULL  ,
-	CONSTRAINT pk_annonce_favoris PRIMARY KEY ( id )
+	CONSTRAINT pk_annonce_favoris PRIMARY KEY ( id ),
+	CONSTRAINT fk_annonce_favoris_annonce FOREIGN KEY ( id_annonce ) REFERENCES "public".annonce( id ) ON DELETE CASCADE ON UPDATE CASCADE ,
+	CONSTRAINT fk_annonce_favoris_users FOREIGN KEY ( id_users ) REFERENCES "public".users( id ) ON DELETE CASCADE ON UPDATE CASCADE 
  );
 
 CREATE  TABLE "public".etat_annonce ( 
@@ -163,7 +176,8 @@ CREATE  TABLE "public".etat_annonce (
 	pneu                 integer  NOT NULL  ,
 	electronique         integer  NOT NULL  ,
 	suspension           integer  NOT NULL  ,
-	CONSTRAINT pk_etat_annonce PRIMARY KEY ( id )
+	CONSTRAINT pk_etat_annonce PRIMARY KEY ( id ),
+	CONSTRAINT fk_etat_annonce_annonce FOREIGN KEY ( id_annonce ) REFERENCES "public".annonce( id ) ON DELETE CASCADE ON UPDATE CASCADE 
  );
 
 CREATE INDEX idx_etat_annonce ON "public".etat_annonce  ( id_annonce );
@@ -173,14 +187,16 @@ CREATE  TABLE "public".pdp (
 	id_users             integer  NOT NULL  ,
 	image                varchar  NOT NULL  ,
 	CONSTRAINT pk_pdp PRIMARY KEY ( id ),
-	CONSTRAINT unq_pdp UNIQUE ( id_users ) 
+	CONSTRAINT unq_pdp UNIQUE ( id_users ) ,
+	CONSTRAINT fk_pdp_users FOREIGN KEY ( id_users ) REFERENCES "public".users( id ) ON DELETE CASCADE ON UPDATE CASCADE 
  );
 
 CREATE  TABLE "public".photo_annonce ( 
 	id                   integer DEFAULT nextval('photo_annonce_id_seq'::regclass) NOT NULL  ,
 	id_annonce           integer  NOT NULL  ,
 	image                varchar  NOT NULL  ,
-	CONSTRAINT pk_photo_annonce PRIMARY KEY ( id )
+	CONSTRAINT pk_photo_annonce PRIMARY KEY ( id ),
+	CONSTRAINT fk_photo_annonce_annonce FOREIGN KEY ( id_annonce ) REFERENCES "public".annonce( id ) ON DELETE CASCADE ON UPDATE CASCADE 
  );
 
 CREATE  TABLE "public".token ( 
@@ -189,42 +205,9 @@ CREATE  TABLE "public".token (
 	token                varchar(255)  NOT NULL  ,
 	dtexp                date DEFAULT (CURRENT_DATE + '1 mon'::interval) NOT NULL  ,
 	isvalidate           boolean DEFAULT true NOT NULL  ,
-	CONSTRAINT token_pkey PRIMARY KEY ( id )
+	CONSTRAINT token_pkey PRIMARY KEY ( id ),
+	CONSTRAINT fk_token_users FOREIGN KEY ( idusers ) REFERENCES "public".users( id ) ON DELETE CASCADE ON UPDATE CASCADE 
  );
-
-ALTER TABLE "public".annonce ADD CONSTRAINT fk_annonce_couleur FOREIGN KEY ( id_couleur ) REFERENCES "public".couleur( id ) ON DELETE CASCADE ON UPDATE CASCADE;
-
-ALTER TABLE "public".annonce ADD CONSTRAINT fk_annonce_energie FOREIGN KEY ( id_energie ) REFERENCES "public".energie( id ) ON DELETE CASCADE ON UPDATE CASCADE;
-
-ALTER TABLE "public".annonce ADD CONSTRAINT fk_annonce_marque FOREIGN KEY ( id_marque ) REFERENCES "public".marque( id ) ON DELETE CASCADE ON UPDATE CASCADE;
-
-ALTER TABLE "public".annonce ADD CONSTRAINT fk_annonce_modele FOREIGN KEY ( id_modele ) REFERENCES "public".modele( id ) ON DELETE CASCADE ON UPDATE CASCADE;
-
-ALTER TABLE "public".annonce ADD CONSTRAINT fk_annonce_taille FOREIGN KEY ( id_taille ) REFERENCES "public".taille( id ) ON DELETE CASCADE ON UPDATE CASCADE;
-
-ALTER TABLE "public".annonce ADD CONSTRAINT fk_annonce_transmission FOREIGN KEY ( id_transmission ) REFERENCES "public".transmission( id ) ON DELETE CASCADE ON UPDATE CASCADE;
-
-ALTER TABLE "public".annonce ADD CONSTRAINT fk_annonce_type_annonce FOREIGN KEY ( id_type_annonce ) REFERENCES "public".type_annonce( id ) ON DELETE CASCADE ON UPDATE CASCADE;
-
-ALTER TABLE "public".annonce ADD CONSTRAINT fk_annonce_type_moteur FOREIGN KEY ( id_type_moteur ) REFERENCES "public".type_moteur( id ) ON DELETE CASCADE ON UPDATE CASCADE;
-
-ALTER TABLE "public".annonce ADD CONSTRAINT fk_annonce_usage FOREIGN KEY ( id_usage ) REFERENCES "public"."usage"( id ) ON DELETE CASCADE ON UPDATE CASCADE;
-
-ALTER TABLE "public".annonce ADD CONSTRAINT fk_annonce_users FOREIGN KEY ( id_users ) REFERENCES "public".users( id ) ON DELETE CASCADE ON UPDATE CASCADE;
-
-ALTER TABLE "public".annonce_favoris ADD CONSTRAINT fk_annonce_favoris_annonce FOREIGN KEY ( id_annonce ) REFERENCES "public".annonce( id ) ON DELETE CASCADE ON UPDATE CASCADE;
-
-ALTER TABLE "public".annonce_favoris ADD CONSTRAINT fk_annonce_favoris_users FOREIGN KEY ( id_users ) REFERENCES "public".users( id ) ON DELETE CASCADE ON UPDATE CASCADE;
-
-ALTER TABLE "public".etat_annonce ADD CONSTRAINT fk_etat_annonce_annonce FOREIGN KEY ( id_annonce ) REFERENCES "public".annonce( id ) ON DELETE CASCADE ON UPDATE CASCADE;
-
-ALTER TABLE "public".pdp ADD CONSTRAINT fk_pdp_users FOREIGN KEY ( id_users ) REFERENCES "public".users( id ) ON DELETE CASCADE ON UPDATE CASCADE;
-
-ALTER TABLE "public".photo_annonce ADD CONSTRAINT fk_photo_annonce_annonce FOREIGN KEY ( id_annonce ) REFERENCES "public".annonce( id ) ON DELETE CASCADE ON UPDATE CASCADE;
-
-ALTER TABLE "public".token ADD CONSTRAINT fk_token_users FOREIGN KEY ( idusers ) REFERENCES "public".users( id ) ON DELETE CASCADE ON UPDATE CASCADE;
-
-ALTER TABLE "public".users ADD CONSTRAINT fk_users_profil_utilisateur FOREIGN KEY ( idprofile ) REFERENCES "public".profil_utilisateur( id ) ON DELETE CASCADE ON UPDATE CASCADE;
 
 CREATE VIEW "public".v_annonce_complet AS  SELECT a.id,
     a.id_marque,
@@ -615,3 +598,77 @@ CREATE VIEW "public".v_users_with_total_commission AS  SELECT a.id_users,
      JOIN type_annonce ta ON ((ta.id = a.id_type_annonce)))
   WHERE (a.status = 20)
   GROUP BY a.id_users;
+
+INSERT INTO "public".couleur( id, nom, rgb, status ) VALUES ( 1, 'Blanc', '#fff', 0);
+INSERT INTO "public".couleur( id, nom, rgb, status ) VALUES ( 2, 'Noir', '#000', 0);
+INSERT INTO "public".couleur( id, nom, rgb, status ) VALUES ( 3, 'Rouge', 'red', 0);
+INSERT INTO "public".couleur( id, nom, rgb, status ) VALUES ( 4, 'Vert', 'Green', 0);
+INSERT INTO "public".energie( id, nom, status ) VALUES ( 1, 'Essence', 0);
+INSERT INTO "public".energie( id, nom, status ) VALUES ( 2, 'Diesel', 0);
+INSERT INTO "public".energie( id, nom, status ) VALUES ( 3, 'Électrique', 0);
+INSERT INTO "public".marque( id, nom, status ) VALUES ( 1, 'Toyota', 0);
+INSERT INTO "public".marque( id, nom, status ) VALUES ( 2, 'Suzuki', 0);
+INSERT INTO "public".marque( id, nom, status ) VALUES ( 3, 'Nissan', 0);
+INSERT INTO "public".marque( id, nom, status ) VALUES ( 4, 'Volkswagen', 0);
+INSERT INTO "public".marque( id, nom, status ) VALUES ( 5, 'Honda', 0);
+INSERT INTO "public".marque( id, nom, status ) VALUES ( 6, 'Hyundai', 0);
+INSERT INTO "public".marque( id, nom, status ) VALUES ( 7, 'BMW', 0);
+INSERT INTO "public".marque( id, nom, status ) VALUES ( 8, 'Mercedes-Benz', 0);
+INSERT INTO "public".marque( id, nom, status ) VALUES ( 9, 'Ford', 0);
+INSERT INTO "public".marque( id, nom, status ) VALUES ( 10, 'Audi', 0);
+INSERT INTO "public".marque( id, nom, status ) VALUES ( 11, 'Renault', 0);
+INSERT INTO "public".marque( id, nom, status ) VALUES ( 12, 'Chevrolet', 0);
+INSERT INTO "public".marque( id, nom, status ) VALUES ( 13, 'Peugeot', 0);
+INSERT INTO "public".marque( id, nom, status ) VALUES ( 14, 'Kia', 0);
+INSERT INTO "public".marque( id, nom, status ) VALUES ( 15, 'Fiat', 0);
+INSERT INTO "public".modele( id, nom, status ) VALUES ( 1, 'Arteon', 0);
+INSERT INTO "public".modele( id, nom, status ) VALUES ( 2, 'Celestiq', 0);
+INSERT INTO "public".modele( id, nom, status ) VALUES ( 3, 'CR-V', 0);
+INSERT INTO "public".modele( id, nom, status ) VALUES ( 4, 'Panamera', 0);
+INSERT INTO "public".profil_utilisateur( id, nom ) VALUES ( 3, 'admin');
+INSERT INTO "public".profil_utilisateur( id, nom ) VALUES ( 4, 'user');
+INSERT INTO "public".taille( id, nom, status ) VALUES ( 1, 'Sous-compacte', 0);
+INSERT INTO "public".taille( id, nom, status ) VALUES ( 2, 'Compacte', 0);
+INSERT INTO "public".taille( id, nom, status ) VALUES ( 3, 'Intermédiaire', 0);
+INSERT INTO "public".taille( id, nom, status ) VALUES ( 4, 'Full-Size', 0);
+INSERT INTO "public".taille( id, nom, status ) VALUES ( 5, 'Fourgonnette', 0);
+INSERT INTO "public".taille( id, nom, status ) VALUES ( 6, 'Camion', 0);
+INSERT INTO "public".taille( id, nom, status ) VALUES ( 7, 'Berlin', 0);
+INSERT INTO "public".transmission( id, nom, status ) VALUES ( 2, 'Boîte de vitesses manuelle', 0);
+INSERT INTO "public".transmission( id, nom, status ) VALUES ( 3, 'Boîte de vitesses automatique', 0);
+INSERT INTO "public".transmission( id, nom, status ) VALUES ( 4, 'Boîte de vitesses séquentielle', 0);
+INSERT INTO "public".transmission( id, nom, status ) VALUES ( 5, 'Boîte de vitesses robotisée', 0);
+INSERT INTO "public".transmission( id, nom, status ) VALUES ( 6, 'Boîte de vitesses à variations continues', 0);
+INSERT INTO "public".transmission( id, nom, status ) VALUES ( 7, 'Boîte de vitesses à embrayage hydraulique', 0);
+INSERT INTO "public".transmission( id, nom, status ) VALUES ( 8, 'Boîte de vitesses de type H', 0);
+INSERT INTO "public".transmission( id, nom, status ) VALUES ( 9, 'Boîte de vitesses à variations continues', 0);
+INSERT INTO "public".type_annonce( id, nom, status, commission, niveau ) VALUES ( 1, 'Annonces Sponsorisées', 0, 0.01, 10);
+INSERT INTO "public".type_annonce( id, nom, status, commission, niveau ) VALUES ( 2, 'Annonces Premium', 0, 0.02, 20);
+INSERT INTO "public".type_annonce( id, nom, status, commission, niveau ) VALUES ( 3, 'Annonces Featured', 0, 0.03, 30);
+INSERT INTO "public".type_annonce( id, nom, status, commission, niveau ) VALUES ( 4, 'Annonces VIP', 0, 0.04, 40);
+INSERT INTO "public".type_moteur( id, nom, status ) VALUES ( 1, 'Moteur à explosion', 0);
+INSERT INTO "public".type_moteur( id, nom, status ) VALUES ( 2, 'Moteur à combustion', 0);
+INSERT INTO "public".type_moteur( id, nom, status ) VALUES ( 3, 'Moteur électrique', 0);
+INSERT INTO "public".type_moteur( id, nom, status ) VALUES ( 4, 'Moteur en étoile', 0);
+INSERT INTO "public".type_moteur( id, nom, status ) VALUES ( 5, 'Moteur à plat', 0);
+INSERT INTO "public".type_moteur( id, nom, status ) VALUES ( 6, 'Moteur en ligne', 0);
+INSERT INTO "public".type_moteur( id, nom, status ) VALUES ( 7, 'Moteur en V', 0);
+INSERT INTO "public".type_moteur( id, nom, status ) VALUES ( 8, 'Moteur en W', 0);
+INSERT INTO "public"."usage"( id, nom, status ) VALUES ( 1, 'Quotidienne', 0);
+INSERT INTO "public"."usage"( id, nom, status ) VALUES ( 2, 'Transport de marchandises', 0);
+INSERT INTO "public"."usage"( id, nom, status ) VALUES ( 3, 'Loisir et tourisme', 0);
+INSERT INTO "public".users( id, idprofile, nom, mdp, prenom, dtn, addresse, email, telephone ) VALUES ( 9, 3, 'ANDRIANAIVOSOA', 'johan', 'Johan Anjaratiana', '2003-08-26', 'III AB 50 Andrononobe', 'johan@gmail.com', '+261 89 692 62');
+INSERT INTO "public".users( id, idprofile, nom, mdp, prenom, dtn, addresse, email, telephone ) VALUES ( 13, 4, 'MAMIARILAZA', 'to', 'To', '2007-01-12', 'TD 001 Tsididy', 'to@gmail.com', '+261 34 14 517 43');
+INSERT INTO "public".annonce( id, id_marque, id_modele, "version", nb_place, description, prix_vente, consommation, nb_vitesse, id_type_moteur, puissance, id_type_annonce, date_annonce, status, id_users, id_energie, id_transmission, id_usage, id_taille, km_effectue, id_couleur, numero ) VALUES ( 5, 1, 2, '1.0', 18, 'No desc', 200000.0, 8.0, 5, 2, 1500, 1, '2024-01-14', 20, 9, 2, 2, 1, 3, 100.0, 3, '1234 TAB');
+INSERT INTO "public".annonce( id, id_marque, id_modele, "version", nb_place, description, prix_vente, consommation, nb_vitesse, id_type_moteur, puissance, id_type_annonce, date_annonce, status, id_users, id_energie, id_transmission, id_usage, id_taille, km_effectue, id_couleur, numero ) VALUES ( 6, 2, 3, '1.0', 18, 'No desc', 250000.0, 5.0, 4, 2, 1500, 3, '2024-10-04', 20, 13, 2, 2, 1, 3, 100.0, 1, '1234 TAB');
+INSERT INTO "public".annonce( id, id_marque, id_modele, "version", nb_place, description, prix_vente, consommation, nb_vitesse, id_type_moteur, puissance, id_type_annonce, date_annonce, status, id_users, id_energie, id_transmission, id_usage, id_taille, km_effectue, id_couleur, numero ) VALUES ( 4, 1, 1, '1.0', 18, 'No desc', 150000.0, 10.0, 5, 2, 1500, 2, '2024-01-12', 20, 9, 2, 2, 1, 3, 100.0, 2, '1234 TAB');
+INSERT INTO "public".token( id, idusers, token, dtexp, isvalidate ) VALUES ( 4, 9, 'eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI5IiwiaWF0IjoxNzA1MDU1OTk5LCJleHAiOjE3MDUwNTk1OTl9.Qy389nxZ_Ur9x2J83m8G-5fZh6pTeCFgham5XQbvQHw7_-FCuBlrAD54kTZayAZwQdqWyXzXMnVABtKtMzKjTg', '2024-01-12', true);
+INSERT INTO "public".token( id, idusers, token, dtexp, isvalidate ) VALUES ( 5, 9, 'eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI5IiwiaWF0IjoxNzA1MDU2MTc4LCJleHAiOjE3MDUwNTk3Nzh9.Q-srh8WjdA9_kYae54lVm0gfbeh2bRtg-TUFgJQZlapQ9fVGAIvEE8eY8JzwyBoFMXVesDZPHvSIQLXMdxKmGA', '2024-01-12', true);
+INSERT INTO "public".token( id, idusers, token, dtexp, isvalidate ) VALUES ( 6, 9, 'eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI5IiwiaWF0IjoxNzA1MjI2NjQ5LCJleHAiOjE3MDUyMzAyNDl9.cWXATlKTE6Ay0lCpu5ZEXQu2YX--aGGqDML_R89iexv26_9S2UH-xKE3qe4_OAdLerUD7KnRQkboZpXZ9M0CXQ', '2024-01-14', true);
+INSERT INTO "public".token( id, idusers, token, dtexp, isvalidate ) VALUES ( 7, 9, 'eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI5IiwiaWF0IjoxNzA1MjI2NjczLCJleHAiOjE3MDUyMzAyNzN9.vNNPyEDTybLklLbChfSp99shR9VcjgsKE6sfFyXvstzIoqA0Fx0Tmw6pZhBsq0wp0UeloZRtfSSSGrqX2IRhxg', '2024-01-14', true);
+INSERT INTO "public".token( id, idusers, token, dtexp, isvalidate ) VALUES ( 8, 9, 'eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI5IiwiaWF0IjoxNzA1MjI2Njg4LCJleHAiOjE3MDUyMzAyODh9.QxXFYxI7r_I65TkiuQHg3eYdZKHYpnL1JaR6bwQQVg5cZy0-8TUjmZFdonKYo_sGqRziblX-uvw0EXxSNhoHiQ', '2024-01-14', true);
+INSERT INTO "public".token( id, idusers, token, dtexp, isvalidate ) VALUES ( 9, 9, 'eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI5IiwiaWF0IjoxNzA1MzgxNDMwLCJleHAiOjE3MDU0Njc4MzB9.z3k0yHJHh6zYKACPMb2bylRWBLvd558VObaht-h5Ym9JciDSlDtbXA1R5L9R4iR6jZ3_20MehvzuYdRBbavA7Q', '2024-01-17', true);
+INSERT INTO "public".token( id, idusers, token, dtexp, isvalidate ) VALUES ( 10, 9, 'eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI5IiwiaWF0IjoxNzA1NjUxNTgwLCJleHAiOjE3MDU3Mzc5ODB9.Tw_LGtPGebFgatE2_-5bp5klWfZe_RDHFye9HQFaQ-9_8hxmldncCFNe2_bbPKODrcSVaGubNwt0zRFakMLZmA', '2024-01-20', true);
+INSERT INTO "public".token( id, idusers, token, dtexp, isvalidate ) VALUES ( 11, 13, 'eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIxMyIsImlhdCI6MTcwNTY1NDYzNSwiZXhwIjoxNzA1NzQxMDM1fQ.DOEBSNMtkl6qcTkGJ05EZjtC-XnsSMCQj_YMegN8GT8l-Pp9HAGbr_ohksIv2mJbn27Cm3AEjFRb4MUDDPq5Kw', '2024-01-20', true);
+INSERT INTO "public".token( id, idusers, token, dtexp, isvalidate ) VALUES ( 12, 13, 'eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIxMyIsImlhdCI6MTcwNTc2Mjk4MiwiZXhwIjoxNzA1ODQ5MzgyfQ.pFrGtzFonMdYPqG5ucWWSX6dIW6NtqbqSaMh7d57eLCFqogknpxWYBChRjhyUAKqvoVNib2QGaRRJY2wLxlEKQ', '2024-01-21', true);
+INSERT INTO "public".token( id, idusers, token, dtexp, isvalidate ) VALUES ( 13, 9, 'eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI5IiwiaWF0IjoxNzA2MDk1MjMzLCJleHAiOjE3MDYxODE2MzN9.DHiW6tgnZTjzNq6OukNkIO_6cSNu-b781bN1xJdqjrtKyNCz0gZ4vEzsZvriW6w5aU54MWQN1D7qOfVvkrKXwA', '2024-01-25', true);
