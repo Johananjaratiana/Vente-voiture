@@ -446,6 +446,13 @@ CREATE VIEW "public".v_annonce_vendu_current_month AS  SELECT v_annonce_complet.
   WHERE ((v_annonce_complet.status = 20) AND (EXTRACT(month FROM v_annonce_complet.date_annonce) = EXTRACT(month FROM CURRENT_DATE)))
   ORDER BY v_annonce_complet.date_annonce DESC;
 
+CREATE VIEW "public".v_users_with_total_commission AS  SELECT a.id_users,
+    sum((a.prix_vente * ta.commission)) AS commission
+   FROM (annonce a
+     JOIN type_annonce ta ON ((ta.id = a.id_type_annonce)))
+  WHERE (a.status = 20)
+  GROUP BY a.id_users;
+
 CREATE VIEW "public".v_best_user AS  SELECT u.id,
     u.idprofile,
     u.nom,
@@ -634,6 +641,13 @@ CREATE VIEW "public".v_user_complet AS  SELECT u.id,
      LEFT JOIN pdp ON ((pdp.id_users = u.id)))
      JOIN profil_utilisateur pu ON ((pu.id = u.idprofile)));
 
+
+CREATE VIEW "public".v_users_commission AS  SELECT a.id_users,
+    sum((a.prix_vente * ta.commission)) AS commission
+   FROM (annonce a
+     JOIN type_annonce ta ON ((ta.id = a.id_type_annonce)))
+  GROUP BY a.id_users;
+  
 CREATE VIEW "public".v_user_ordered_by_commission AS  SELECT u.id,
     u.idprofile,
     u.nom,
@@ -648,18 +662,6 @@ CREATE VIEW "public".v_user_ordered_by_commission AS  SELECT u.id,
      LEFT JOIN v_users_commission uc ON ((uc.id_users = u.id)))
   ORDER BY uc.commission DESC;
 
-CREATE VIEW "public".v_users_commission AS  SELECT a.id_users,
-    sum((a.prix_vente * ta.commission)) AS commission
-   FROM (annonce a
-     JOIN type_annonce ta ON ((ta.id = a.id_type_annonce)))
-  GROUP BY a.id_users;
-
-CREATE VIEW "public".v_users_with_total_commission AS  SELECT a.id_users,
-    sum((a.prix_vente * ta.commission)) AS commission
-   FROM (annonce a
-     JOIN type_annonce ta ON ((ta.id = a.id_type_annonce)))
-  WHERE (a.status = 20)
-  GROUP BY a.id_users;
 
 INSERT INTO "public".couleur( id, nom, rgb, status ) VALUES ( 1, 'Blanc', '#fff', 0);
 INSERT INTO "public".couleur( id, nom, rgb, status ) VALUES ( 2, 'Noir', '#000', 0);
