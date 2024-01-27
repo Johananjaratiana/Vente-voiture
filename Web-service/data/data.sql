@@ -209,6 +209,14 @@ CREATE  TABLE "public".token (
 	CONSTRAINT fk_token_users FOREIGN KEY ( idusers ) REFERENCES "public".users( id ) ON DELETE CASCADE ON UPDATE CASCADE 
  );
 
+CREATE  TABLE "public".user_notification ( 
+	id                   serial  NOT NULL  ,
+	id_users             integer  NOT NULL  ,
+	token                varchar(255)  NOT NULL  ,
+	CONSTRAINT pk_users_notification PRIMARY KEY ( id ),
+	CONSTRAINT fk_users_notification_users FOREIGN KEY ( id_users ) REFERENCES "public".users( id ) ON DELETE CASCADE ON UPDATE CASCADE 
+ );
+
 CREATE VIEW "public".v_annonce_complet AS  SELECT a.id,
     a.id_marque,
     a.id_modele,
