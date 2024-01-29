@@ -152,6 +152,28 @@ const DetailAnnonce: React.FC = () => {
         }
     };
 
+    const deleteAnnonce = async () => {
+        try {
+            const token = await store.get('token');
+            const response = await fetch('http://localhost:8080/api/annonces/' + announceData?.id, {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                },
+                body: JSON.stringify(announceData),
+            });
+            const data = await response.json();
+            const message = data['message'];
+            if (message == 'error') {
+                throw new Error();
+            }
+            
+        } catch (error) {
+            console.error('Error:', error);
+        }
+    };
+
     return (
         <>
             <Menu />
@@ -334,7 +356,7 @@ const DetailAnnonce: React.FC = () => {
                                                     </IonButton>
                                                 </IonCol>
                                                 <IonCol size="6">
-                                                    <IonButton expand="full" color="danger">
+                                                    <IonButton expand="full" color="danger" onClick={deleteAnnonce}>
                                                         <IonIcon slot="start" icon={trashOutline}></IonIcon>
                                                         Supprimer
                                                     </IonButton>
