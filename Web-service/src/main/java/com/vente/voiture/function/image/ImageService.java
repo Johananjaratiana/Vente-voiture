@@ -1,6 +1,5 @@
 package com.vente.voiture.function.image;
 
-import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.Base64;
 import java.util.UUID;
@@ -27,7 +26,7 @@ public class ImageService {
 
             // Chargez les informations d'identification depuis un fichier JSON
             Credentials credentials = GoogleCredentials.fromStream(
-                    ImageService.class.getClassLoader().getResourceAsStream("firebase-private-key.json"));
+                    ImageService.class.getClassLoader().getResourceAsStream("cloud-image-vente-voiture-firebase-adminsdk-zy1ai-766602f5d9.json"));
 
             Storage storage = StorageOptions.newBuilder().setCredentials(credentials).build().getService();
             storage.create(blobInfo, Base64.getDecoder().decode(base64Image));
@@ -49,7 +48,7 @@ public class ImageService {
             return URL;
         } catch (Exception e) {
             e.printStackTrace();
-            return "L'image n'a pas pu être téléchargée, une erreur s'est produite." + e.getMessage();
+            return "L'image n'a pas pu être téléchargée, une erreur s'est produite.";
         }
     }
 }
