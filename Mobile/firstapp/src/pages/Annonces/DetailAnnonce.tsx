@@ -1,5 +1,5 @@
-import { IonAccordion, IonAccordionGroup, IonButton, IonCol, IonContent, IonIcon, IonImg, IonItem, IonLabel, IonPage, IonRow } from '@ionic/react';
-import { checkmarkDoneCircleOutline, createOutline, trashOutline , closeCircleOutline} from 'ionicons/icons';
+import { IonAlert,IonAccordion, IonAccordionGroup, IonButton, IonCol, IonContent, IonIcon, IonImg, IonItem, IonLabel, IonPage, IonRow } from '@ionic/react';
+import { checkmarkDoneCircleOutline, createOutline, trashOutline, closeCircleOutline } from 'ionicons/icons';
 import { A11y, Navigation, Pagination, Scrollbar } from 'swiper/modules';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import Header from '../../components/Header/Header';
@@ -89,7 +89,11 @@ const DetailAnnonce: React.FC = () => {
     const { id } = useParams<{ id: string }>();
     const [announceData, setAnnounceData] = useState<AnnounceData | null>(null);
     const [photoAnnonces, setPhotoAnnonces] = useState<PhotoAnnonce[]>([]);
+    const [showDeleteError, setShowDeleteError] = useState(false);
 
+    const handleDeleteAlertClose = () => {
+        setShowDeleteError(false);
+    };
 
     useEffect(() => {
         const fetchData = async () => {
@@ -126,10 +130,10 @@ const DetailAnnonce: React.FC = () => {
             if (!announceData) {
                 return;
             }
-            if (announceData.status==10){
+            if (announceData.status == 10) {
                 announceData.status = 20;
             }
-            else{
+            else {
                 announceData.status = 10;
             }
             const token = await store.get('token');
@@ -146,7 +150,7 @@ const DetailAnnonce: React.FC = () => {
             if (message == 'error') {
                 throw new Error();
             }
-            setAnnounceData({ ...announceData, status: announceData.status});
+            setAnnounceData({ ...announceData, status: announceData.status });
         } catch (error) {
             console.error('Error:', error);
         }
@@ -168,7 +172,7 @@ const DetailAnnonce: React.FC = () => {
             if (message == 'error') {
                 throw new Error();
             }
-            
+
         } catch (error) {
             console.error('Error:', error);
         }
@@ -180,6 +184,13 @@ const DetailAnnonce: React.FC = () => {
             <IonPage id="main-content">
                 <Header title="Detail annonce" />
                 <IonContent className="ion-no-padding">
+                    <IonAlert
+                        isOpen={showDeleteError}
+                        onDidDismiss={handleDeleteAlertClose}
+                        header={'Error'}
+                        message={'There was an error deleting your annonce'}
+                        buttons={['Try Again']}
+                    />
                     <Swiper id="slide"
                         modules={[Navigation, Pagination, Scrollbar, A11y]}
                         navigation
