@@ -27,6 +27,7 @@ import AjoutAnnonce from './pages/Annonces/AjoutAnnonce';
 import DetailAnnonce from './pages/Annonces/DetailAnnonce';
 import Notification from './pages/Notification/Notification';
 import Profil from './pages/Profil/Profil';
+import ModifierAnnonce from './pages/Annonces/ModifierAnnonce';
 
 setupIonicReact();
 
@@ -51,6 +52,9 @@ const App: React.FC = () => (
         </Route>
         <Route exact path="/annonce/detail/:id">
           <DetailAnnonce />
+        </Route>
+        <Route exact path="/annonce/modifier/:id">
+          <ModifierAnnonce />
         </Route>
         <Route exact path="/notification">
           <Notification />

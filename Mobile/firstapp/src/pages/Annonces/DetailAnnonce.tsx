@@ -181,6 +181,15 @@ const DetailAnnonce: React.FC = () => {
         }
     };
 
+    const updateAnnonce = async () => {
+        try {
+            history.push('/annonce/modifier/'+ announceData?.id);
+        } catch (error) {
+            console.error('Error:', error);
+        }
+    };
+
+
     return (
         <>
             <Menu />
@@ -364,7 +373,7 @@ const DetailAnnonce: React.FC = () => {
                                         <div className="ion-padding" slot="content">
                                             <IonRow>
                                                 <IonCol size="6">
-                                                    <IonButton expand="full" color="warning">
+                                                    <IonButton expand="full" color="warning" onClick={updateAnnonce}>
                                                         <IonIcon slot="start" icon={createOutline}></IonIcon>
                                                         Modifier
                                                     </IonButton>
