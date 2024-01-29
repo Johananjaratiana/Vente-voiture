@@ -12,6 +12,7 @@ import 'swiper/css/scrollbar';
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { Storage } from '@ionic/storage';
+import { useHistory } from 'react-router-dom';
 
 
 const store = new Storage();
@@ -90,6 +91,7 @@ const DetailAnnonce: React.FC = () => {
     const [announceData, setAnnounceData] = useState<AnnounceData | null>(null);
     const [photoAnnonces, setPhotoAnnonces] = useState<PhotoAnnonce[]>([]);
     const [showDeleteError, setShowDeleteError] = useState(false);
+    const history = useHistory();
 
     const handleDeleteAlertClose = () => {
         setShowDeleteError(false);
@@ -172,8 +174,9 @@ const DetailAnnonce: React.FC = () => {
             if (message == 'error') {
                 throw new Error();
             }
-
+            history.push('/annonces');
         } catch (error) {
+            setShowDeleteError(true)
             console.error('Error:', error);
         }
     };
