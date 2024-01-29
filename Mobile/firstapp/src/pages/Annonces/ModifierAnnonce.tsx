@@ -458,7 +458,7 @@ const ModifierAnnonce: React.FC = () => {
                                 <h2>Informations generales</h2>
                             </div>
                             <div className="ajout-annonce-content">
-                                <IonSelect value={marque} onIonChange={handleMarqueChange} className="ajout-annonce" label="Marque" labelPlacement="stacked">
+                                <IonSelect value={announceData?.idMarque} onIonChange={handleMarqueChange} className="ajout-annonce" label="Marque" labelPlacement="stacked">
                                     {data?.marque.map((item: any) => (
                                         <IonSelectOption key={item.id} value={item.id}>
                                             {item.nom}
