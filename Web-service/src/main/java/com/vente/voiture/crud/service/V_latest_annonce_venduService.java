@@ -21,20 +21,32 @@ public class V_latest_annonce_venduService {
         return v_latest_annonce_venduRepository.findById(id);
     }
 
-    public List<V_latest_annonce_vendu> getV_latest_annonce_venduByIdModele(Integer IdModele) {
-        return v_latest_annonce_venduRepository.findByIdModele(IdModele);
-    }
-
-    public List<V_latest_annonce_vendu> getV_latest_annonce_venduByIdMarque(Integer IdMarque) {
-        return v_latest_annonce_venduRepository.findByIdMarque(IdMarque);
-    }
-
     public List<V_latest_annonce_vendu> getV_latest_annonce_venduByIdTypeMoteur(Integer IdTypeMoteur) {
         return v_latest_annonce_venduRepository.findByIdTypeMoteur(IdTypeMoteur);
     }
 
     public List<V_latest_annonce_vendu> getV_latest_annonce_venduByIdTaille(Integer IdTaille) {
         return v_latest_annonce_venduRepository.findByIdTaille(IdTaille);
+    }
+
+    public List<V_latest_annonce_vendu> getV_latest_annonce_venduByIdTransmission(Integer IdTransmission) {
+        return v_latest_annonce_venduRepository.findByIdTransmission(IdTransmission);
+    }
+
+    public List<V_latest_annonce_vendu> getV_latest_annonce_venduByIdCouleur(Integer IdCouleur) {
+        return v_latest_annonce_venduRepository.findByIdCouleur(IdCouleur);
+    }
+
+    public List<V_latest_annonce_vendu> getV_latest_annonce_venduByIdTypeAnnonce(Integer IdTypeAnnonce) {
+        return v_latest_annonce_venduRepository.findByIdTypeAnnonce(IdTypeAnnonce);
+    }
+
+    public List<V_latest_annonce_vendu> getV_latest_annonce_venduByIdModele(Integer IdModele) {
+        return v_latest_annonce_venduRepository.findByIdModele(IdModele);
+    }
+
+    public List<V_latest_annonce_vendu> getV_latest_annonce_venduByIdMarque(Integer IdMarque) {
+        return v_latest_annonce_venduRepository.findByIdMarque(IdMarque);
     }
 
     public List<V_latest_annonce_vendu> getV_latest_annonce_venduByIdUsers(Integer IdUsers) {
@@ -45,20 +57,8 @@ public class V_latest_annonce_venduService {
         return v_latest_annonce_venduRepository.findByIdEnergie(IdEnergie);
     }
 
-    public List<V_latest_annonce_vendu> getV_latest_annonce_venduByIdTransmission(Integer IdTransmission) {
-        return v_latest_annonce_venduRepository.findByIdTransmission(IdTransmission);
-    }
-
     public List<V_latest_annonce_vendu> getV_latest_annonce_venduByIdUsage(Integer IdUsage) {
         return v_latest_annonce_venduRepository.findByIdUsage(IdUsage);
-    }
-
-    public List<V_latest_annonce_vendu> getV_latest_annonce_venduByIdCouleur(Integer IdCouleur) {
-        return v_latest_annonce_venduRepository.findByIdCouleur(IdCouleur);
-    }
-
-    public List<V_latest_annonce_vendu> getV_latest_annonce_venduByIdTypeAnnonce(Integer IdTypeAnnonce) {
-        return v_latest_annonce_venduRepository.findByIdTypeAnnonce(IdTypeAnnonce);
     }
 
     // Add your service methods here

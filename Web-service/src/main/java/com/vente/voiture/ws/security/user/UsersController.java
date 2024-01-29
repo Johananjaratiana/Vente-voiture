@@ -47,7 +47,7 @@ public class UsersController {
             }
             else 
             {
-                response.setError("Invalid username or password");
+                response.setError("Veuillez vérifier votre identifiant ou inscrivez vous.");
             }
         }catch(Exception ex){
             ex.printStackTrace();

@@ -10,8 +10,8 @@ import jakarta.persistence.Id;
 
 @Getter
 @Setter
-@Entity(name="v_latest_annonce_vendu")
-public class V_latest_annonce_vendu {
+@Entity(name="v_annonce_vendu_current_month")
+public class V_annonce_vendu_current_month {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
