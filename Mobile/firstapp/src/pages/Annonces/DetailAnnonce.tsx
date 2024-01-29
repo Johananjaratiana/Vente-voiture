@@ -132,6 +132,9 @@ const DetailAnnonce: React.FC = () => {
             if (!announceData) {
                 return;
             }
+            if(announceData.status==0){
+                return;
+            }
             if (announceData.status == 10) {
                 announceData.status = 20;
             }

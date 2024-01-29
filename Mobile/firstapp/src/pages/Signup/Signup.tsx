@@ -89,7 +89,7 @@ const Signup: React.FC = () => {
             return;
         }
         const formData = {
-            idprofile: 4,
+            idprofile: 2,
             email: email,
             mdp: motDePasse,
             nom: nom,
