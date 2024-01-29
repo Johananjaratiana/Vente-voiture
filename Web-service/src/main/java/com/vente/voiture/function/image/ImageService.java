@@ -46,7 +46,7 @@ public class ImageService {
             return URL;
         } catch (Exception e) {
             e.printStackTrace();
-            return "L'image n'a pas pu être téléchargée, une erreur s'est produite.";
+            return "L'image n'a pas pu être téléchargée, une erreur s'est produite." + e.getMessage();
         }
     }
 }
