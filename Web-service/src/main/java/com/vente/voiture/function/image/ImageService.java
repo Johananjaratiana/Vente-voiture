@@ -1,6 +1,5 @@
 package com.vente.voiture.function.image;
 
-import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.Base64;
 import java.util.UUID;
