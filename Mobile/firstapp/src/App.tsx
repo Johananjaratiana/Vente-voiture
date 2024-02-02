@@ -28,6 +28,7 @@ import DetailAnnonce from './pages/Annonces/DetailAnnonce';
 import Notification from './pages/Notification/Notification';
 import Profil from './pages/Profil/Profil';
 import ModifierAnnonce from './pages/Annonces/ModifierAnnonce';
+import { NotificationProvider } from './pages/Notification/NotificationContext';
 
 setupIonicReact();
 
@@ -35,33 +36,35 @@ const App: React.FC = () => (
   <IonApp>
     <IonReactRouter>
       <IonRouterOutlet>
-        <Route exact path="/">
-          <Redirect to="/login" />
-        </Route>
-        <Route exact path="/login">
-          <Login />
-        </Route>
-        <Route exact path="/signup">
-          <Signup />
-        </Route>
-        <Route exact path="/annonces">
-          <Annonces />
-        </Route>
-        <Route exact path="/annonce/ajout">
-          <AjoutAnnonce />
-        </Route>
-        <Route exact path="/annonce/detail/:id">
-          <DetailAnnonce />
-        </Route>
-        <Route exact path="/annonce/modifier/:id">
-          <ModifierAnnonce />
-        </Route>
-        <Route exact path="/notification">
-          <Notification />
-        </Route>
-        <Route exact path="/profil">
-          <Profil />
-        </Route>
+        <NotificationProvider>
+          <Route exact path="/">
+            <Redirect to="/login" />
+          </Route>
+          <Route exact path="/login">
+            <Login />
+          </Route>
+          <Route exact path="/signup">
+            <Signup />
+          </Route>
+          <Route exact path="/annonces">
+            <Annonces />
+          </Route>
+          <Route exact path="/annonce/ajout">
+            <AjoutAnnonce />
+          </Route>
+          <Route exact path="/annonce/detail/:id">
+            <DetailAnnonce />
+          </Route>
+          <Route exact path="/annonce/modifier/:id">
+            <ModifierAnnonce />
+          </Route>
+          <Route exact path="/notification">
+            <Notification />
+          </Route>
+          <Route exact path="/profil">
+            <Profil />
+          </Route>
+        </NotificationProvider>
       </IonRouterOutlet>
     </IonReactRouter>
   </IonApp>

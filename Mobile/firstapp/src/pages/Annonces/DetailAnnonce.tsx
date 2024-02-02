@@ -14,10 +14,6 @@ import Menu from "../../components/Menu/Menu";
 import { WEB_SERVICE_URL } from '../../constants';
 import './DetailAnnonce.scss';
 
-
-const store = new Storage();
-await store.create();
-
 interface AnnounceData {
     id: number;
     version: string;
@@ -141,6 +137,8 @@ const DetailAnnonce: React.FC = () => {
             else {
                 announceData.status = 10;
             }
+            const store = new Storage();
+            await store.create();
             const token = await store.get('token');
             const response = await fetch(WEB_SERVICE_URL + '/annonces/' + announceData?.id, {
                 method: 'PUT',
@@ -163,6 +161,8 @@ const DetailAnnonce: React.FC = () => {
 
     const deleteAnnonce = async () => {
         try {
+            const store = new Storage();
+            await store.create();
             const token = await store.get('token');
             const response = await fetch(WEB_SERVICE_URL + '/annonces/' + announceData?.id, {
                 method: 'DELETE',

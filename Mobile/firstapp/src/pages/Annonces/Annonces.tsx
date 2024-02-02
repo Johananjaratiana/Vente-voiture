@@ -7,10 +7,7 @@ import Header from '../../components/Header/Header';
 import Menu from "../../components/Menu/Menu";
 import { WEB_SERVICE_URL } from '../../constants';
 import './Annonces.scss';
-
-
-const store = new Storage();
-await store.create();
+import NotificationService from '../Notification/NotificationService';
 
 interface Annonce {
     id: number;
@@ -65,9 +62,20 @@ interface Annonce {
 
 const Annonces: React.FC = () => {
     const [annonces, setAnnonces] = useState<Annonce[]>([]);
+    // 
+    useEffect(() => {
+        NotificationService.init();
+        
+        return () => {
+        //   NotificationService.removeListeners();
+        };
+      }, []);
+    // 
     useEffect(() => {
         const fetchAnnonces = async () => {
             try {
+                const store = new Storage();
+                await store.create();
                 const idUser = await store.get('idUser');
                 const response = await fetch(WEB_SERVICE_URL + '/v_annonce_complets/users/' + idUser);
                 const data = await response.json();

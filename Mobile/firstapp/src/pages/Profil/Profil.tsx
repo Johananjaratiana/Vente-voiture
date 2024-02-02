@@ -13,10 +13,6 @@ import Menu from "../../components/Menu/Menu";
 import { WEB_SERVICE_URL } from '../../constants';
 import './Profil.scss';
 
-
-const store = new Storage();
-await store.create();
-
 interface UserProfile {
     id: number;
     email: string;
@@ -43,6 +39,8 @@ const Profil: React.FC = () => {
     useEffect(() => {
         const fetchUserData = async () => {
             try {
+                const store = new Storage();
+                await store.create();
                 const idUser = await store.get('idUser');
                 const response = await fetch(WEB_SERVICE_URL + '/users/' + idUser);
                 const userData = await response.json();

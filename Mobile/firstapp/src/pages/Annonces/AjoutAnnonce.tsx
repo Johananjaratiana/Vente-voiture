@@ -23,9 +23,6 @@ import Menu from "../../components/Menu/Menu";
 import { WEB_SERVICE_URL } from '../../constants';
 import './AjoutAnnonce.scss';
 
-const store = new Storage();
-await store.create();
-
 interface AjoutAnnonceData {
     marque: [];
     modele: [];
@@ -246,6 +243,8 @@ const AjoutAnnonce: React.FC = () => {
             idTypeMoteur: typeMoteur,
         };
         try {
+            const store = new Storage();
+            await store.create();
             const token = await store.get('token');
             const response = await fetch(WEB_SERVICE_URL + '/creation_annnonce/save', {
                 method: 'POST',

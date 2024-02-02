@@ -1,0 +1,23 @@
+--web service
+https://deplventevoiture-s5-production.up.railway.app/swagger-ui/index.html?fbclid=IwAR27czRH_JeaWkHW1dTyF7hWWO-Wfzalz1EfF0BKKYYwa9bIEZOg1YaU2oY#/annonce-filter-controller/GetAllFilteredAnnonce
+https://deplventevoiture-s5-production.up.railway.app/
+
+
+--database
+host = viaduct.proxy.rlwy.net
+port = 56783
+database = railway
+user = postgres
+password = Cg366ef-2GB1Ec2BEafA4G3G12fg-AFD
+
+curl -X POST \
+  https://deplventevoiture-s5-production.up.railway.app/notification/send_by_current_user \
+  -H 'Content-Type: application/json' \
+  -H 'Authorization: Bearer YOUR_ACCESS_TOKEN' \
+  -d '{
+    "recipientToken": "8",
+    "title": "from user",
+    "body": "message",
+    "image": "https://thispersondoesnotexist.com/",
+    "data": {}
+  }'

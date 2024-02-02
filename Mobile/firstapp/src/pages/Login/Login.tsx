@@ -6,9 +6,6 @@ import { useHistory } from 'react-router-dom';
 import { WEB_SERVICE_URL } from "../../constants";
 import './Login.scss';
 
-const store = new Storage();
-await store.create();
-
 const Login: React.FC = () => {
 
     const [email, setEmail] = useState('kelydoda724@gmail.com');
@@ -50,6 +47,8 @@ const Login: React.FC = () => {
             else {
                 const token = data['data']['token']['token'];
                 const idUser = data['data']['users']['id'];
+                const store = new Storage();
+                await store.create();
                 await store.set('token', token);
                 await store.set('idUser', idUser);
                 history.push('/annonces')
