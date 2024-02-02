@@ -1,9 +1,10 @@
-import { IonButton, IonContent, IonIcon, IonInput, IonPage, IonAlert, IonImg } from "@ionic/react";
+import { Camera, CameraResultType } from "@capacitor/camera";
+import { IonAlert, IonButton, IonContent, IonIcon, IonImg, IonInput, IonPage } from "@ionic/react";
 import { calendar, call, camera, location, lockClosed, mail, person } from 'ionicons/icons';
-import './Signup.scss';
-import { CameraResultType, Camera } from "@capacitor/camera";
-import { useState , useEffect} from "react";
+import { useState } from "react";
 import { useHistory } from "react-router";
+import { WEB_SERVICE_URL } from "../../constants";
+import './Signup.scss';
 
 const Signup: React.FC = () => {
 
@@ -84,7 +85,7 @@ const Signup: React.FC = () => {
 
 
     const handleSubmit = async () => {
-        if(!image){
+        if (!image) {
             setShowAlertNoImage(true);
             return;
         }
@@ -100,7 +101,7 @@ const Signup: React.FC = () => {
         };
 
         try {
-            const response = await fetch('http://localhost:8080/api/users', {
+            const response = await fetch(WEB_SERVICE_URL + '/users', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -115,7 +116,7 @@ const Signup: React.FC = () => {
                     idUsers: id,
                     image: image,
                 };
-                const response2 = await fetch('http://localhost:8080/api/pdp/new_user', {
+                const response2 = await fetch(WEB_SERVICE_URL + '/pdp/new_user', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',

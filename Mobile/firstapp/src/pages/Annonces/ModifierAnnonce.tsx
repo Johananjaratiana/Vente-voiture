@@ -1,3 +1,4 @@
+import { Camera, CameraResultType } from "@capacitor/camera";
 import {
     IonAlert,
     IonButton,
@@ -14,14 +15,13 @@ import {
     IonToolbar
 } from '@ionic/react';
 import { Storage } from '@ionic/storage';
-import { camera, image } from 'ionicons/icons';
+import { camera } from 'ionicons/icons';
 import { useEffect, useState } from 'react';
-import { useHistory } from 'react-router';
+import { useHistory, useParams } from 'react-router';
 import Header from '../../components/Header/Header';
 import Menu from "../../components/Menu/Menu";
+import { WEB_SERVICE_URL } from '../../constants';
 import './ModifierAnnonce.scss';
-import { CameraResultType, Camera } from "@capacitor/camera";
-import { useParams } from 'react-router';
 
 const store = new Storage();
 await store.create();
@@ -95,8 +95,8 @@ interface AjoutAnnonceData {
 }
 
 interface PhotoAnnonce {
-    idAnnonce : string;
-    image : string | undefined;
+    idAnnonce: string;
+    image: string | undefined;
 }
 
 const ModifierAnnonce: React.FC = () => {
@@ -104,11 +104,11 @@ const ModifierAnnonce: React.FC = () => {
     const { id } = useParams<{ id: string }>();
     const [announceData, setAnnounceData] = useState<AnnounceData | null>(null);
     const [photoAnnonces, setPhotoAnnonces] = useState<PhotoAnnonce[]>([]);
-    
+
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await fetch('http://localhost:8080/api/v_annonce_complets/' + id);
+                const response = await fetch(WEB_SERVICE_URL + '/v_annonce_complets/' + id);
                 if (!response.ok) {
                     throw new Error('Failed to fetch data');
                 }
@@ -124,7 +124,7 @@ const ModifierAnnonce: React.FC = () => {
     useEffect(() => {
         const fetchPhotoAnnonces = async () => {
             try {
-                const response = await fetch(`http://localhost:8080/api/photo_annonces/annonce/${id}`);
+                const response = await fetch(WEB_SERVICE_URL + `/photo_annonces/annonce/${id}`);
                 const data = await response.json();
                 setPhotoAnnonces(data['data']);
             } catch (error) {
@@ -283,7 +283,7 @@ const ModifierAnnonce: React.FC = () => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await fetch('http://localhost:8080/api/creation_annnonce/data_utils');
+                const response = await fetch(WEB_SERVICE_URL + '/creation_annnonce/data_utils');
                 const result = await response.json();
                 setData(result.data);
             } catch (error) {
@@ -338,7 +338,7 @@ const ModifierAnnonce: React.FC = () => {
         };
         try {
             const token = await store.get('token');
-            const response = await fetch('http://localhost:8080/api/creation_annnonce/save', {
+            const response = await fetch(WEB_SERVICE_URL + '/creation_annnonce/save', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -365,7 +365,7 @@ const ModifierAnnonce: React.FC = () => {
                     pneu: pneu,
                     carrosserie: carosserie
                 };
-                const response2 = await fetch('http://localhost:8080/api/etat_annonces', {
+                const response2 = await fetch(WEB_SERVICE_URL + '/etat_annonces', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -379,7 +379,7 @@ const ModifierAnnonce: React.FC = () => {
                     throw new Error();
                 }
                 else {
-                    let formData3:PhotoAnnonce[] = [];
+                    let formData3: PhotoAnnonce[] = [];
                     images.forEach((img) => {
                         let newPhotoAnnonce: PhotoAnnonce = {
                             idAnnonce: idAnnonce,
@@ -387,7 +387,7 @@ const ModifierAnnonce: React.FC = () => {
                         };
                         formData3.push(newPhotoAnnonce);
                     });
-                    const response3 = await fetch('http://localhost:8080/api/photo_annonce/many', {
+                    const response3 = await fetch(WEB_SERVICE_URL + '/photo_annonce/many', {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json',

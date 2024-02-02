@@ -6,11 +6,12 @@ import {
     IonList,
     IonPage
 } from '@ionic/react';
+import { Storage } from '@ionic/storage';
 import { useEffect, useState } from 'react';
 import Header from "../../components/Header/Header";
 import Menu from "../../components/Menu/Menu";
-import './Profil.scss' ;
-import { Storage } from '@ionic/storage';
+import { WEB_SERVICE_URL } from '../../constants';
+import './Profil.scss';
 
 
 const store = new Storage();
@@ -43,10 +44,10 @@ const Profil: React.FC = () => {
         const fetchUserData = async () => {
             try {
                 const idUser = await store.get('idUser');
-                const response = await fetch('http://localhost:8080/api/users/'+idUser);
+                const response = await fetch(WEB_SERVICE_URL + '/users/' + idUser);
                 const userData = await response.json();
                 setUserData(userData['data']);
-                const imageResponse = await fetch('http://localhost:8080/api/pdps/users/'+idUser);
+                const imageResponse = await fetch(WEB_SERVICE_URL + '/pdps/users/' + idUser);
                 const userImagesData = await imageResponse.json();
                 setUserImages(userImagesData['data'][0]);
             } catch (error) {

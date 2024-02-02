@@ -1,11 +1,12 @@
-import { IonContent, IonPage, IonRadio, IonRadioGroup, IonSearchbar, IonRow, IonCol, IonHeader, IonToolbar, IonFooter, IonButtons, IonButton, IonIcon, IonTitle, IonImg } from '@ionic/react';
+import { IonButton, IonButtons, IonCol, IonContent, IonFooter, IonHeader, IonIcon, IonPage, IonRadio, IonRadioGroup, IonRow, IonSearchbar, IonTitle, IonToolbar } from '@ionic/react';
+import { Storage } from '@ionic/storage';
+import { chevronBackOutline, chevronForwardOutline } from 'ionicons/icons';
+import React, { useEffect, useState } from 'react';
+import AnnonceBox from '../../components/Annonces/AnnonceBox';
 import Header from '../../components/Header/Header';
 import Menu from "../../components/Menu/Menu";
+import { WEB_SERVICE_URL } from '../../constants';
 import './Annonces.scss';
-import { chevronBackOutline, chevronForwardOutline } from 'ionicons/icons';
-import AnnonceBox from '../../components/Annonces/AnnonceBox';
-import React, { useEffect, useState } from 'react';
-import { Storage } from '@ionic/storage';
 
 
 const store = new Storage();
@@ -59,7 +60,7 @@ interface Annonce {
     nomUsage: string;
     etatTableauBord: number;
     telephoneUsers: string;
-    image:string;
+    image: string;
 }
 
 const Annonces: React.FC = () => {
@@ -68,7 +69,7 @@ const Annonces: React.FC = () => {
         const fetchAnnonces = async () => {
             try {
                 const idUser = await store.get('idUser');
-                const response = await fetch('http://localhost:8080/api/v_annonce_complets/users/'+ idUser);
+                const response = await fetch(WEB_SERVICE_URL + '/v_annonce_complets/users/' + idUser);
                 const data = await response.json();
                 setAnnonces(data['data']);
             } catch (error) {
@@ -114,7 +115,7 @@ const Annonces: React.FC = () => {
                 </IonHeader>
                 <IonContent className="annonces" >
                     {annonces.map((annonce) => (
-                        <AnnonceBox key={annonce.id} id={annonce.id} imageUrl={annonce.image} date={annonce.dateAnnonce} title={annonce.nomMarque + " "+ annonce.nomModele} status={annonce.status}></AnnonceBox>
+                        <AnnonceBox key={annonce.id} id={annonce.id} imageUrl={annonce.image} date={annonce.dateAnnonce} title={annonce.nomMarque + " " + annonce.nomModele} status={annonce.status}></AnnonceBox>
                     ))}
                 </IonContent>
                 <IonFooter>

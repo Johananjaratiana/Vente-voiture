@@ -1,18 +1,18 @@
-import { IonAlert,IonAccordion, IonAccordionGroup, IonButton, IonCol, IonContent, IonIcon, IonImg, IonItem, IonLabel, IonPage, IonRow } from '@ionic/react';
-import { checkmarkDoneCircleOutline, createOutline, trashOutline, closeCircleOutline } from 'ionicons/icons';
-import { A11y, Navigation, Pagination, Scrollbar } from 'swiper/modules';
-import { Swiper, SwiperSlide } from 'swiper/react';
-import Header from '../../components/Header/Header';
-import Menu from "../../components/Menu/Menu";
-import './DetailAnnonce.scss';
+import { IonAccordion, IonAccordionGroup, IonAlert, IonButton, IonCol, IonContent, IonIcon, IonImg, IonItem, IonLabel, IonPage, IonRow } from '@ionic/react';
+import { Storage } from '@ionic/storage';
+import { checkmarkDoneCircleOutline, closeCircleOutline, createOutline, trashOutline } from 'ionicons/icons';
+import React, { useEffect, useState } from 'react';
+import { useHistory, useParams } from 'react-router-dom';
 import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 import 'swiper/css/scrollbar';
-import React, { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
-import { Storage } from '@ionic/storage';
-import { useHistory } from 'react-router-dom';
+import { A11y, Navigation, Pagination, Scrollbar } from 'swiper/modules';
+import { Swiper, SwiperSlide } from 'swiper/react';
+import Header from '../../components/Header/Header';
+import Menu from "../../components/Menu/Menu";
+import { WEB_SERVICE_URL } from '../../constants';
+import './DetailAnnonce.scss';
 
 
 const store = new Storage();
@@ -100,7 +100,7 @@ const DetailAnnonce: React.FC = () => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await fetch('http://localhost:8080/api/v_annonce_complets/' + id);
+                const response = await fetch(WEB_SERVICE_URL + '/v_annonce_complets/' + id);
                 if (!response.ok) {
                     throw new Error('Failed to fetch data');
                 }
@@ -116,7 +116,7 @@ const DetailAnnonce: React.FC = () => {
     useEffect(() => {
         const fetchPhotoAnnonces = async () => {
             try {
-                const response = await fetch(`http://localhost:8080/api/photo_annonces/annonce/${id}`);
+                const response = await fetch(WEB_SERVICE_URL + `/photo_annonces/annonce/${id}`);
                 const data = await response.json();
                 setPhotoAnnonces(data['data']);
             } catch (error) {
@@ -132,7 +132,7 @@ const DetailAnnonce: React.FC = () => {
             if (!announceData) {
                 return;
             }
-            if(announceData.status==0){
+            if (announceData.status == 0) {
                 return;
             }
             if (announceData.status == 10) {
@@ -142,7 +142,7 @@ const DetailAnnonce: React.FC = () => {
                 announceData.status = 10;
             }
             const token = await store.get('token');
-            const response = await fetch('http://localhost:8080/api/annonces/' + announceData?.id, {
+            const response = await fetch(WEB_SERVICE_URL + '/annonces/' + announceData?.id, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
@@ -164,7 +164,7 @@ const DetailAnnonce: React.FC = () => {
     const deleteAnnonce = async () => {
         try {
             const token = await store.get('token');
-            const response = await fetch('http://localhost:8080/api/annonces/' + announceData?.id, {
+            const response = await fetch(WEB_SERVICE_URL + '/annonces/' + announceData?.id, {
                 method: 'DELETE',
                 headers: {
                     'Content-Type': 'application/json',
@@ -186,7 +186,7 @@ const DetailAnnonce: React.FC = () => {
 
     const updateAnnonce = async () => {
         try {
-            history.push('/annonce/modifier/'+ announceData?.id);
+            history.push('/annonce/modifier/' + announceData?.id);
         } catch (error) {
             console.error('Error:', error);
         }

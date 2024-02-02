@@ -1,9 +1,10 @@
-import { IonButton, IonContent, IonIcon, IonInput, IonPage, IonAlert } from "@ionic/react";
-import { lockClosed, mail } from 'ionicons/icons';
-import './Login.scss';
-import { useState } from "react";
+import { IonAlert, IonButton, IonContent, IonIcon, IonInput, IonPage } from "@ionic/react";
 import { Storage } from "@ionic/storage";
+import { lockClosed, mail } from 'ionicons/icons';
+import { useState } from "react";
 import { useHistory } from 'react-router-dom';
+import { WEB_SERVICE_URL } from "../../constants";
+import './Login.scss';
 
 const store = new Storage();
 await store.create();
@@ -34,7 +35,7 @@ const Login: React.FC = () => {
         };
 
         try {
-            const response = await fetch('http://localhost:8080/api/users/login', {
+            const response = await fetch(WEB_SERVICE_URL + '/users/login', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -50,7 +51,7 @@ const Login: React.FC = () => {
                 const token = data['data']['token']['token'];
                 const idUser = data['data']['users']['id'];
                 await store.set('token', token);
-                await store.set('idUser',idUser);
+                await store.set('idUser', idUser);
                 history.push('/annonces')
             }
         } catch (error) {

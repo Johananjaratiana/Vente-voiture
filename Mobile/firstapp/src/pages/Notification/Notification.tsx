@@ -1,8 +1,8 @@
 import { IonContent, IonPage } from '@ionic/react';
-import Menu from "../../components/Menu/Menu";
 import Header from '../../components/Header/Header';
-import './Notification.scss';
+import Menu from "../../components/Menu/Menu";
 import NotificationBox from '../../components/Notification/NotificationBox';
+import './Notification.scss';
 
 const Notification: React.FC = () => {
     return (

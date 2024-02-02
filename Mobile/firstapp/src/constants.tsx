@@ -1,0 +1,1 @@
+export const WEB_SERVICE_URL : string = "https://deplventevoiture-s5-production.up.railway.app/api";
