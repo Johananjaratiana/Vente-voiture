@@ -62,15 +62,19 @@ interface Annonce {
 
 const Annonces: React.FC = () => {
     const [annonces, setAnnonces] = useState<Annonce[]>([]);
+    const [searchText, setSearchText] = useState('');
+    const [selectedRadio, setSelectedRadio] = useState('1');
+    const [filteredAnnonces, setFilteredAnnonces] = useState(annonces);
+
     // 
     useEffect(() => {
         NotificationService.init();
-        
         return () => {
-        //   NotificationService.removeListeners();
+            //   NotificationService.removeListeners();
         };
-      }, []);
+    }, []);
     // 
+
     useEffect(() => {
         const fetchAnnonces = async () => {
             try {
@@ -84,35 +88,94 @@ const Annonces: React.FC = () => {
                 console.error('Error fetching annonces:', error);
             }
         };
-
         fetchAnnonces();
     }, []);
+
+    useEffect(() => {
+
+        const searchFiltered = annonces.filter((annonce) => {
+            const marqueModele = `${annonce.nomMarque} ${annonce.nomModele}`.toLowerCase();
+            return marqueModele.includes(searchText.toLowerCase());
+        });
+
+        let combinedFiltered;
+        switch (selectedRadio) {
+            case '1':
+                combinedFiltered = searchFiltered;
+                break;
+            case '0':
+                combinedFiltered = searchFiltered.filter((annonce) => annonce.status === 0);
+                break;
+            case '10':
+                combinedFiltered = searchFiltered.filter((annonce) => annonce.status === 10);
+                break;
+            case '20':
+                combinedFiltered = searchFiltered.filter((annonce) => annonce.status === 20);
+                break;
+            default:
+                combinedFiltered = searchFiltered;
+                break;
+        }
+
+        setFilteredAnnonces(combinedFiltered);
+    }, [searchText, selectedRadio, annonces]);
+
+    const handleSearchChange = (event: CustomEvent) => {
+        const searchText = event.detail.value?.toLowerCase() || '';
+        setSearchText(searchText);
+    };
+
+    const handleRadioChange = (event: CustomEvent) => {
+        const selectedValue = event.detail.value;
+        setSelectedRadio(selectedValue);
+    };
+
     return (
         <>
             <Menu />
             <IonPage id="main-content">
-                <Header title="Annonces" />
+                <Header title="Mes annonces" />
                 <IonHeader id="filtre" className="ion-no-border">
                     <IonToolbar>
-                        <IonSearchbar placeholder="Rechercher" id="s" color="dark"></IonSearchbar>
-                        <IonRadioGroup value="1">
+                        <IonSearchbar placeholder="Rechercher" id="s" color="dark" value={searchText} onIonChange={handleSearchChange}></IonSearchbar>
+                        <IonRadioGroup onIonChange={handleRadioChange} value={selectedRadio}>
                             <IonRow>
                                 <IonCol size="6">
                                     <div id="radios">
-                                        <IonRadio value="1" labelPlacement="end" color="dark" id="radio">
+                                        <IonRadio
+                                            value="1"
+                                            labelPlacement="end"
+                                            color="dark"
+                                            id="radio"
+                                        >
                                             Tout
                                         </IonRadio>
-                                        <IonRadio value="2" labelPlacement="end" color="dark" id="radio">
+                                        <IonRadio
+                                            value="10"
+                                            labelPlacement="end"
+                                            color="dark"
+                                            id="radio"
+                                        >
                                             En vente
                                         </IonRadio>
                                     </div>
                                 </IonCol>
                                 <IonCol size="6">
                                     <div id="radios">
-                                        <IonRadio value="3" labelPlacement="end" color="dark" id="radio">
+                                        <IonRadio
+                                            value="0"
+                                            labelPlacement="end"
+                                            color="dark"
+                                            id="radio"
+                                        >
                                             En attente
                                         </IonRadio>
-                                        <IonRadio value="4" labelPlacement="end" color="dark" id="radio">
+                                        <IonRadio
+                                            value="20"
+                                            labelPlacement="end"
+                                            color="dark"
+                                            id="radio"
+                                        >
                                             Vendu
                                         </IonRadio>
                                     </div>
@@ -122,27 +185,17 @@ const Annonces: React.FC = () => {
                     </IonToolbar>
                 </IonHeader>
                 <IonContent className="annonces" >
-                    {annonces.map((annonce) => (
-                        <AnnonceBox key={annonce.id} id={annonce.id} imageUrl={annonce.image} date={annonce.dateAnnonce} title={annonce.nomMarque + " " + annonce.nomModele} status={annonce.status}></AnnonceBox>
+                    {filteredAnnonces.map((annonce) => (
+                        <AnnonceBox
+                            key={annonce.id}
+                            id={annonce.id}
+                            imageUrl={annonce.image}
+                            date={annonce.dateAnnonce}
+                            title={annonce.nomMarque + ' ' + annonce.nomModele}
+                            status={annonce.status}
+                        />
                     ))}
                 </IonContent>
-                <IonFooter>
-                    <IonToolbar>
-                        <IonButtons slot="start">
-                            <IonButton>
-                                <IonIcon slot="icon-only" icon={chevronBackOutline} />
-                            </IonButton>
-                        </IonButtons>
-                        <IonTitle className="pagination-text">
-                            1/3
-                        </IonTitle>
-                        <IonButtons slot="end">
-                            <IonButton>
-                                <IonIcon slot="icon-only" icon={chevronForwardOutline} />
-                            </IonButton>
-                        </IonButtons>
-                    </IonToolbar>
-                </IonFooter>
             </IonPage>
         </>
     );

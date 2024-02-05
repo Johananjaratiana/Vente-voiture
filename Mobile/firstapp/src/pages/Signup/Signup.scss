@@ -57,3 +57,9 @@ ion-img.showimage {
   left: 50%;
   transform: translateX(-50%); 
 }
+
+ion-loading.custom-loading {
+  --background: white;
+  --spinner-color: black;
+  color: black;
+}

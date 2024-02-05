@@ -1,4 +1,4 @@
-import { IonAlert, IonButton, IonContent, IonIcon, IonInput, IonPage } from "@ionic/react";
+import { IonAlert, IonButton, IonContent, IonIcon, IonInput, IonLoading, IonPage } from "@ionic/react";
 import { Storage } from "@ionic/storage";
 import { lockClosed, mail } from 'ionicons/icons';
 import { useState } from "react";
@@ -6,11 +6,13 @@ import { useHistory } from 'react-router-dom';
 import { WEB_SERVICE_URL } from "../../constants";
 import './Login.scss';
 
+
 const Login: React.FC = () => {
 
-    const [email, setEmail] = useState('kelydoda724@gmail.com');
-    const [password, setPassword] = useState('gael');
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
     const [showAlert, setShowAlert] = useState(false);
+    const [showLoading, setShowLoading] = useState(false);
     const history = useHistory();
 
     const handleEmailChange = (e: any) => {
@@ -26,6 +28,8 @@ const Login: React.FC = () => {
     };
 
     const handleSubmit = async () => {
+        setShowLoading(true);
+        
         const formData = {
             email: email,
             mdp: password,
@@ -41,6 +45,7 @@ const Login: React.FC = () => {
             });
             const data = await response.json();
             const message = data['message'];
+            setShowLoading(false)
             if (message == 'error') {
                 setShowAlert(true);
             }
@@ -55,6 +60,8 @@ const Login: React.FC = () => {
             }
         } catch (error) {
             console.error('Error:', error);
+        } finally {
+            setShowLoading(false);
         }
     };
 
@@ -69,6 +76,13 @@ const Login: React.FC = () => {
                     header={'Error'}
                     message={'Invalid Email or Password'}
                     buttons={['Try Again']}
+                />
+                <IonLoading
+                    className="custom-loading"
+                    isOpen={showLoading}
+                    backdropDismiss={false}
+                    message={'Veillez patienter...'}
+                    spinner={"circular"}
                 />
                 {/*  */}
                 <div id="login-page">

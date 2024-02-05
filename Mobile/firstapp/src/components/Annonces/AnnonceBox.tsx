@@ -36,7 +36,7 @@ const AnnonceBox: React.FC<AnnonceBoxProps> = ({ id, imageUrl, title, date, stat
                 </div>
                 <div id="annonces-box-description">
                     <h3>{title}</h3>
-                    <p>Mis en vente le {date}</p>
+                    <p>Mise en vente le {date}</p>
                 </div>
             </div>
         </div>

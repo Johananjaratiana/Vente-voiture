@@ -40,3 +40,10 @@ ion-input.login {
 #login-no-account p {
   text-align: center;
 }
+
+
+ion-loading.custom-loading {
+  --background: white;
+  --spinner-color: black;
+  color: black;
+}

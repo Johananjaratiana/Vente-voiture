@@ -59,15 +59,16 @@ const Profil: React.FC = () => {
         <>
             <Menu />
             <IonPage id="main-content">
-                <Header title="Profil" />
+                <Header title="Mon profil" />
                 <IonContent className="ion-padding">
                     {userData && userImages && (
                         <>
-                            <IonImg
-                                src={userImages.image}
-                                alt="User Profile"
-                                className="ion-margin-top ion-margin-bottom userimage"
-                            />
+                            <div
+                                id="profil-userimage"
+                                style={{
+                                    backgroundImage: `url(${userImages.image})`,
+                                }}
+                            ></div>
 
                             <IonList lines="full">
                                 <IonItem>

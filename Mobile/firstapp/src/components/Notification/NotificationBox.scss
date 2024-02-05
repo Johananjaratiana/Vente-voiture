@@ -1,33 +1,31 @@
-ion-image {
-    border-radius: 50%;
-    width: 50px; 
-    height: 50px;
-    margin-right: 10px;
-  }
+// ion-image {
+//     border-radius: 50%;
+//     width: 50px; 
+//     height: 50px;
+//     margin-right: 10px;
+//   }
 
 #notification-box {
-    background-color: rgba(255, 255, 255, 0.5);
+    background-color: white;
     display: flex;
     align-items: center;
     padding: 10px;
-    
-    border-radius: 5px;
+    border-radius: 3px;
+    margin: 10px;
 
-    margin-bottom: 15px;
-  
-    #notification-image {
-      ion-image {
-        border-radius: 50%;
-        width: 50px; 
-        height: 50px;
-        margin-right: 10px;
-      }
-    }
+    // #notification-image {
+    //   ion-image {
+    //     border-radius: 50%;
+    //     width: 50px; 
+    //     height: 50px;
+    //     margin-right: 10px;
+    //   }
+    // }
   
     #notification-text {
       flex: 1;
       p {
-        margin: 0; /* Remove default margin for paragraphs */
+        margin: 0;
       }
     }
   
@@ -35,8 +33,8 @@ ion-image {
       font-weight: bolder;
     }
   
-    #notification-date {
-      font-weight: bold;
-    }
+    // #notification-date {
+    //   font-weight: bold;
+    // }
   }
   

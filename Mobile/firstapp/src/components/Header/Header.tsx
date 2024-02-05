@@ -6,7 +6,9 @@ interface HeaderProps {
     title: string;
 };
 
-const Header: React.FC<HeaderProps> = ({title}) => {
+const Header: React.FC<HeaderProps> = ({ title }) => {
+    const notificationCount = 9;
+
     return (
         <IonHeader>
             <IonToolbar>
@@ -16,7 +18,7 @@ const Header: React.FC<HeaderProps> = ({title}) => {
                 <IonTitle>{title}</IonTitle>
                 <div slot="end" id="notification-icon-div">
                     <a href="/notification">
-                        <IonIcon icon={notificationsOutline} id="notification-icon" size="large" />
+                        <IonIcon mode='ios' icon={notificationsOutline} id="notif-icon" size="large" />
                     </a>
                 </div>
             </IonToolbar>

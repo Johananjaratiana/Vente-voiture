@@ -1,3 +1,11 @@
-ion-img.userimage {
-    height: 30%;
-}
+#profil-userimage {
+    margin: auto;
+    width: 70vw;
+    height: 70vw;
+    border-radius: 50%;
+    overflow: hidden;
+    position: relative;
+    background-size: cover;
+    background-position: center;
+    margin-top: 20px;
+  }

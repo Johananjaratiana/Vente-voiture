@@ -1,53 +1,69 @@
-ion-content.ajout-annonce {
+ion-content.modif-annonce {
   --background: #f0f0f0;
 }
 
-ion-button.pagination-button {
-  --border-radius: 5px;
+#tool2 {
+  margin: auto;
+  width: fit-content;
+  display: flex;
+  align-items: center;
+}
+
+#elan2 {
+  width: 10vw;
+  height: 2px;
+  margin: auto;
+  background-color: black;
+  margin-left: 5px;
+  margin-right: 5px;
+}
+
+ion-button.pagination-button2 {
+  --border-radius: 30%;
   --background: black;
-  --color: white;
-  --font-weigt: bolder;
+  text-align: center;
 }
 
-ion-button.active-button {
-  --border-radius: 5px;
+ion-button.active-button2 {
+  --border-radius: 30%;
   --background: red;
-  --color: white;
-  --font-weigt: bolder;
+  text-align: center;
 }
 
-.ajout-annonce-page {
+.modif-annonce-page {
   position: relative;
   background-color: white;
   padding: 15px;
+  margin: 10px;
+  border-radius: 3px;
 }
 
-ion-input.ajout-annonce {
+ion-input.modif-annonce {
   border-bottom: 1px solid black;
   margin-bottom: 10px;
 }
 
-ion-select.ajout-annonce {
+ion-select.modif-annonce {
   border-bottom: 1px solid black;
   margin-bottom: 10px;
 }
 
-ion-textarea.ajout-annonce {
+ion-textarea.modif-annonce {
   border-bottom: 1px solid black;
   margin-bottom: 10px;
 }
 
-#ajout-annonce-button {
+#modif-annonce-button {
   margin-top: 30px;
   text-align: center;
 }
 
-.showImages {
+.showImages2 {
   display: flex;
   flex-wrap: wrap;
 }
 
-.showImages img {
+.showImages2 img {
   width: 30%;
   margin: 5px; /* Add margin between images */
   object-fit: cover; /* This property ensures that the image maintains its aspect ratio */

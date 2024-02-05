@@ -12,7 +12,8 @@ import {
     IonSelect,
     IonSelectOption,
     IonTextarea,
-    IonToolbar
+    IonToolbar,
+    IonLoading
 } from '@ionic/react';
 import { Storage } from '@ionic/storage';
 import { camera } from 'ionicons/icons';
@@ -101,6 +102,40 @@ const ModifierAnnonce: React.FC = () => {
     const { id } = useParams<{ id: string }>();
     const [announceData, setAnnounceData] = useState<AnnounceData | null>(null);
     const [photoAnnonces, setPhotoAnnonces] = useState<PhotoAnnonce[]>([]);
+    const [images, setImages] = useState<(string | undefined)[]>([]);
+
+    const [activeButton, setActiveButton] = useState<number>(1);
+    const [data, setData] = useState<AjoutAnnonceData>();
+    const [marque, setMarque] = useState(1);
+    const [modele, setModele] = useState(1);
+    const [couleur, setCouleur] = useState(1);
+    const [taille, setTaille] = useState(1);
+    const [usage, setUsage] = useState(1);
+    const [sourceEnergie, setSourceEnergie] = useState(1);
+    const [transmission, setTransmission] = useState(1);
+    const [typeMoteur, setTypeMoteur] = useState(1);
+    const [version, setVersion] = useState('');
+    const [nombrePlaces, setNombrePlaces] = useState(0);
+    const [description, setDescription] = useState('');
+    const [prixVente, setPrixVente] = useState(0);
+    const [consommation, setConsommation] = useState('');
+    const [nombreVitesse, setNombreVitesse] = useState(0);
+    const [puissance, setPuissance] = useState(0);
+    const [carosserie, setCarosserie] = useState(0);
+    const [siege, setSiege] = useState(0);
+    const [tableauBord, setTableauBord] = useState(0);
+    const [moteur, setMoteur] = useState(0);
+    const [freinage, setFreinage] = useState(0);
+    const [pneu, setPneu] = useState(0);
+    const [electronique, setElectronique] = useState(0);
+    const [suspension, setSuspension] = useState(0);
+    const [kilometrage, setKilometrage] = useState(0);
+    const [typeAnnonce, setTypeAnnonce] = useState(1);
+    const [etatTransmission, setEtatTransmission] = useState(0);
+    const [numero, setNumero] = useState('');
+    const [showAlert, setShowAlert] = useState(false);
+    const history = useHistory();
+    const [showLoading, setShowLoading] = useState(false);
 
     useEffect(() => {
         const fetchData = async () => {
@@ -111,6 +146,32 @@ const ModifierAnnonce: React.FC = () => {
                 }
                 const data: AnnounceData = await response.json();
                 setAnnounceData(data);
+                setMarque(data.idMarque);
+                setModele(data.idModele);
+                setVersion(data.version);
+                setNombrePlaces(data.nbPlace);
+                setTaille(data.idTaille);
+                setUsage(data.idUsage);
+                setDescription(data.description);
+                setNumero(data.numero);
+                setPrixVente(data.prixVente);
+                setSourceEnergie(data.idEnergie);
+                setConsommation(data.consommation.toString());
+                setTransmission(data.idTransmission);
+                setNombreVitesse(data.nbVitesse);
+                setTypeMoteur(data.idTypeMoteur);
+                setPuissance(data.puissance);
+                setCarosserie(data.etatCarrosserie);
+                setSiege(data.etatSiege);
+                setTableauBord(data.etatTableauBord);
+                setMoteur(data.etatMoteur);
+                setPneu(data.etatPneu);
+                setElectronique(data.etatElectronique);
+                setSuspension(data.etatSuspension);
+                setKilometrage(data.kmEffectue);
+                setTypeAnnonce(data.idTypeAnnonce);
+                setFreinage(data.etatFreinage);
+                setEtatTransmission(data.etatTransmission);
             } catch (error) {
                 console.error('Error fetching data:', error);
             }
@@ -131,40 +192,6 @@ const ModifierAnnonce: React.FC = () => {
 
         fetchPhotoAnnonces();
     }, [id]);
-
-    const [activeButton, setActiveButton] = useState<number>(1);
-    const [data, setData] = useState<AjoutAnnonceData>();
-    const [marque, setMarque] = useState(1);
-    const [modele, setModele] = useState(1);
-    const [couleur, setCouleur] = useState(1);
-    const [taille, setTaille] = useState(1);
-    const [usage, setUsage] = useState(1);
-    const [sourceEnergie, setSourceEnergie] = useState(1);
-    const [transmission, setTransmission] = useState(1);
-    const [typeMoteur, setTypeMoteur] = useState(1);
-    const [version, setVersion] = useState('2.0');
-    const [nombrePlaces, setNombrePlaces] = useState(5);
-    const [description, setDescription] = useState('Lorem ipsum dolor, sit amet consectetur adipisicing elit. Deleniti ut quam, doloribus in nobis voluptates autem commodi ratione corrupti harum, non modi? Pariatur nobis similique, sint sapiente enim nemo minima.');
-    const [prixVente, setPrixVente] = useState(50000000);
-    const [consommation, setConsommation] = useState('4.8');
-    const [nombreVitesse, setNombreVitesse] = useState(5);
-    const [puissance, setPuissance] = useState(120);
-    const [carosserie, setCarosserie] = useState(10);
-    const [siege, setSiege] = useState(10);
-    const [tableauBord, setTableauBord] = useState(10);
-    const [moteur, setMoteur] = useState(10);
-    const [freinage, setFreinage] = useState(10);
-    const [pneu, setPneu] = useState(10);
-    const [electronique, setElectronique] = useState(10);
-    const [suspension, setSuspension] = useState(10);
-    const [kilometrage, setKilometrage] = useState(10);
-    const [typeAnnonce, setTypeAnnonce] = useState(1);
-    const [etatTransmission, setEtatTransmission] = useState(10);
-    const [numero, setNumero] = useState('1212 TBA');
-    const [showAlert, setShowAlert] = useState(false);
-    const [images, setImages] = useState<(string | undefined)[]>([]);
-    const history = useHistory();
-    const [showLoading, setShowLoading] = useState(false);
 
     const handleMarqueChange = (e: any) => {
         setMarque(e.detail.value);
@@ -313,32 +340,33 @@ const ModifierAnnonce: React.FC = () => {
         const formData = {
             id: 0,
             version: version,
+            status: announceData?.status,
             description: description,
-            status: 0,
-            nbPlace: nombrePlaces,
+            idUsers: announceData?.idUsers,
             kmEffectue: kilometrage,
-            numero: numero,
-            idTransmission: transmission,
-            puissance: puissance,
-            dateAnnonce: new Date().toISOString(),
-            consommation: consommation,
-            nbVitesse: nombreVitesse,
             idModele: modele,
+            idMarque: marque,
+            numero: numero,
+            idTypeMoteur: typeAnnonce,
+            dateAnnonce: announceData?.dateAnnonce,
+            consommation: consommation,
+            idTaille: taille,
+            nbPlace: nombrePlaces,
             prixVente: prixVente,
             idEnergie: sourceEnergie,
+            idTransmission: transmission,
             idUsage: usage,
+            puissance: puissance,
+            nbVitesse: nombreVitesse,
             idCouleur: couleur,
-            idTaille: taille,
-            idMarque: marque,
-            idTypeAnnonce: typeAnnonce,
-            idTypeMoteur: typeMoteur,
+            idTypeAnnonce: typeAnnonce
         };
         try {
             const store = new Storage();
             await store.create();
             const token = await store.get('token');
-            const response = await fetch(WEB_SERVICE_URL + '/creation_annnonce/save', {
-                method: 'POST',
+            const response = await fetch(WEB_SERVICE_URL + '/annonces/' + id, {
+                method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
                     'Authorization': `Bearer ${token}`
@@ -348,13 +376,13 @@ const ModifierAnnonce: React.FC = () => {
             const data = await response.json();
             const message = data['message'];
             if (message == 'error') {
+                console.log(data);
                 throw new Error();
             }
             else {
-                const idAnnonce = data['data']['id'];
                 const formData2 = {
                     transmission: etatTransmission,
-                    idAnnonce: idAnnonce,
+                    idAnnonce: id,
                     siege: siege,
                     electronique: electronique,
                     tableauBord: tableauBord,
@@ -364,8 +392,8 @@ const ModifierAnnonce: React.FC = () => {
                     pneu: pneu,
                     carrosserie: carosserie
                 };
-                const response2 = await fetch(WEB_SERVICE_URL + '/etat_annonces', {
-                    method: 'POST',
+                const response2 = await fetch(WEB_SERVICE_URL + '/etat_annonces/' + id, {
+                    method: 'PUT',
                     headers: {
                         'Content-Type': 'application/json',
                         'Authorization': `Bearer ${token}`
@@ -374,6 +402,7 @@ const ModifierAnnonce: React.FC = () => {
                 });
                 const data2 = await response2.json();
                 const message2 = data2['message'];
+                console.log(data2);
                 if (message2 == 'error') {
                     throw new Error();
                 }
@@ -381,7 +410,7 @@ const ModifierAnnonce: React.FC = () => {
                     let formData3: PhotoAnnonce[] = [];
                     images.forEach((img) => {
                         let newPhotoAnnonce: PhotoAnnonce = {
-                            idAnnonce: idAnnonce,
+                            idAnnonce: id,
                             image: img,
                         };
                         formData3.push(newPhotoAnnonce);
@@ -400,7 +429,7 @@ const ModifierAnnonce: React.FC = () => {
                         throw new Error();
                     }
                     else {
-                        history.push('/annonce/detail/' + idAnnonce);
+                        history.push('/annonce/detail/' + id);
                     }
                 }
             }
@@ -417,130 +446,140 @@ const ModifierAnnonce: React.FC = () => {
         <>
             <Menu />
             <IonPage id="main-content">
-                <Header title="Ajout annonce" />
-                <IonHeader id="pagination" className="ion-no-border ion-no-padding">
+                <Header title="Modification annonce" />
+                <IonHeader id="pagination2" className="ion-no-border ion-no-padding">
                     <IonToolbar>
-                        <IonRow>
+                        <div id="tool2">
                             {[1, 2, 3, 4].map((buttonNumber) => (
-                                <IonCol key={buttonNumber} size="3" className="ion-text-center">
-                                    <IonButton
-                                        className={`pagination-button ${activeButton === buttonNumber ? 'active-button' : ''
-                                            }`}
-                                        onClick={() => handleButtonClick(buttonNumber)}
-                                    >
-                                        {buttonNumber}
-                                    </IonButton>
-                                </IonCol>
+                                <>
+                                    <div key={buttonNumber} id="tool-div-button2">
+                                        <IonButton
+                                            className={`pagination-button2 ${activeButton === buttonNumber ? 'active-button2' : ''
+                                                }`}
+                                            onClick={() => handleButtonClick(buttonNumber)}
+                                            size="small"
+                                        >
+                                            {buttonNumber}
+                                        </IonButton>
+                                    </div>
+
+                                    {buttonNumber !== 4 && (
+                                        <div id="tool-div-elan2">
+                                            <div id="elan2"></div>
+                                        </div>
+                                    )}
+                                </>
                             ))}
-                        </IonRow>
+                        </div>
                     </IonToolbar>
                 </IonHeader>
-                <IonContent className="ajout-annonce ion-padding">
+                <IonContent className="modif-annonce ion-no-padding">
                     {/*  */}
                     <IonAlert
                         isOpen={showAlert}
                         onDidDismiss={handleAlertClose}
-                        header={'Error'}
-                        message={'There was an error creating your annonce'}
-                        buttons={['Try Again']}
+                        header={'Erreur'}
+                        message={'Il y a eu un erreur lors de la modification de votre annonce'}
+                        buttons={['Reessayer']}
                     />
-                    <IonAlert
-                        backdropDismiss={false}
+                    <IonLoading
+                        className="custom-loading"
                         isOpen={showLoading}
-                        header={'Loading'}
-                        message={'Please wait while we create your annonce'}
+                        backdropDismiss={false}
+                        message={'Veillez patienter...'}
+                        spinner={"circular"}
                     />
                     {/*  */}
                     {activeButton === 1 &&
-                        <div className="ajout-annonce-page">
-                            <div className="ajout-annonce-title">
+                        <div className="modif-annonce-page">
+                            <div className="modif-annonce-title">
                                 <h2>Informations generales</h2>
                             </div>
-                            <div className="ajout-annonce-content">
-                                <IonSelect value={announceData?.idMarque} onIonChange={handleMarqueChange} className="ajout-annonce" label="Marque" labelPlacement="stacked">
+                            <div className="modif-annonce-content">
+                                <IonSelect value={marque} onIonChange={handleMarqueChange} className="modif-annonce" label="Marque" labelPlacement="stacked">
                                     {data?.marque.map((item: any) => (
                                         <IonSelectOption key={item.id} value={item.id}>
                                             {item.nom}
                                         </IonSelectOption>
                                     ))}
                                 </IonSelect>
-                                <IonSelect value={modele} onIonChange={handleModeleChange} className="ajout-annonce" label="Modele" labelPlacement="stacked">
+                                <IonSelect value={modele} onIonChange={handleModeleChange} className="modif-annonce" label="Modele" labelPlacement="stacked">
                                     {data?.modele.map((item: any) => (
                                         <IonSelectOption key={item.id} value={item.id}>
                                             {item.nom}
                                         </IonSelectOption>
                                     ))}
                                 </IonSelect>
-                                <IonInput required={true} value={version} onIonChange={handleVersionChange} className="ajout-annonce" type="text" labelPlacement="stacked" label="Version">
+                                <IonInput required={true} value={version} onIonChange={handleVersionChange} className="modif-annonce" type="text" labelPlacement="stacked" label="Version">
                                 </IonInput>
-                                <IonSelect value={couleur} onIonChange={handleCouleurChange} className="ajout-annonce" label="Couleur" labelPlacement="stacked">
+                                <IonSelect value={couleur} onIonChange={handleCouleurChange} className="modif-annonce" label="Couleur" labelPlacement="stacked">
                                     {data?.couleur.map((item: any) => (
                                         <IonSelectOption key={item.id} value={item.id}>
                                             {item.nom}
                                         </IonSelectOption>
                                     ))}
                                 </IonSelect>
-                                <IonInput required={true} value={nombrePlaces} onIonChange={handleNombrePlacesChange} className="ajout-annonce" type="number" labelPlacement="stacked" label="Nombre de places">
+                                <IonInput required={true} value={nombrePlaces} onIonChange={handleNombrePlacesChange} className="modif-annonce" type="number" labelPlacement="stacked" label="Nombre de places">
                                 </IonInput>
-                                <IonSelect value={taille} onIonChange={handleTailleChange} className="ajout-annonce" label="Taille" labelPlacement="stacked">
+                                <IonSelect value={taille} onIonChange={handleTailleChange} className="modif-annonce" label="Taille" labelPlacement="stacked">
                                     {data?.taille.map((item: any) => (
                                         <IonSelectOption key={item.id} value={item.id}>
                                             {item.nom}
                                         </IonSelectOption>
                                     ))}
                                 </IonSelect>
-                                <IonSelect value={usage} onIonChange={handleUsageChange} className="ajout-annonce" label="Usage" labelPlacement="stacked">
+                                <IonSelect value={usage} onIonChange={handleUsageChange} className="modif-annonce" label="Usage" labelPlacement="stacked">
                                     {data?.usage.map((item: any) => (
                                         <IonSelectOption key={item.id} value={item.id}>
                                             {item.nom}
                                         </IonSelectOption>
                                     ))}
                                 </IonSelect>
-                                <IonTextarea value={description} onIonChange={handleDescriptionChange} className="ajout-annonce" label="Description" labelPlacement="stacked"></IonTextarea>
-                                <IonInput required={true} value={numero} onIonChange={handleNumeroChange} className="ajout-annonce" type="text" labelPlacement="stacked" label="Numero">
+                                <IonTextarea value={description} onIonChange={handleDescriptionChange} className="modif-annonce" label="Description" labelPlacement="stacked"></IonTextarea>
+                                <IonInput required={true} value={numero} onIonChange={handleNumeroChange} className="modif-annonce" type="text" labelPlacement="stacked" label="Numero">
                                 </IonInput>
-                                <IonInput required={true} value={prixVente} onIonChange={handlePrixVenteChange} className="ajout-annonce" type="number" labelPlacement="stacked" label="Prix de vente">
+                                <IonInput required={true} value={prixVente} onIonChange={handlePrixVenteChange} className="modif-annonce" type="number" labelPlacement="stacked" label="Prix de vente">
                                 </IonInput>
-                                <div id="ajout-annonce-button">
+                                <div id="modif-annonce-button">
                                     <IonButton color="success" onClick={() => handleButtonClick(2)}>Suivant</IonButton>
                                 </div>
                             </div>
                         </div>
                     }
                     {activeButton === 2 &&
-                        <div className="ajout-annonce-page">
-                            <div className="ajout-annonce-title">
+                        <div className="modif-annonce-page">
+                            <div className="modif-annonce-title">
                                 <h2>Mecanique</h2>
                             </div>
-                            <div className="ajout-annonce-content">
-                                <IonSelect value={sourceEnergie} onIonChange={handleSourceEnergieChange} className="ajout-annonce" label="Source d' energie" labelPlacement="stacked">
+                            <div className="modif-annonce-content">
+                                <IonSelect value={sourceEnergie} onIonChange={handleSourceEnergieChange} className="modif-annonce" label="Source d' energie" labelPlacement="stacked">
                                     {data?.energie.map((item: any) => (
                                         <IonSelectOption key={item.id} value={item.id}>
                                             {item.nom}
                                         </IonSelectOption>
                                     ))}
                                 </IonSelect>
-                                <IonInput required={true} value={consommation} onIonChange={handleConsommationChange} className="ajout-annonce" type="text" labelPlacement="stacked" label="Consommation">
+                                <IonInput required={true} value={consommation} onIonChange={handleConsommationChange} className="modif-annonce" type="text" labelPlacement="stacked" label="Consommation">
                                 </IonInput>
-                                <IonSelect value={transmission} onIonChange={handleTransmissionChange} className="ajout-annonce" label="Transmission" labelPlacement="stacked">
+                                <IonSelect value={transmission} onIonChange={handleTransmissionChange} className="modif-annonce" label="Transmission" labelPlacement="stacked">
                                     {data?.transmission.map((item: any) => (
                                         <IonSelectOption key={item.id} value={item.id}>
                                             {item.nom}
                                         </IonSelectOption>
                                     ))}
                                 </IonSelect>
-                                <IonInput required={true} value={nombreVitesse} onIonChange={handleNombreVitesseChange} className="ajout-annonce" type="number" labelPlacement="stacked" label="Nombre de vitesse">
+                                <IonInput required={true} value={nombreVitesse} onIonChange={handleNombreVitesseChange} className="modif-annonce" type="number" labelPlacement="stacked" label="Nombre de vitesse">
                                 </IonInput>
-                                <IonSelect value={typeMoteur} onIonChange={handleTypeMoteurChange} className="ajout-annonce" label="Type de moteur" labelPlacement="stacked">
+                                <IonSelect value={typeMoteur} onIonChange={handleTypeMoteurChange} className="modif-annonce" label="Type de moteur" labelPlacement="stacked">
                                     {data?.typeMoteur.map((item: any) => (
                                         <IonSelectOption key={item.id} value={item.id}>
                                             {item.nom}
                                         </IonSelectOption>
                                     ))}
                                 </IonSelect>
-                                <IonInput required={true} value={puissance} onIonChange={handlePuissanceChange} className="ajout-annonce" type="number" labelPlacement="stacked" label="Puissance">
+                                <IonInput required={true} value={puissance} onIonChange={handlePuissanceChange} className="modif-annonce" type="number" labelPlacement="stacked" label="Puissance">
                                 </IonInput>
-                                <div id="ajout-annonce-button">
+                                <div id="modif-annonce-button">
                                     <IonButton color="danger" onClick={() => handleButtonClick(1)}>Precedent</IonButton>
                                     <IonButton color="success" onClick={() => handleButtonClick(3)}>Suivant</IonButton>
                                 </div>
@@ -548,71 +587,74 @@ const ModifierAnnonce: React.FC = () => {
                         </div>
                     }
                     {activeButton === 3 &&
-                        <div className="ajout-annonce-page">
-                            <div className="ajout-annonce-title">
+                        <div className="modif-annonce-page">
+                            <div className="modif-annonce-title">
                                 <h2>Etat sur 10</h2>
                             </div>
-                            <div className="ajout-annonce-content">
+                            <div className="modif-annonce-content">
                                 <IonRow>
                                     <IonCol size="6">
-                                        <IonInput required={true} value={carosserie} onIonChange={handleCarosserieChange} className="ajout-annonce" type="number" labelPlacement="stacked" label="Carosserie">
+                                        <IonInput required={true} value={carosserie} onIonChange={handleCarosserieChange} className="modif-annonce" type="number" labelPlacement="stacked" label="Carosserie">
                                         </IonInput>
                                     </IonCol>
                                     <IonCol size="6">
-                                        <IonInput required={true} value={siege} onIonChange={handleSiegeChange} className="ajout-annonce" type="number" labelPlacement="stacked" label="Siege">
+                                        <IonInput required={true} value={siege} onIonChange={handleSiegeChange} className="modif-annonce" type="number" labelPlacement="stacked" label="Siege">
                                         </IonInput>
                                     </IonCol>
                                 </IonRow>
                                 <IonRow>
                                     <IonCol size="6">
-                                        <IonInput required={true} value={tableauBord} onIonChange={handleTableauBordChange} className="ajout-annonce" type="number" labelPlacement="stacked" label="Tablea de bord">
+                                        <IonInput required={true} value={tableauBord} onIonChange={handleTableauBordChange} className="modif-annonce" type="number" labelPlacement="stacked" label="Tablea de bord">
                                         </IonInput>
                                     </IonCol>
                                     <IonCol size="6">
-                                        <IonInput required={true} value={moteur} onIonChange={handleMoteurChange} className="ajout-annonce" type="number" labelPlacement="stacked" label="Moteur">
+                                        <IonInput required={true} value={moteur} onIonChange={handleMoteurChange} className="modif-annonce" type="number" labelPlacement="stacked" label="Moteur">
                                         </IonInput>
                                     </IonCol>
                                 </IonRow>
                                 <IonRow>
                                     <IonCol size="6">
-                                        <IonInput required={true} value={freinage} onIonChange={handleFreinageChange} className="ajout-annonce" type="number" labelPlacement="stacked" label="Freinage">
+                                        <IonInput required={true} value={freinage} onIonChange={handleFreinageChange} className="modif-annonce" type="number" labelPlacement="stacked" label="Freinage">
                                         </IonInput>
                                     </IonCol>
                                     <IonCol size="6">
-                                        <IonInput required={true} value={etatTransmission} onIonChange={handleEtatTransmissionChange} className="ajout-annonce" type="number" labelPlacement="stacked" label="Transmission">
+                                        <IonInput required={true} value={etatTransmission} onIonChange={handleEtatTransmissionChange} className="modif-annonce" type="number" labelPlacement="stacked" label="Transmission">
                                         </IonInput>
                                     </IonCol>
                                 </IonRow>
                                 <IonRow>
                                     <IonCol size="6">
-                                        <IonInput required={true} value={pneu} onIonChange={handlePneuChange} className="ajout-annonce" type="number" labelPlacement="stacked" label="Pneu">
+                                        <IonInput required={true} value={pneu} onIonChange={handlePneuChange} className="modif-annonce" type="number" labelPlacement="stacked" label="Pneu">
                                         </IonInput>
                                     </IonCol>
                                     <IonCol size="6">
-                                        <IonInput required={true} value={electronique} onIonChange={handleElectroniqueChange} className="ajout-annonce" type="number" labelPlacement="stacked" label="Electronique">
+                                        <IonInput required={true} value={electronique} onIonChange={handleElectroniqueChange} className="modif-annonce" type="number" labelPlacement="stacked" label="Electronique">
                                         </IonInput>
                                     </IonCol>
                                 </IonRow>
                                 <IonRow>
                                     <IonCol size="6">
-                                        <IonInput required={true} value={suspension} onIonChange={handleSuspensionChange} className="ajout-annonce" type="number" labelPlacement="stacked" label="Suspension">
+                                        <IonInput required={true} value={suspension} onIonChange={handleSuspensionChange} className="modif-annonce" type="number" labelPlacement="stacked" label="Suspension">
                                         </IonInput>
                                     </IonCol>
                                 </IonRow>
-                                <IonInput required={true} value={kilometrage} onIonChange={handleKilometrageChange} className="ajout-annonce" type="number" labelPlacement="stacked" label="Kilometrage effectue">
+                                <IonInput required={true} value={kilometrage} onIonChange={handleKilometrageChange} className="modif-annonce" type="number" labelPlacement="stacked" label="Kilometrage effectue">
                                 </IonInput>
                                 <IonButton expand="full" onClick={openCamera}>
                                     <IonIcon icon={camera} slot="start" />
-                                    Ajouter des photos
+                                    Ajouter d' autres photos
                                 </IonButton>
                                 {
-                                    <div className="showImages">
+                                    <div className="showImages2">
+                                        {photoAnnonces.map((image, index) => (
+                                            <img key={index} src={image.image} alt={`Image ${index}`} />
+                                        ))}
                                         {images.map((image, index) => (
                                             <img key={index} src={`data:image/jpeg;base64,${image}`} alt={`Image ${index}`} />
                                         ))}
                                     </div>
                                 }
-                                <div id="ajout-annonce-button">
+                                <div id="modif-annonce-button">
                                     <IonButton color="danger" onClick={() => handleButtonClick(2)}>Precedent</IonButton>
                                     <IonButton color="success" onClick={() => handleButtonClick(4)}>Suivant</IonButton>
                                 </div>
@@ -620,19 +662,19 @@ const ModifierAnnonce: React.FC = () => {
                         </div>
                     }
                     {activeButton === 4 &&
-                        <div className="ajout-annonce-page">
-                            <div className="ajout-annonce-title">
+                        <div className="modif-annonce-page">
+                            <div className="modif-annonce-title">
                                 <h2>Concernant l' annonce</h2>
                             </div>
-                            <div className="ajout-annonce-content">
-                                <IonSelect value={typeAnnonce} onIonChange={handleTypeAnnonceChange} className="ajout-annonce" label="Type de l' annonce" labelPlacement="stacked">
+                            <div className="modif-annonce-content">
+                                <IonSelect value={typeAnnonce} onIonChange={handleTypeAnnonceChange} className="modif-annonce" label="Type de l' annonce" labelPlacement="stacked">
                                     {data?.typeAnnonce.map((item: any) => (
                                         <IonSelectOption key={item.id} value={item.id}>
                                             {item.nom}
                                         </IonSelectOption>
                                     ))}
                                 </IonSelect>
-                                <div id="ajout-annonce-button">
+                                <div id="modif-annonce-button">
                                     <IonButton color="danger" onClick={() => handleButtonClick(3)}>Precedent</IonButton>
                                     <IonButton color="success" onClick={handleSubmit}>Terminer</IonButton>
                                 </div>

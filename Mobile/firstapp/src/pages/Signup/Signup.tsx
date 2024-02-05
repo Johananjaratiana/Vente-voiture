@@ -1,5 +1,5 @@
 import { Camera, CameraResultType } from "@capacitor/camera";
-import { IonAlert, IonButton, IonContent, IonIcon, IonImg, IonInput, IonPage } from "@ionic/react";
+import { IonAlert, IonButton, IonContent, IonIcon, IonImg, IonInput, IonLoading, IonPage } from "@ionic/react";
 import { calendar, call, camera, location, lockClosed, mail, person } from 'ionicons/icons';
 import { useState } from "react";
 import { useHistory } from "react-router";
@@ -8,18 +8,19 @@ import './Signup.scss';
 
 const Signup: React.FC = () => {
 
-    const [nom, setNom] = useState('Rakotoarison');
-    const [prenom, setPrenom] = useState('Tiavina Gael');
-    const [dateNaissance, setDateNaissance] = useState(new Date('2003-08-08').toISOString().substring(0, 10));
-    const [adresse, setAdresse] = useState('Lot H 121 TER A Alasora');
-    const [email, setEmail] = useState('kelydoda724@gmail.com');
-    const [telephone, setTelephone] = useState('+261326470822');
-    const [motDePasse, setMotDePasse] = useState('gael');
-    const [confirmMotDePasse, setConfirmMotDePasse] = useState('gael');
+    const [nom, setNom] = useState('');
+    const [prenom, setPrenom] = useState('');
+    const [dateNaissance, setDateNaissance] = useState(new Date().toISOString().substring(0, 10));
+    const [adresse, setAdresse] = useState('');
+    const [email, setEmail] = useState('');
+    const [telephone, setTelephone] = useState('');
+    const [motDePasse, setMotDePasse] = useState('');
+    const [confirmMotDePasse, setConfirmMotDePasse] = useState('');
     const [showAlertSuccess, setShowAlertSuccess] = useState(false);
     const [showAlertError, setShowAlertError] = useState(false);
     const [showAlertNoImage, setShowAlertNoImage] = useState(false);
     const [image, setImage] = useState<string | undefined>(undefined);
+    const [showLoading, setShowLoading] = useState(false);
     const history = useHistory();
 
     const handleNomChange = (e: any) => {
@@ -85,10 +86,13 @@ const Signup: React.FC = () => {
 
 
     const handleSubmit = async () => {
+
         if (!image) {
             setShowAlertNoImage(true);
             return;
         }
+
+        setShowLoading(true)
         const formData = {
             idprofile: 2,
             email: email,
@@ -125,6 +129,7 @@ const Signup: React.FC = () => {
                 });
                 const data2 = await response2.json();
                 const message2 = data2['message'];
+                setShowLoading(false)
                 if (message2 == 'success') {
                     setShowAlertSuccess(true);
                 }
@@ -133,10 +138,13 @@ const Signup: React.FC = () => {
                 }
             }
             else {
+                setShowLoading(false)
                 setShowAlertError(true);
             }
         } catch (error) {
             console.error('Error:', error);
+        } finally {
+            setShowLoading(false);
         }
     };
 
@@ -147,28 +155,35 @@ const Signup: React.FC = () => {
                 <IonAlert
                     isOpen={showAlertSuccess}
                     onDidDismiss={handleAlertSuccessClose}
-                    header={'Success'}
-                    message={'Your account was created successfully'}
+                    header={'Succes'}
+                    message={'Votre compte a ete bien cree'}
                     buttons={[
                         {
-                            text: 'Go to Login',
-                            handler: handleAlertButtonClick, // Handle the click event here
+                            text: 'Se connecter maintenant',
+                            handler: handleAlertButtonClick,
                         }
                     ]}
                 />
                 <IonAlert
                     isOpen={showAlertError}
                     onDidDismiss={handleAlertErrorClose}
-                    header={'Error'}
-                    message={'There was a problem creating your account'}
-                    buttons={['Try Again']}
+                    header={'Erreur'}
+                    message={'Il y a eu un probleme pendant la creation ce votre compte'}
+                    buttons={['Reessayer']}
                 />
                 <IonAlert
                     isOpen={showAlertNoImage}
                     onDidDismiss={handleAlertNoImageClose}
-                    header={'Error'}
-                    message={'You must have a profle image'}
-                    buttons={['I got it']}
+                    header={'Erreur'}
+                    message={'Vous devez avoir un photo de profi;'}
+                    buttons={['OK']}
+                />
+                <IonLoading
+                    className="custom-loading"
+                    isOpen={showLoading}
+                    backdropDismiss={false}
+                    message={'Veillez patienter...'}
+                    spinner={"circular"}
                 />
                 {/*  */}
                 <div id="signup-page">

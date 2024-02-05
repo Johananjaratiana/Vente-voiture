@@ -197,7 +197,7 @@ const DetailAnnonce: React.FC = () => {
         <>
             <Menu />
             <IonPage id="main-content">
-                <Header title="Detail annonce" />
+                <Header title="Mon annonce" />
                 <IonContent className="ion-no-padding">
                     <IonAlert
                         isOpen={showDeleteError}
@@ -206,32 +206,35 @@ const DetailAnnonce: React.FC = () => {
                         message={'There was an error deleting your annonce'}
                         buttons={['Try Again']}
                     />
-                    <Swiper id="slide"
-                        modules={[Navigation, Pagination, Scrollbar, A11y]}
-                        navigation
-                        pagination={{ clickable: true }}
-                        scrollbar={{ draggable: true }}
-                    >
-                        {photoAnnonces.map((photo) => (
-                            <SwiperSlide>
-                                <IonImg src={photo.image}></IonImg>
-                            </SwiperSlide>
-                        ))}
-                    </Swiper>
+
                     {
                         announceData && (
-                            <>
-                                <div className="detail">
-                                    <div className="title">
-                                        {announceData?.nomMarque} {announceData?.nomModele}
-                                    </div>
-                                    <div className="state" style={{ backgroundColor: data[announceData.status.toString()].color }}>{data[announceData.status.toString()].text}</div>
+                            <div>
+                                <div id="swiper">
+                                    <Swiper id="slide" className='swiper'
+                                        modules={[Navigation, Pagination, Scrollbar, A11y]}
+                                        navigation
+                                        pagination={{ clickable: true }}
+                                        scrollbar={{ draggable: true }}
+                                    >
+                                        {photoAnnonces.map((photo) => (
+                                            <SwiperSlide className='swiper-slide'>
+                                                <IonImg className="swiper-content" src={photo.image}></IonImg>
+                                            </SwiperSlide>
+                                        ))}
+                                    </Swiper>
                                 </div>
-                                <div className="actions">
-                                    <div className="mis-en-vente">
-                                        Mis en vente le {announceData?.dateAnnonce}
+                                <div id="detail">
+                                    <div id="titre">
+                                        <p>{announceData?.nomMarque} {announceData?.nomModele}</p>
                                     </div>
-                                    <div className="action">
+                                    <div id="etat" style={{ backgroundColor: data[announceData.status.toString()].color }}>{data[announceData.status.toString()].text}</div>
+                                    </div>
+                                <div id="actions">
+                                    <div id="mis-en-vente">
+                                        Mise en vente le {announceData?.dateAnnonce}
+                                    </div>
+                                    <div id="action">
                                         <IonButton
                                             expand="full"
                                             color={announceData && announceData.status === 20 ? 'danger' : 'success'}  // Change color based on status
@@ -391,7 +394,7 @@ const DetailAnnonce: React.FC = () => {
                                         </div>
                                     </IonAccordion>
                                 </IonAccordionGroup>
-                            </>
+                            </div>
                         )
                     };
                 </IonContent>

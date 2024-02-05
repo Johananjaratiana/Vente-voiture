@@ -7,6 +7,7 @@ import {
     IonHeader,
     IonIcon,
     IonInput,
+    IonLoading,
     IonPage,
     IonRow,
     IonSelect,
@@ -51,25 +52,25 @@ const AjoutAnnonce: React.FC = () => {
     const [sourceEnergie, setSourceEnergie] = useState(1);
     const [transmission, setTransmission] = useState(1);
     const [typeMoteur, setTypeMoteur] = useState(1);
-    const [version, setVersion] = useState('2.0');
-    const [nombrePlaces, setNombrePlaces] = useState(5);
-    const [description, setDescription] = useState('Lorem ipsum dolor, sit amet consectetur adipisicing elit. Deleniti ut quam, doloribus in nobis voluptates autem commodi ratione corrupti harum, non modi? Pariatur nobis similique, sint sapiente enim nemo minima.');
-    const [prixVente, setPrixVente] = useState(50000000);
-    const [consommation, setConsommation] = useState('4.8');
-    const [nombreVitesse, setNombreVitesse] = useState(5);
-    const [puissance, setPuissance] = useState(120);
-    const [carosserie, setCarosserie] = useState(10);
-    const [siege, setSiege] = useState(10);
-    const [tableauBord, setTableauBord] = useState(10);
-    const [moteur, setMoteur] = useState(10);
-    const [freinage, setFreinage] = useState(10);
-    const [pneu, setPneu] = useState(10);
-    const [electronique, setElectronique] = useState(10);
-    const [suspension, setSuspension] = useState(10);
-    const [kilometrage, setKilometrage] = useState(10);
+    const [version, setVersion] = useState('');
+    const [nombrePlaces, setNombrePlaces] = useState();
+    const [description, setDescription] = useState('');
+    const [prixVente, setPrixVente] = useState();
+    const [consommation, setConsommation] = useState('');
+    const [nombreVitesse, setNombreVitesse] = useState();
+    const [puissance, setPuissance] = useState();
+    const [carosserie, setCarosserie] = useState();
+    const [siege, setSiege] = useState();
+    const [tableauBord, setTableauBord] = useState();
+    const [moteur, setMoteur] = useState();
+    const [freinage, setFreinage] = useState();
+    const [pneu, setPneu] = useState();
+    const [electronique, setElectronique] = useState();
+    const [suspension, setSuspension] = useState();
+    const [kilometrage, setKilometrage] = useState();
     const [typeAnnonce, setTypeAnnonce] = useState(1);
-    const [etatTransmission, setEtatTransmission] = useState(10);
-    const [numero, setNumero] = useState('1212 TBA');
+    const [etatTransmission, setEtatTransmission] = useState();
+    const [numero, setNumero] = useState('');
     const [showAlert, setShowAlert] = useState(false);
     const [images, setImages] = useState<(string | undefined)[]>([]);
     const history = useHistory();
@@ -329,35 +330,45 @@ const AjoutAnnonce: React.FC = () => {
                 <Header title="Ajout annonce" />
                 <IonHeader id="pagination" className="ion-no-border ion-no-padding">
                     <IonToolbar>
-                        <IonRow>
+                        <div id="tool">
                             {[1, 2, 3, 4].map((buttonNumber) => (
-                                <IonCol key={buttonNumber} size="3" className="ion-text-center">
-                                    <IonButton
-                                        className={`pagination-button ${activeButton === buttonNumber ? 'active-button' : ''
-                                            }`}
-                                        onClick={() => handleButtonClick(buttonNumber)}
-                                    >
-                                        {buttonNumber}
-                                    </IonButton>
-                                </IonCol>
+                                <>
+                                    <div key={buttonNumber} id="tool-div-button">
+                                        <IonButton
+                                            className={`pagination-button ${activeButton === buttonNumber ? 'active-button' : ''
+                                                }`}
+                                            onClick={() => handleButtonClick(buttonNumber)}
+                                            size="small"
+                                        >
+                                            {buttonNumber}
+                                        </IonButton>
+                                    </div>
+
+                                    {buttonNumber !== 4 && (
+                                        <div id="tool-div-elan">
+                                            <div id="elan"></div>
+                                        </div>
+                                    )}
+                                </>
                             ))}
-                        </IonRow>
+                        </div>
                     </IonToolbar>
                 </IonHeader>
-                <IonContent className="ajout-annonce ion-padding">
+                <IonContent className="ajout-annonce ion-no-padding">
                     {/*  */}
                     <IonAlert
                         isOpen={showAlert}
                         onDidDismiss={handleAlertClose}
-                        header={'Error'}
-                        message={'There was an error creating your annonce'}
-                        buttons={['Try Again']}
+                        header={'Erreur'}
+                        message={'Il y a eu un erreur lors de la creation de votre annonce'}
+                        buttons={['Reessayer']}
                     />
-                    <IonAlert
-                        backdropDismiss={false}
+                    <IonLoading
+                        className="custom-loading"
                         isOpen={showLoading}
-                        header={'Loading'}
-                        message={'Please wait while we create your annonce'}
+                        backdropDismiss={false}
+                        message={'Veillez patienter...'}
+                        spinner={"circular"}
                     />
                     {/*  */}
                     {activeButton === 1 &&
