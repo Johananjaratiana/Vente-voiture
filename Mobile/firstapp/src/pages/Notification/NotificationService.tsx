@@ -19,18 +19,18 @@ class NotificationService {
         const saveNotificationToken = async (tokenNotification: Token) => {
             try {
                 const store = new Storage();
-                showToast("111111111111111111111111111111111111111")
+                // showToast("111111111111111111111111111111111111111")
                 await store.create();
-                showToast("2222222222222222222222222222")
+                // showToast("2222222222222222222222222222")
                 const idUser:number = await store.get('idUser');
-                showToast("333333333333333333333333333")
+                // showToast("333333333333333333333333333")
                 const token = await store.get('token');
-                showToast("4444444444444444444444444444444444")
+                // showToast("4444444444444444444444444444444444")
                 const datas = {
                     token: tokenNotification.value,
                     idUsers: idUser
                 }
-                showToast(datas + "ERROR 0 ")
+                // showToast(datas + "ERROR 0 ")
                 const response = await fetch(WEB_SERVICE_URL + '/user_notifications', {
                     method: 'POST',
                     headers: {
@@ -40,9 +40,9 @@ class NotificationService {
                     
                     body: JSON.stringify(datas),
                 });
-                showToast(response.json()+"ERROR1")
+                // showToast(response.json()+"ERROR1")
             } catch (error) {
-                showToast(error+"ERROR2")
+                showToast(error+"")
             }
         }
 
@@ -50,7 +50,7 @@ class NotificationService {
             PushNotifications.register();
             PushNotifications.addListener('registration',
                 (token: Token) => {
-                    showToast(token.value);
+                    // showToast(token.value);
                     saveNotificationToken(token)
                 }
             );
