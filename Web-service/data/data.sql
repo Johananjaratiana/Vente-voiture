@@ -6,8 +6,6 @@ CREATE SEQUENCE "public".couleur_id_seq START WITH 1 INCREMENT BY 1;
 
 CREATE SEQUENCE "public".energie_id_seq START WITH 1 INCREMENT BY 1;
 
-CREATE SEQUENCE "public".etat_annonce_id_seq START WITH 1 INCREMENT BY 1;
-
 CREATE SEQUENCE "public".marque_id_seq START WITH 1 INCREMENT BY 1;
 
 CREATE SEQUENCE "public".modele_id_seq START WITH 1 INCREMENT BY 1;
@@ -31,6 +29,8 @@ CREATE SEQUENCE "public".type_moteur_id_seq START WITH 1 INCREMENT BY 1;
 CREATE SEQUENCE "public".usage_id_seq START WITH 1 INCREMENT BY 1;
 
 CREATE SEQUENCE "public".users_id_seq START WITH 1 INCREMENT BY 1;
+
+CREATE SEQUENCE "public".users_notification_id_seq START WITH 1 INCREMENT BY 1;
 
 CREATE  TABLE "public".couleur ( 
 	id                   integer DEFAULT nextval('couleur_id_seq'::regclass) NOT NULL  ,
@@ -165,7 +165,7 @@ CREATE  TABLE "public".annonce_favoris (
  );
 
 CREATE  TABLE "public".etat_annonce ( 
-	id                   integer DEFAULT nextval('etat_annonce_id_seq'::regclass) NOT NULL  ,
+	id                   integer  NOT NULL  ,
 	id_annonce           integer  NOT NULL  ,
 	carrosserie          integer  NOT NULL  ,
 	siege                integer  NOT NULL  ,
@@ -210,12 +210,26 @@ CREATE  TABLE "public".token (
  );
 
 CREATE  TABLE "public".user_notification ( 
-	id                   serial  NOT NULL  ,
+	id                   integer DEFAULT nextval('users_notification_id_seq'::regclass) NOT NULL  ,
 	id_users             integer  NOT NULL  ,
 	token                varchar(255)  NOT NULL  ,
 	CONSTRAINT pk_users_notification PRIMARY KEY ( id ),
 	CONSTRAINT fk_users_notification_users FOREIGN KEY ( id_users ) REFERENCES "public".users( id ) ON DELETE CASCADE ON UPDATE CASCADE 
  );
+
+CREATE OR REPLACE FUNCTION public.vider_toutes_les_tables()
+ RETURNS void
+ LANGUAGE plpgsql
+AS $function$
+DECLARE
+    table_record record;
+BEGIN
+    FOR table_record IN (SELECT tablename FROM pg_tables WHERE schemaname = 'public') LOOP
+        EXECUTE 'DELETE FROM ' || quote_ident(table_record.tablename);
+    END LOOP;
+END;
+$function$
+;
 
 CREATE VIEW "public".v_annonce_complet AS  SELECT a.id,
     a.id_marque,
@@ -386,7 +400,8 @@ CREATE VIEW "public".v_annonce_en_attente_validation AS  SELECT a.id,
     (((m.nom)::text || ' '::text) || (mo.nom)::text) AS voiture,
     a.description,
     (((u.nom)::text || ' '::text) || (u.prenom)::text) AS utilisateur,
-    a.prix_vente
+    a.prix_vente,
+    a.date_annonce
    FROM (((annonce a
      JOIN users u ON ((a.id_users = u.id)))
      JOIN marque m ON ((a.id_marque = m.id)))
@@ -445,13 +460,6 @@ CREATE VIEW "public".v_annonce_vendu_current_month AS  SELECT v_annonce_complet.
    FROM v_annonce_complet
   WHERE ((v_annonce_complet.status = 20) AND (EXTRACT(month FROM v_annonce_complet.date_annonce) = EXTRACT(month FROM CURRENT_DATE)))
   ORDER BY v_annonce_complet.date_annonce DESC;
-
-CREATE VIEW "public".v_users_with_total_commission AS  SELECT a.id_users,
-    sum((a.prix_vente * ta.commission)) AS commission
-   FROM (annonce a
-     JOIN type_annonce ta ON ((ta.id = a.id_type_annonce)))
-  WHERE (a.status = 20)
-  GROUP BY a.id_users;
 
 CREATE VIEW "public".v_best_user AS  SELECT u.id,
     u.idprofile,
@@ -641,13 +649,6 @@ CREATE VIEW "public".v_user_complet AS  SELECT u.id,
      LEFT JOIN pdp ON ((pdp.id_users = u.id)))
      JOIN profil_utilisateur pu ON ((pu.id = u.idprofile)));
 
-
-CREATE VIEW "public".v_users_commission AS  SELECT a.id_users,
-    sum((a.prix_vente * ta.commission)) AS commission
-   FROM (annonce a
-     JOIN type_annonce ta ON ((ta.id = a.id_type_annonce)))
-  GROUP BY a.id_users;
-  
 CREATE VIEW "public".v_user_ordered_by_commission AS  SELECT u.id,
     u.idprofile,
     u.nom,
@@ -662,6 +663,18 @@ CREATE VIEW "public".v_user_ordered_by_commission AS  SELECT u.id,
      LEFT JOIN v_users_commission uc ON ((uc.id_users = u.id)))
   ORDER BY uc.commission DESC;
 
+CREATE VIEW "public".v_users_commission AS  SELECT a.id_users,
+    sum((a.prix_vente * ta.commission)) AS commission
+   FROM (annonce a
+     JOIN type_annonce ta ON ((ta.id = a.id_type_annonce)))
+  GROUP BY a.id_users;
+
+CREATE VIEW "public".v_users_with_total_commission AS  SELECT a.id_users,
+    sum((a.prix_vente * ta.commission)) AS commission
+   FROM (annonce a
+     JOIN type_annonce ta ON ((ta.id = a.id_type_annonce)))
+  WHERE (a.status = 20)
+  GROUP BY a.id_users;
 
 INSERT INTO "public".couleur( id, nom, rgb, status ) VALUES ( 1, 'Blanc', '#FFFFFF', 1);
 INSERT INTO "public".couleur( id, nom, rgb, status ) VALUES ( 2, 'Noir', '#000000', 1);
@@ -728,19 +741,19 @@ INSERT INTO "public".users( id, idprofile, nom, mdp, prenom, dtn, addresse, emai
 INSERT INTO "public".users( id, idprofile, nom, mdp, prenom, dtn, addresse, email, telephone ) VALUES ( 7, 2, 'Anjaratiana', 'johan', 'Johan', '2003-08-26', 'III AB 50 Andrononobe', 'johan@gmail.com', '+261348969262');
 INSERT INTO "public".users( id, idprofile, nom, mdp, prenom, dtn, addresse, email, telephone ) VALUES ( 8, 2, 'Rakotoarison', 'gael', 'Tiavina Gael', '2003-08-08', 'Lot H 121 TER A Alasora', 'gael@gmail.com', '+261326470822');
 INSERT INTO "public".users( id, idprofile, nom, mdp, prenom, dtn, addresse, email, telephone ) VALUES ( 9, 2, 'raby', 'dio', 'Dio', '2004-01-29', 'Andoharanofotsy', 'dio@gmail.com', '+2613290093');
-INSERT INTO "public".annonce( id, id_marque, id_modele, "version", nb_place, description, prix_vente, consommation, nb_vitesse, id_type_moteur, puissance, id_type_annonce, date_annonce, status, id_users, id_energie, id_transmission, id_usage, id_taille, km_effectue, id_couleur, numero ) VALUES ( 7, 17, 7, '4', 5, 'Découvrez l''alliance parfaite de l''élégance et de la performance avec la Mazda 3 GX4 2015. Son design moderne et sportif se marie à une conduite dynamique grâce à son moteur réactif et économe en carburant. L''intérieur raffiné offre un confort exceptionnel, tandis que les technologies avancées, telles que l''infodivertissement intégré et les systèmes de sécurité, ajoutent une touche de modernité. Avec un entretien suivi rigoureux, cette Mazda 3 GX4 2015 est prête à vous offrir une expérience de conduite exceptionnelle. Ne manquez pas l''opportunité de posséder cette berline compacte qui allie style et performance. Planifiez votre essai routier dès maintenant pour ressentir le plaisir de conduire cette Mazda 3.', 2.5E8, 7.5, 5, 1, 240, 1, '2024-01-29', 10, 6, 1, 2, 3, 4, 10000.0, 2, '2314 TBU');
 INSERT INTO "public".annonce( id, id_marque, id_modele, "version", nb_place, description, prix_vente, consommation, nb_vitesse, id_type_moteur, puissance, id_type_annonce, date_annonce, status, id_users, id_energie, id_transmission, id_usage, id_taille, km_effectue, id_couleur, numero ) VALUES ( 6, 7, 9, '2018', 5, 'Plongez dans l''excellence automobile avec la BMW X5 2018. Dotée d''un moteur puissant, elle offre une performance exceptionnelle. Son design allie élégance et sportivité, aussi bien à l''intérieur qu''à l''extérieur. Équipée des dernières technologies, elle garantit une conduite sûre et connectée. Polyvalente et confortable, elle est parfaite pour chaque trajet. Entretien méticuleux assurant une longévité exceptionnelle. Ne manquez pas l''opportunité de posséder cette SUV qui incarne le luxe et la sophistication. Planifiez un essai routier dès aujourd''hui pour découvrir une expérience de conduite inégalée.', 6.0E8, 10.0, 6, 2, 310, 2, '2024-01-29', 0, 6, 2, 2, 1, 3, 32000.0, 1, '1212 TBA');
 INSERT INTO "public".annonce( id, id_marque, id_modele, "version", nb_place, description, prix_vente, consommation, nb_vitesse, id_type_moteur, puissance, id_type_annonce, date_annonce, status, id_users, id_energie, id_transmission, id_usage, id_taille, km_effectue, id_couleur, numero ) VALUES ( 9, 16, 4, '1', 5, 'Plongez dans le summum du luxe automobile avec la Porsche Panamera Turbo First 2017. Cette berline sportive incarne l''élégance raffinée et la puissance brute. Animée par un moteur suralimenté, elle offre des performances de classe mondiale, tandis que son design avant-gardiste et son intérieur somptueux créent une expérience de conduite inégalée.', 5.0E8, 9.0, 7, 1, 320, 1, '2024-01-29', 0, 7, 2, 2, 1, 4, 15400.0, 2, '1213 TBE');
 INSERT INTO "public".annonce( id, id_marque, id_modele, "version", nb_place, description, prix_vente, consommation, nb_vitesse, id_type_moteur, puissance, id_type_annonce, date_annonce, status, id_users, id_energie, id_transmission, id_usage, id_taille, km_effectue, id_couleur, numero ) VALUES ( 8, 18, 8, 'S', 4, 'Découvrez l''essence du style et du dynamisme avec la MINI Cooper Hardtop S 2007. Cette icône intemporelle allie un design distinctif à une performance pétillante, vous offrant une expérience de conduite inimitable. Son moteur agile et sa maniabilité exceptionnelle font de chaque trajet un véritable plaisir, tandis que son intérieur élégant et bien conçu crée une ambiance accueillante.', 1.0E8, 6.0, 5, 2, 150, 2, '2024-01-29', 10, 7, 1, 1, 1, 1, 35000.0, 5, '2309 TBG');
 INSERT INTO "public".annonce( id, id_marque, id_modele, "version", nb_place, description, prix_vente, consommation, nb_vitesse, id_type_moteur, puissance, id_type_annonce, date_annonce, status, id_users, id_energie, id_transmission, id_usage, id_taille, km_effectue, id_couleur, numero ) VALUES ( 10, 1, 6, '1.0', 5, 'Explorez le monde avec style et confort à bord du Toyota RAV4 XLE 2017. Cette SUV polyvalente incarne la fiabilité légendaire de Toyota et offre une expérience de conduite dynamique. Avec son design moderne, son intérieur spacieux et ses fonctionnalités avancées, le RAV4 XLE 2017 est prêt à vous accompagner dans toutes vos aventures.', 2.0E8, 8.8, 5, 2, 280, 2, '2024-01-29', 10, 8, 1, 3, 1, 3, 5000.0, 5, '1432 TBG');
 INSERT INTO "public".annonce( id, id_marque, id_modele, "version", nb_place, description, prix_vente, consommation, nb_vitesse, id_type_moteur, puissance, id_type_annonce, date_annonce, status, id_users, id_energie, id_transmission, id_usage, id_taille, km_effectue, id_couleur, numero ) VALUES ( 19, 2, 1, '2', 5, '', 3.0E8, 6.0, 5, 1, 300, 1, '2024-02-05', 0, 8, 2, 1, 1, 5, 1000.0, 1, '1212 TBG');
+INSERT INTO "public".annonce( id, id_marque, id_modele, "version", nb_place, description, prix_vente, consommation, nb_vitesse, id_type_moteur, puissance, id_type_annonce, date_annonce, status, id_users, id_energie, id_transmission, id_usage, id_taille, km_effectue, id_couleur, numero ) VALUES ( 7, 17, 7, '4', 5, 'Découvrez l''alliance parfaite de l''élégance et de la performance avec la Mazda 3 GX4 2015. Son design moderne et sportif se marie à une conduite dynamique grâce à son moteur réactif et économe en carburant. L''intérieur raffiné offre un confort exceptionnel, tandis que les technologies avancées, telles que l''infodivertissement intégré et les systèmes de sécurité, ajoutent une touche de modernité. Avec un entretien suivi rigoureux, cette Mazda 3 GX4 2015 est prête à vous offrir une expérience de conduite exceptionnelle. Ne manquez pas l''opportunité de posséder cette berline compacte qui allie style et performance. Planifiez votre essai routier dès maintenant pour ressentir le plaisir de conduire cette Mazda 3.', 2.5E8, 7.5, 5, 1, 240, 1, '2024-01-29', 10, 6, 1, 2, 3, 4, 10000.0, 2, '2314 TBU');
 INSERT INTO "public".annonce_favoris( id, id_users, id_annonce, status ) VALUES ( 1, 6, 6, 0);
 INSERT INTO "public".etat_annonce( id, id_annonce, carrosserie, siege, tableau_bord, moteur, freinage, transmission, pneu, electronique, suspension ) VALUES ( 7, 7, 10, 10, 10, 10, 10, 10, 10, 10, 10);
 INSERT INTO "public".etat_annonce( id, id_annonce, carrosserie, siege, tableau_bord, moteur, freinage, transmission, pneu, electronique, suspension ) VALUES ( 8, 8, 10, 10, 10, 10, 10, 10, 10, 10, 10);
 INSERT INTO "public".etat_annonce( id, id_annonce, carrosserie, siege, tableau_bord, moteur, freinage, transmission, pneu, electronique, suspension ) VALUES ( 9, 9, 10, 10, 10, 10, 10, 10, 10, 10, 10);
 INSERT INTO "public".etat_annonce( id, id_annonce, carrosserie, siege, tableau_bord, moteur, freinage, transmission, pneu, electronique, suspension ) VALUES ( 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10);
-INSERT INTO "public".etat_annonce( id, id_annonce, carrosserie, siege, tableau_bord, moteur, freinage, transmission, pneu, electronique, suspension ) VALUES ( 6,  6, 8, 10, 9, 8, 10, 10, 7, 10, 10);
-INSERT INTO "public".etat_annonce( id, id_annonce, carrosserie, siege, tableau_bord, moteur, freinage, transmission, pneu, electronique, suspension ) VALUES ( 19,19, 10, 10, 10, 10, 10, 10, 10, 10, 10);
+INSERT INTO "public".etat_annonce( id, id_annonce, carrosserie, siege, tableau_bord, moteur, freinage, transmission, pneu, electronique, suspension ) VALUES ( 6, 6, 8, 10, 9, 8, 10, 10, 7, 10, 10);
+INSERT INTO "public".etat_annonce( id, id_annonce, carrosserie, siege, tableau_bord, moteur, freinage, transmission, pneu, electronique, suspension ) VALUES ( 19, 19, 10, 10, 10, 10, 10, 10, 10, 10, 10);
 INSERT INTO "public".pdp( id, id_users, image ) VALUES ( 4, 7, 'https://firebasestorage.googleapis.com/v0/b/cloud-image-vente-voiture.appspot.com/o/709e1b88-d67f-424b-b47c-68a5528e2c3c.png?alt=media');
 INSERT INTO "public".pdp( id, id_users, image ) VALUES ( 5, 8, 'https://firebasestorage.googleapis.com/v0/b/cloud-image-vente-voiture.appspot.com/o/3f607442-3d68-4070-9739-737678d86ab7.png?alt=media');
 INSERT INTO "public".pdp( id, id_users, image ) VALUES ( 7, 6, 'https://firebasestorage.googleapis.com/v0/b/cloud-image-vente-voiture.appspot.com/o/7cd52cc4-56d4-4e28-9a0c-26d6d64924af.png?alt=media');
