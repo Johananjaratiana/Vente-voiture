@@ -263,6 +263,7 @@ const AjoutAnnonce: React.FC = () => {
             else {
                 const idAnnonce = data['data']['id'];
                 const formData2 = {
+                    id: idAnnonce,
                     transmission: etatTransmission,
                     idAnnonce: idAnnonce,
                     siege: siege,
