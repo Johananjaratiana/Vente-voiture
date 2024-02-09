@@ -39,7 +39,7 @@ const Menu: React.FC = () => {
                 setUserData(userData['data']);
                 const imageResponse = await fetch(WEB_SERVICE_URL + '/pdps/users/' + idUser);
                 const userImagesData = await imageResponse.json();
-                setUserImages(userImagesData['data'][0]);
+                setUserImages(userImagesData['data']['content'][0]);
             } catch (error) {
                 console.error('Error fetching user data:', error);
             }

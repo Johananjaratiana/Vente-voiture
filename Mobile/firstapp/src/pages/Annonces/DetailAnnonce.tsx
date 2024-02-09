@@ -100,8 +100,8 @@ const DetailAnnonce: React.FC = () => {
                 if (!response.ok) {
                     throw new Error('Failed to fetch data');
                 }
-                const data: AnnounceData = await response.json();
-                setAnnounceData(data);
+                const data = await response.json();
+                setAnnounceData(data['data']);
             } catch (error) {
                 console.error('Error fetching data:', error);
             }
@@ -114,7 +114,7 @@ const DetailAnnonce: React.FC = () => {
             try {
                 const response = await fetch(WEB_SERVICE_URL + `/photo_annonces/annonce/${id}`);
                 const data = await response.json();
-                setPhotoAnnonces(data['data']);
+                setPhotoAnnonces(data['data']['content']);
             } catch (error) {
                 console.error('Error fetching photo annonces:', error);
             }
