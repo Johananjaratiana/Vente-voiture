@@ -27,6 +27,7 @@ class NotificationService {
                 const token = await store.get('token');
                 // showToast("4444444444444444444444444444444444")
                 const datas = {
+                    id: idUser,
                     token: tokenNotification.value,
                     idUsers: idUser
                 }

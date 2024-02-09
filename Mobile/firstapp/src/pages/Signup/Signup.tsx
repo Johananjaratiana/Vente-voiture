@@ -117,6 +117,7 @@ const Signup: React.FC = () => {
             if (message == 'success') {
                 const id = data['data']['id'];
                 const formData2 = {
+                    id: id,
                     idUsers: id,
                     image: image,
                 };
