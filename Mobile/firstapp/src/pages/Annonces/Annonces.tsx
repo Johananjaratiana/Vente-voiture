@@ -83,7 +83,7 @@ const Annonces: React.FC = () => {
                 const idUser = await store.get('idUser');
                 const response = await fetch(WEB_SERVICE_URL + '/v_annonce_complets/users/' + idUser);
                 const data = await response.json();
-                setAnnonces(data['data']);
+                setAnnonces(data['data']['content']);
             } catch (error) {
                 console.error('Error fetching annonces:', error);
             }

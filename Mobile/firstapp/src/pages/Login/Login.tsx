@@ -9,8 +9,8 @@ import './Login.scss';
 
 const Login: React.FC = () => {
 
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
+    const [email, setEmail] = useState('to@gmail.com');
+    const [password, setPassword] = useState('to');
     const [showAlert, setShowAlert] = useState(false);
     const [showLoading, setShowLoading] = useState(false);
     const history = useHistory();
